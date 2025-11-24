@@ -53,6 +53,32 @@ describe('GeneratedColumnQueryPostgres unit-aware helpers', () => {
     );
   });
 
+  it('coerces non-text inputs to text for string functions', () => {
+    const numericMetadata: IFormulaParamMetadata[] = [
+      {
+        type: 'number',
+        isFieldReference: true,
+        field: {
+          id: 'fldNum',
+          dbFieldName: 'AutoNumber',
+          dbFieldType: DbFieldType.Integer,
+          isMultiple: false,
+        },
+      } as unknown as IFormulaParamMetadata,
+    ];
+    query.setCallMetadata(numericMetadata);
+
+    const lenSql = query.len('"AutoNumber"');
+    const lowerSql = query.lower('"AutoNumber"');
+    const upperSql = query.upper('"AutoNumber"');
+    const trimSql = query.trim('"AutoNumber"');
+    const reptSql = query.rept('"AutoNumber"', '3');
+
+    [lenSql, lowerSql, upperSql, trimSql, reptSql].forEach((sql) => {
+      expect(sql).toContain('::text');
+    });
+  });
+
   const dateAddCases: Array<{ literal: string; unit: string; factor: number }> = [
     { literal: 'millisecond', unit: 'millisecond', factor: 1 },
     { literal: 'milliseconds', unit: 'millisecond', factor: 1 },

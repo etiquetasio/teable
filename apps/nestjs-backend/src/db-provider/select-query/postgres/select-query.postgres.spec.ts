@@ -73,6 +73,34 @@ describe('SelectQueryPostgres unit-aware date helpers', () => {
     );
   });
 
+  it('coerces non-text inputs to text for string functions', () => {
+    const numericMetadata: IFormulaParamMetadata[] = [
+      {
+        type: 'number',
+        isFieldReference: true,
+        field: {
+          id: 'fldNum',
+          dbFieldName: 'AutoNumber',
+          dbFieldType: DbFieldType.Integer,
+          isMultiple: false,
+        },
+      } as unknown as IFormulaParamMetadata,
+    ];
+    query.setCallMetadata(numericMetadata);
+
+    const lenSql = query.len('"AutoNumber"');
+    const lowerSql = query.lower('"AutoNumber"');
+    const upperSql = query.upper('"AutoNumber"');
+    const trimSql = query.trim('"AutoNumber"');
+    const reptSql = query.rept('"AutoNumber"', '3');
+
+    [lenSql, lowerSql, upperSql, trimSql, reptSql].forEach((sql) => {
+      expect(sql).toContain('::text');
+    });
+
+    query.setCallMetadata(undefined);
+  });
+
   describe('timezone-aware wrappers', () => {
     let tzQuery: SelectQueryPostgres;
     const timeZone = 'Asia/Shanghai';

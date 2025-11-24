@@ -788,19 +788,23 @@ export class SelectQueryPostgres extends SelectQueryAbstract {
   }
 
   lower(text: string): string {
-    return `LOWER(${text})`;
+    const operand = this.coerceArrayLikeToText(text, 0);
+    return `LOWER(${operand})`;
   }
 
   upper(text: string): string {
-    return `UPPER(${text})`;
+    const operand = this.coerceArrayLikeToText(text, 0);
+    return `UPPER(${operand})`;
   }
 
   rept(text: string, numTimes: string): string {
-    return `REPEAT(${text}, ${numTimes}::integer)`;
+    const operand = this.coerceArrayLikeToText(text, 0);
+    return `REPEAT(${operand}, ${numTimes}::integer)`;
   }
 
   trim(text: string): string {
-    return `TRIM(${text})`;
+    const operand = this.coerceArrayLikeToText(text, 0);
+    return `TRIM(${operand})`;
   }
 
   len(text: string): string {
