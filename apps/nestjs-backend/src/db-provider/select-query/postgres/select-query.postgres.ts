@@ -143,6 +143,39 @@ export class SelectQueryPostgres extends SelectQueryAbstract {
     return field.dbFieldType === DbFieldType.Text;
   }
 
+  private coerceArrayLikeToText(expr: string, metadataIndex?: number): string {
+    const paramInfo = metadataIndex != null ? this.getParamInfo(metadataIndex) : undefined;
+    const shouldFlatten = paramInfo?.isJsonField || paramInfo?.isMultiValueField;
+
+    if (!shouldFlatten) {
+      return this.ensureTextCollation(expr);
+    }
+
+    const textExpr = `((${expr})::text)`;
+    const safeJsonExpr = `(CASE
+      WHEN ${expr} IS NULL THEN NULL
+      WHEN pg_typeof(${expr})::text IN ('json', 'jsonb') THEN (${expr})::jsonb
+      ELSE NULL
+    END)`;
+
+    const flattened = `(CASE
+      WHEN ${expr} IS NULL THEN NULL
+      WHEN ${safeJsonExpr} IS NULL THEN ${textExpr}
+      WHEN jsonb_typeof(${safeJsonExpr}) = 'array' THEN (
+        SELECT STRING_AGG(elem.value, ', ' ORDER BY elem.ordinality)
+        FROM jsonb_array_elements_text(${safeJsonExpr}) WITH ORDINALITY AS elem(value, ordinality)
+      )
+      WHEN jsonb_typeof(${safeJsonExpr}) = 'object' THEN COALESCE(
+        ${safeJsonExpr}->>'title',
+        ${safeJsonExpr}->>'name',
+        ${safeJsonExpr} #>> '{}'
+      )
+      ELSE ${safeJsonExpr} #>> '{}'
+    END)`;
+
+    return this.ensureTextCollation(flattened);
+  }
+
   private buildJsonScalarCoercion(jsonExpr: string): string {
     return `CASE jsonb_typeof(${jsonExpr})
           WHEN 'string' THEN (${jsonExpr}) #>> '{}'
@@ -678,12 +711,14 @@ export class SelectQueryPostgres extends SelectQueryAbstract {
 
   // Text Functions
   concatenate(params: string[]): string {
-    return `CONCAT(${this.joinParams(params)})`;
+    return `CONCAT(${this.joinParams(params.map((p, idx) => this.coerceArrayLikeToText(p, idx)))})`;
   }
 
   stringConcat(left: string, right: string): string {
-    // CONCAT automatically handles type conversion in PostgreSQL
-    return `CONCAT(${left}, ${right})`;
+    return `CONCAT(${this.coerceArrayLikeToText(left, 0)}, ${this.coerceArrayLikeToText(
+      right,
+      1
+    )})`;
   }
 
   find(searchText: string, withinText: string, startNum?: string): string {

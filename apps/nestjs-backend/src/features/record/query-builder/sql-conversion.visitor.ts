@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/cognitive-complexity */
 /* eslint-disable regexp/no-dupe-characters-character-class */
 /* eslint-disable sonarjs/no-duplicated-branches */
 /* eslint-disable @typescript-eslint/naming-convention */
@@ -802,6 +803,11 @@ abstract class BaseSqlConversionVisitor<
           // Check if either operand is a string type for concatenation
           const _leftType = this.inferExpressionType(exprContexts[0]);
           const _rightType = this.inferExpressionType(exprContexts[1]);
+          const paramMetadata = [
+            this.buildParamMetadata(exprContexts[0]),
+            this.buildParamMetadata(exprContexts[1]),
+          ];
+          this.formulaQuery.setCallMetadata(paramMetadata);
 
           const forceNumericAddition = this.shouldForceNumericAddition();
 
@@ -847,6 +853,11 @@ abstract class BaseSqlConversionVisitor<
           // Always treat & as string concatenation to avoid type issues
           const leftType = this.inferExpressionType(ctx.expr(0));
           const rightType = this.inferExpressionType(ctx.expr(1));
+          const paramMetadata = [
+            this.buildParamMetadata(ctx.expr(0)),
+            this.buildParamMetadata(ctx.expr(1)),
+          ];
+          this.formulaQuery.setCallMetadata(paramMetadata);
           const coercedLeft = this.coerceToStringForConcatenation(left, ctx.expr(0), leftType);
           const coercedRight = this.coerceToStringForConcatenation(right, ctx.expr(1), rightType);
           return this.formulaQuery.stringConcat(coercedLeft, coercedRight);
@@ -1165,16 +1176,15 @@ abstract class BaseSqlConversionVisitor<
     const isDatetimeCell =
       (fieldInfo as unknown as { cellValueType?: CellValueType })?.cellValueType ===
         CellValueType.DateTime || fieldInfo.dbFieldType === DbFieldType.DateTime;
-    const formatting = (fieldInfo as unknown as { options?: { formatting?: IDatetimeFormatting } })
-      ?.options?.formatting;
 
     if (!isDatetimeCell || !this.dialect || typeof this.dialect.formatDate !== 'function') {
       return scalar;
     }
 
+    const formatting = this.getFieldDatetimeFormatting(fieldInfo);
     const fallBackFormatting: IDatetimeFormatting = {
       date: DateFormattingPreset.ISO,
-      time: TimeFormatting.None,
+      time: TimeFormatting.Hour24,
       timeZone: this.context?.timeZone ?? 'UTC',
     };
 
@@ -1292,13 +1302,14 @@ abstract class BaseSqlConversionVisitor<
     exprCtx: ExprContext,
     inferredType?: 'string' | 'number' | 'boolean' | 'datetime' | 'unknown'
   ): string {
+    let fieldInfo: FieldCore | undefined;
     let normalizedValue = value;
     let coercedMultiToString = false;
     if (exprCtx instanceof FieldReferenceCurlyContext) {
       const normalizedFieldId = extractFieldReferenceId(exprCtx);
       const rawToken = getFieldReferenceTokenText(exprCtx);
       const fieldId = normalizedFieldId ?? rawToken?.slice(1, -1).trim() ?? '';
-      const fieldInfo = this.context.table.getField(fieldId);
+      fieldInfo = this.context.table.getField(fieldId);
       const isMultiField = this.isMultiValueField(fieldInfo as FieldCore);
       if (
         fieldInfo &&
@@ -1319,9 +1330,35 @@ abstract class BaseSqlConversionVisitor<
       ? 'string'
       : inferredType ?? this.inferExpressionType(exprCtx);
     if (type === 'datetime') {
-      return this.formulaQuery.datetimeFormat(normalizedValue, "'YYYY-MM-DD'");
+      if (fieldInfo && this.dialect?.formatDate) {
+        const formatting = this.getFieldDatetimeFormatting(fieldInfo);
+        const fallBackFormatting: IDatetimeFormatting = {
+          date: DateFormattingPreset.ISO,
+          time: TimeFormatting.Hour24,
+          timeZone: this.context?.timeZone ?? 'UTC',
+        };
+        return this.dialect.formatDate(normalizedValue, formatting ?? fallBackFormatting);
+      }
+      return this.formulaQuery.datetimeFormat(normalizedValue, "'YYYY-MM-DD HH24:MI'");
     }
     return normalizedValue;
+  }
+
+  private getFieldDatetimeFormatting(fieldInfo: FieldCore): IDatetimeFormatting | undefined {
+    const formatting = (fieldInfo as unknown as { options?: { formatting?: IDatetimeFormatting } })
+      ?.options?.formatting;
+    if (formatting) return formatting;
+
+    const getter = (
+      fieldInfo as unknown as {
+        getDatetimeFormatting?: () => IDatetimeFormatting | undefined;
+      }
+    )?.getDatetimeFormatting;
+    if (typeof getter === 'function') {
+      return getter.call(fieldInfo);
+    }
+
+    return undefined;
   }
 
   private shouldForceNumericAddition(): boolean {
@@ -1675,6 +1712,7 @@ abstract class BaseSqlConversionVisitor<
       case 'boolean':
         return 'boolean';
       case 'datetime':
+      case 'dateTime':
         return 'datetime';
       default:
         return 'unknown';
