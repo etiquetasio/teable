@@ -354,9 +354,9 @@ export class FormulaSupportGeneratedColumnValidator {
       .with('ARRAY_JOIN', () =>
         this.supportValidator.arrayJoin(dummyParam, paramCount > 1 ? dummyParam : undefined)
       )
-      .with('ARRAY_UNIQUE', () => this.supportValidator.arrayUnique(dummyParam))
-      .with('ARRAY_FLATTEN', () => this.supportValidator.arrayFlatten(dummyParam))
-      .with('ARRAY_COMPACT', () => this.supportValidator.arrayCompact(dummyParam))
+      .with('ARRAY_UNIQUE', () => this.supportValidator.arrayUnique(dummyParams))
+      .with('ARRAY_FLATTEN', () => this.supportValidator.arrayFlatten(dummyParams))
+      .with('ARRAY_COMPACT', () => this.supportValidator.arrayCompact(dummyParams))
       .otherwise(() => false);
   }
 

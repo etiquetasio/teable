@@ -709,6 +709,25 @@ export class GeneratedColumnQuerySqlite extends GeneratedColumnQueryAbstract {
     return `CASE WHEN ${value} IS NULL THEN 0 ELSE 1 END`;
   }
 
+  private buildJsonArrayUnion(
+    arrays: string[],
+    opts?: { filterNulls?: boolean; withOrdinal?: boolean }
+  ): string {
+    const selects = arrays.map((array, index) => {
+      const base = `SELECT value, ${index} AS arg_index, CAST(key AS INTEGER) AS ord FROM json_each(COALESCE(${array}, '[]'))`;
+      const whereClause = opts?.filterNulls
+        ? " WHERE value IS NOT NULL AND value != 'null' AND value != ''"
+        : '';
+      return `${base}${whereClause}`;
+    });
+
+    if (selects.length === 0) {
+      return 'SELECT NULL AS value, 0 AS arg_index, 0 AS ord WHERE 0';
+    }
+
+    return selects.join(' UNION ALL ');
+  }
+
   arrayJoin(array: string, separator?: string): string {
     // SQLite generated columns don't support subqueries, so we'll use simple string manipulation
     // This assumes arrays are stored as JSON strings like ["a","b","c"] or ["a", "b", "c"]
@@ -723,36 +742,46 @@ export class GeneratedColumnQuerySqlite extends GeneratedColumnQueryAbstract {
     )`;
   }
 
-  arrayUnique(array: string): string {
-    // SQLite generated columns don't support complex operations for uniqueness
-    // For now, return the array as-is (this is a limitation)
-    return `(
-      CASE
-        WHEN json_valid(${array}) AND json_type(${array}) = 'array' THEN ${array}
-        ELSE ${array}
-      END
+  arrayUnique(arrays: string[]): string {
+    const unionQuery = this.buildJsonArrayUnion(arrays, { withOrdinal: true, filterNulls: true });
+    return `COALESCE(
+      '[' || (
+        SELECT GROUP_CONCAT(json_quote(value))
+        FROM (
+          SELECT value, ROW_NUMBER() OVER (PARTITION BY value ORDER BY arg_index, ord) AS rn, arg_index, ord
+          FROM (${unionQuery}) AS combined
+        )
+        WHERE rn = 1
+        ORDER BY arg_index, ord
+      ) || ']',
+      '[]'
     )`;
   }
 
-  arrayFlatten(array: string): string {
-    // For SQLite generated columns, flattening is complex without subqueries
-    // Return the array as-is (this is a limitation)
-    return `(
-      CASE
-        WHEN json_valid(${array}) AND json_type(${array}) = 'array' THEN ${array}
-        ELSE ${array}
-      END
+  arrayFlatten(arrays: string[]): string {
+    const unionQuery = this.buildJsonArrayUnion(arrays, { withOrdinal: true });
+    return `COALESCE(
+      '[' || (
+        SELECT GROUP_CONCAT(json_quote(value))
+        FROM (${unionQuery}) AS combined
+        ORDER BY arg_index, ord
+      ) || ']',
+      '[]'
     )`;
   }
 
-  arrayCompact(array: string): string {
-    // SQLite generated columns don't support complex filtering without subqueries
-    // For now, return the array as-is (this is a limitation)
-    return `(
-      CASE
-        WHEN json_valid(${array}) AND json_type(${array}) = 'array' THEN ${array}
-        ELSE ${array}
-      END
+  arrayCompact(arrays: string[]): string {
+    const unionQuery = this.buildJsonArrayUnion(arrays, {
+      filterNulls: true,
+      withOrdinal: true,
+    });
+    return `COALESCE(
+      '[' || (
+        SELECT GROUP_CONCAT(json_quote(value))
+        FROM (${unionQuery}) AS combined
+        ORDER BY arg_index, ord
+      ) || ']',
+      '[]'
     )`;
   }
 

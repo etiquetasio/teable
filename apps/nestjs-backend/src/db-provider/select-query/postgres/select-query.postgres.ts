@@ -1145,6 +1145,27 @@ export class SelectQueryPostgres extends SelectQueryAbstract {
     )`;
   }
 
+  private buildJsonbArrayUnion(
+    arrays: string[],
+    opts?: { filterNulls?: boolean; withOrdinal?: boolean }
+  ): string {
+    const selects = arrays.map((array, index) => {
+      const normalizedArray = this.normalizeJsonbArray(array);
+      const whereClause = opts?.filterNulls
+        ? " WHERE elem.value IS NOT NULL AND elem.value != 'null' AND elem.value != ''"
+        : '';
+      const ordinality = opts?.withOrdinal ? ', ord' : '';
+      return `SELECT elem.value, ${index} AS arg_index${ordinality}
+        FROM jsonb_array_elements_text(${normalizedArray}) WITH ORDINALITY AS elem(value, ord)${whereClause}`;
+    });
+
+    if (selects.length === 0) {
+      return 'SELECT NULL::text AS value, 0 AS arg_index, 0 AS ord WHERE FALSE';
+    }
+
+    return selects.join(' UNION ALL ');
+  }
+
   arrayJoin(array: string, separator?: string): string {
     const sep = separator || `','`;
     const normalizedArray = this.normalizeJsonbArray(array);
@@ -1157,28 +1178,30 @@ export class SelectQueryPostgres extends SelectQueryAbstract {
     )`;
   }
 
-  arrayUnique(array: string): string {
-    const normalizedArray = this.normalizeJsonbArray(array);
+  arrayUnique(arrays: string[]): string {
+    const unionQuery = this.buildJsonbArrayUnion(arrays, { withOrdinal: true });
     return `ARRAY(
-      SELECT DISTINCT elem.value
-      FROM jsonb_array_elements_text(${normalizedArray}) AS elem(value)
+      SELECT DISTINCT ON (value) value
+      FROM (${unionQuery}) AS combined(value, arg_index, ord)
+      ORDER BY value, arg_index, ord
     )`;
   }
 
-  arrayFlatten(array: string): string {
-    const normalizedArray = this.normalizeJsonbArray(array);
+  arrayFlatten(arrays: string[]): string {
+    const unionQuery = this.buildJsonbArrayUnion(arrays, { withOrdinal: true });
     return `ARRAY(
-      SELECT elem.value
-      FROM jsonb_array_elements_text(${normalizedArray}) AS elem(value)
+      SELECT value
+      FROM (${unionQuery}) AS combined(value, arg_index, ord)
+      ORDER BY arg_index, ord
     )`;
   }
 
-  arrayCompact(array: string): string {
-    const normalizedArray = this.normalizeJsonbArray(array);
+  arrayCompact(arrays: string[]): string {
+    const unionQuery = this.buildJsonbArrayUnion(arrays, { filterNulls: true, withOrdinal: true });
     return `ARRAY(
-      SELECT elem.value
-      FROM jsonb_array_elements_text(${normalizedArray}) AS elem(value)
-      WHERE elem.value IS NOT NULL AND elem.value != 'null'
+      SELECT value
+      FROM (${unionQuery}) AS combined(value, arg_index, ord)
+      ORDER BY arg_index, ord
     )`;
   }
 

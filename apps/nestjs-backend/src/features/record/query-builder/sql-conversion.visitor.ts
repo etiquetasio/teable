@@ -738,9 +738,9 @@ abstract class BaseSqlConversionVisitor<
           .with(FunctionName.CountA, () => this.formulaQuery.countA(params))
           .with(FunctionName.CountAll, () => this.formulaQuery.countAll(params[0]))
           .with(FunctionName.ArrayJoin, () => this.formulaQuery.arrayJoin(params[0], params[1]))
-          .with(FunctionName.ArrayUnique, () => this.formulaQuery.arrayUnique(params[0]))
-          .with(FunctionName.ArrayFlatten, () => this.formulaQuery.arrayFlatten(params[0]))
-          .with(FunctionName.ArrayCompact, () => this.formulaQuery.arrayCompact(params[0]))
+          .with(FunctionName.ArrayUnique, () => this.formulaQuery.arrayUnique(params))
+          .with(FunctionName.ArrayFlatten, () => this.formulaQuery.arrayFlatten(params))
+          .with(FunctionName.ArrayCompact, () => this.formulaQuery.arrayCompact(params))
 
           // System Functions
           .with(FunctionName.RecordId, () => this.formulaQuery.recordId())

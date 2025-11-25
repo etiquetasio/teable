@@ -445,8 +445,7 @@ class FieldCteSelectionVisitor implements IFieldVisitor<IFieldSelectName> {
             : linkExpr;
       }
       if (nestedLinkFieldId === this.currentLinkFieldId) {
-        const columnSelector = `"${foreignAlias}"."${targetLookupField.dbFieldName}"`;
-        return columnSelector;
+        return `"${foreignAlias}"."${targetLookupField.dbFieldName}"`;
       }
       fallbackBlockedLinkIdForTarget = nestedLinkFieldId;
     }

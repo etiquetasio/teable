@@ -240,10 +240,17 @@ export class GeneratedColumnQueryPostgres extends GeneratedColumnQueryAbstract {
       }
     }
 
-    const coerced =
-      this.getExpressionFieldType(value) === DbFieldType.Json
-        ? this.coerceJsonExpressionToText(wrapped)
-        : this.coerceNonJsonExpressionToText(wrapped);
+    const expressionFieldType = this.getExpressionFieldType(value);
+    if (expressionFieldType === DbFieldType.Json) {
+      const coercedJson = this.coerceJsonExpressionToText(wrapped);
+      return this.ensureTextCollation(coercedJson);
+    }
+
+    if (expressionFieldType === DbFieldType.Text) {
+      return this.ensureTextCollation(value);
+    }
+
+    const coerced = this.coerceNonJsonExpressionToText(wrapped);
     return this.ensureTextCollation(coerced);
   }
 
@@ -992,24 +999,65 @@ export class GeneratedColumnQueryPostgres extends GeneratedColumnQueryAbstract {
     return `CASE WHEN ${value} IS NULL THEN 0 ELSE 1 END`;
   }
 
+  private normalizeJsonbArray(array: string): string {
+    return `(CASE
+      WHEN ${array} IS NULL THEN '[]'::jsonb
+      WHEN jsonb_typeof(to_jsonb(${array})) = 'array' THEN to_jsonb(${array})
+      ELSE jsonb_build_array(to_jsonb(${array}))
+    END)`;
+  }
+
+  private buildJsonArrayUnion(
+    arrays: string[],
+    opts?: { filterNulls?: boolean; withOrdinal?: boolean }
+  ): string {
+    const selects = arrays.map((array, index) => {
+      const normalizedArray = this.normalizeJsonbArray(array);
+      const whereClause = opts?.filterNulls
+        ? " WHERE elem.value IS NOT NULL AND elem.value != 'null' AND elem.value != ''"
+        : '';
+      const ordinality = opts?.withOrdinal ? ', ord' : '';
+      return `SELECT elem.value, ${index} AS arg_index${ordinality}
+        FROM jsonb_array_elements_text(${normalizedArray}) WITH ORDINALITY AS elem(value, ord)${whereClause}`;
+    });
+
+    if (selects.length === 0) {
+      return 'SELECT NULL::text AS value, 0 AS arg_index, 0 AS ord WHERE FALSE';
+    }
+
+    return selects.join(' UNION ALL ');
+  }
+
   arrayJoin(array: string, separator?: string): string {
     const sep = separator || "', '";
     return `ARRAY_TO_STRING(${array}, ${sep})`;
   }
 
-  arrayUnique(array: string): string {
-    // PostgreSQL has array_unique in some versions
-    return `ARRAY(SELECT DISTINCT UNNEST(${array}))`;
+  arrayUnique(arrays: string[]): string {
+    const unionQuery = this.buildJsonArrayUnion(arrays, { withOrdinal: true });
+    return `ARRAY(
+      SELECT DISTINCT ON (value) value
+      FROM (${unionQuery}) AS combined(value, arg_index, ord)
+      ORDER BY value, arg_index, ord
+    )`;
   }
 
-  arrayFlatten(array: string): string {
-    // Flatten nested arrays
-    return `ARRAY(SELECT UNNEST(${array}))`;
+  arrayFlatten(arrays: string[]): string {
+    const unionQuery = this.buildJsonArrayUnion(arrays, { withOrdinal: true });
+    return `ARRAY(
+      SELECT value
+      FROM (${unionQuery}) AS combined(value, arg_index, ord)
+      ORDER BY arg_index, ord
+    )`;
   }
 
-  arrayCompact(array: string): string {
-    // Remove null values from array
-    return `ARRAY(SELECT x FROM UNNEST(${array}) AS x WHERE x IS NOT NULL)`;
+  arrayCompact(arrays: string[]): string {
+    const unionQuery = this.buildJsonArrayUnion(arrays, { filterNulls: true, withOrdinal: true });
+    return `ARRAY(
+      SELECT value
+      FROM (${unionQuery}) AS combined(value, arg_index, ord)
+      ORDER BY arg_index, ord
+    )`;
   }
 
   // System Functions

@@ -33,9 +33,9 @@ describe('GeneratedColumnQuerySupportValidator', () => {
 
     it('should not support array functions due to technical limitations', () => {
       expect(postgresValidator.arrayJoin('a', ',')).toBe(false);
-      expect(postgresValidator.arrayUnique('a')).toBe(false);
-      expect(postgresValidator.arrayFlatten('a')).toBe(false);
-      expect(postgresValidator.arrayCompact('a')).toBe(false);
+      expect(postgresValidator.arrayUnique(['a'])).toBe(false);
+      expect(postgresValidator.arrayFlatten(['a'])).toBe(false);
+      expect(postgresValidator.arrayCompact(['a'])).toBe(false);
     });
 
     it('should support basic time functions but not time-dependent ones', () => {
@@ -96,9 +96,9 @@ describe('GeneratedColumnQuerySupportValidator', () => {
 
     it('should not support array functions', () => {
       expect(sqliteValidator.arrayJoin('a', ',')).toBe(false);
-      expect(sqliteValidator.arrayUnique('a')).toBe(false);
-      expect(sqliteValidator.arrayFlatten('a')).toBe(false);
-      expect(sqliteValidator.arrayCompact('a')).toBe(false);
+      expect(sqliteValidator.arrayUnique(['a'])).toBe(false);
+      expect(sqliteValidator.arrayFlatten(['a'])).toBe(false);
+      expect(sqliteValidator.arrayCompact(['a'])).toBe(false);
     });
 
     it('should support basic time functions but not time-dependent ones', () => {
@@ -162,10 +162,11 @@ describe('GeneratedColumnQuerySupportValidator', () => {
       ] as const;
 
       restrictedFunctions.forEach((funcName) => {
+        const arg = funcName.startsWith('array') && funcName !== 'arrayJoin' ? ['test'] : 'test';
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const postgresResult = (postgresValidator as any)[funcName]('test');
+        const postgresResult = (postgresValidator as any)[funcName](arg);
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const sqliteResult = (sqliteValidator as any)[funcName]('test');
+        const sqliteResult = (sqliteValidator as any)[funcName](arg);
         expect(postgresResult).toBe(false);
         expect(sqliteResult).toBe(false);
         expect(postgresResult).toBe(sqliteResult);
