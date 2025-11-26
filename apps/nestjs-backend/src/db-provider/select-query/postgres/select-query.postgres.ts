@@ -124,6 +124,28 @@ export class SelectQueryPostgres extends SelectQueryAbstract {
     return `COALESCE(${numericValue}, 0)`;
   }
 
+  private isDateLikeOperand(metadataIndex?: number): boolean {
+    const paramInfo = metadataIndex != null ? this.getParamInfo(metadataIndex) : undefined;
+    if (!paramInfo?.hasMetadata) {
+      return false;
+    }
+    const looksDatetime =
+      isDatetimeLikeParam(paramInfo) ||
+      paramInfo.fieldDbType === DbFieldType.DateTime ||
+      paramInfo.fieldCellValueType === 'datetime';
+
+    if (!looksDatetime) {
+      return false;
+    }
+
+    return !paramInfo.isJsonField && !paramInfo.isMultiValueField;
+  }
+
+  private buildDayInterval(expr: string, metadataIndex?: number): string {
+    const numeric = this.collapseNumeric(expr, metadataIndex);
+    return `(${numeric}) * INTERVAL '1 day'`;
+  }
+
   private isEmptyStringLiteral(value: string): boolean {
     return value.trim() === "''";
   }
@@ -1277,12 +1299,34 @@ export class SelectQueryPostgres extends SelectQueryAbstract {
 
   // Binary Operations
   add(left: string, right: string): string {
+    const leftIsDate = this.isDateLikeOperand(0);
+    const rightIsDate = this.isDateLikeOperand(1);
+
+    if (leftIsDate && !rightIsDate) {
+      return `(${this.tzWrap(left, 0)} + ${this.buildDayInterval(right, 1)})`;
+    }
+
+    if (!leftIsDate && rightIsDate) {
+      return `(${this.tzWrap(right, 1)} + ${this.buildDayInterval(left, 0)})`;
+    }
+
     const l = this.collapseNumeric(left, 0);
     const r = this.collapseNumeric(right, 1);
     return `((${l}) + (${r}))`;
   }
 
   subtract(left: string, right: string): string {
+    const leftIsDate = this.isDateLikeOperand(0);
+    const rightIsDate = this.isDateLikeOperand(1);
+
+    if (leftIsDate && !rightIsDate) {
+      return `(${this.tzWrap(left, 0)} - ${this.buildDayInterval(right, 1)})`;
+    }
+
+    if (leftIsDate && rightIsDate) {
+      return `(EXTRACT(EPOCH FROM (${this.tzWrap(left, 0)} - ${this.tzWrap(right, 1)})) / 86400)`;
+    }
+
     const l = this.collapseNumeric(left, 0);
     const r = this.collapseNumeric(right, 1);
     return `((${l}) - (${r}))`;

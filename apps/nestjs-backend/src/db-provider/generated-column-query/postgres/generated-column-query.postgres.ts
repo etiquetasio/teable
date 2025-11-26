@@ -257,6 +257,28 @@ export class GeneratedColumnQueryPostgres extends GeneratedColumnQueryAbstract {
     return this.ensureTextCollation(coerced);
   }
 
+  private isDateLikeOperand(metadataIndex?: number): boolean {
+    const paramInfo = metadataIndex != null ? this.getParamInfo(metadataIndex) : undefined;
+    if (!paramInfo?.hasMetadata) {
+      return false;
+    }
+    const looksDatetime =
+      isDatetimeLikeParam(paramInfo) ||
+      paramInfo.fieldDbType === DbFieldType.DateTime ||
+      paramInfo.fieldCellValueType === 'datetime';
+
+    if (!looksDatetime) {
+      return false;
+    }
+
+    return !paramInfo.isJsonField && !paramInfo.isMultiValueField;
+  }
+
+  private buildDayInterval(expr: string, metadataIndex?: number): string {
+    const numeric = this.collapseNumeric(expr, metadataIndex);
+    return `(${numeric}) * INTERVAL '1 day'`;
+  }
+
   private countANonNullExpression(value: string, metadataIndex?: number): string {
     if (this.isTextLikeExpression(value, metadataIndex)) {
       const normalizedComparable = this.normalizeBlankComparable(value, metadataIndex);
@@ -267,12 +289,36 @@ export class GeneratedColumnQueryPostgres extends GeneratedColumnQueryAbstract {
   }
 
   override add(left: string, right: string): string {
+    const leftIsDate = this.isDateLikeOperand(0);
+    const rightIsDate = this.isDateLikeOperand(1);
+
+    if (leftIsDate && !rightIsDate) {
+      return `(${this.castToTimestamp(left)} + ${this.buildDayInterval(right, 1)})`;
+    }
+
+    if (!leftIsDate && rightIsDate) {
+      return `(${this.castToTimestamp(right)} + ${this.buildDayInterval(left, 0)})`;
+    }
+
     const l = this.collapseNumeric(left, 0);
     const r = this.collapseNumeric(right, 1);
     return `((${l}) + (${r}))`;
   }
 
   override subtract(left: string, right: string): string {
+    const leftIsDate = this.isDateLikeOperand(0);
+    const rightIsDate = this.isDateLikeOperand(1);
+
+    if (leftIsDate && !rightIsDate) {
+      return `(${this.castToTimestamp(left)} - ${this.buildDayInterval(right, 1)})`;
+    }
+
+    if (leftIsDate && rightIsDate) {
+      return `(EXTRACT(EPOCH FROM ${this.castToTimestamp(left)} - ${this.castToTimestamp(
+        right
+      )}) / 86400)`;
+    }
+
     const l = this.collapseNumeric(left, 0);
     const r = this.collapseNumeric(right, 1);
     return `((${l}) - (${r}))`;
