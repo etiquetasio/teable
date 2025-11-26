@@ -53,7 +53,7 @@ describe('GeneratedColumnQuerySupportValidator', () => {
     });
 
     it('should support basic date functions but not complex ones', () => {
-      expect(postgresValidator.dateAdd('a', 'b', 'c')).toBe(true);
+      expect(postgresValidator.dateAdd('a', 'b', 'c')).toBe(false);
       expect(postgresValidator.datetimeDiff('a', 'b', 'c')).toBe(false); // Not immutable in PostgreSQL
       expect(postgresValidator.year('a')).toBe(false); // Not immutable in PostgreSQL
       expect(postgresValidator.month('a')).toBe(false); // Not immutable in PostgreSQL
@@ -122,7 +122,7 @@ describe('GeneratedColumnQuerySupportValidator', () => {
     });
 
     it('should support basic date functions', () => {
-      expect(sqliteValidator.dateAdd('a', 'b', 'c')).toBe(true);
+      expect(sqliteValidator.dateAdd('a', 'b', 'c')).toBe(false);
       expect(sqliteValidator.datetimeDiff('a', 'b', 'c')).toBe(true);
       expect(sqliteValidator.year('a')).toBe(false); // Not immutable in SQLite
       expect(sqliteValidator.month('a')).toBe(false); // Not immutable in SQLite

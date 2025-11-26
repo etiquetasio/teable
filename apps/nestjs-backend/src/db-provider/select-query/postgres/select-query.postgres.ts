@@ -68,9 +68,28 @@ export class SelectQueryPostgres extends SelectQueryAbstract {
   }
 
   private isNumericLiteral(expr: string): boolean {
-    const trimmed = this.stripOuterParentheses(expr);
-    // eslint-disable-next-line regexp/no-unused-capturing-group
-    return /^[-+]?\d+(\.\d+)?$/.test(trimmed);
+    let trimmed = this.stripOuterParentheses(expr);
+
+    // Peel leading signs while trimming redundant outer parens
+    while (trimmed.startsWith('+') || trimmed.startsWith('-')) {
+      trimmed = trimmed.slice(1).trim();
+      trimmed = this.stripOuterParentheses(trimmed);
+    }
+
+    // Match plain numeric literal, with optional cast to a numeric type
+    const numericWithOptionalCast =
+      /^\(?\d+(\.\d+)?\)?(::(double precision|numeric|real|integer|bigint|smallint))?$/i;
+    if (numericWithOptionalCast.test(trimmed)) {
+      return true;
+    }
+
+    // Handle wrapped casts like ((7)::double precision)
+    const wrappedCastMatch = trimmed.match(/^\((.+)\)$/);
+    if (wrappedCastMatch) {
+      return this.isNumericLiteral(wrappedCastMatch[1]);
+    }
+
+    return false;
   }
 
   private toNumericSafe(expr: string, metadataIndex?: number): string {
@@ -100,18 +119,21 @@ export class SelectQueryPostgres extends SelectQueryAbstract {
     if (this.isNumericLiteral(expr)) {
       return `(${expr})::double precision`;
     }
-    const textExpr = `((${expr})::text)`;
+    const textExpr = `((${expr})::text) COLLATE "C"`;
     const sanitized = `REGEXP_REPLACE(${textExpr}, '[^0-9.+-]', '', 'g')`;
     const cleaned = `NULLIF(${sanitized}, '')`;
+    const collatedClean = `${cleaned} COLLATE "C"`;
     // Avoid "?" in the regex so knex.raw doesn't misinterpret it as a binding placeholder.
     const numericPattern = `'^[+-]{0,1}(\\d+(\\.\\d+){0,1}|\\.\\d+)$'`;
-    return `(CASE WHEN ${cleaned} IS NULL THEN NULL WHEN ${cleaned} ~ ${numericPattern} THEN ${cleaned}::double precision ELSE NULL END)`;
+    const collatedPattern = `${numericPattern} COLLATE "C"`;
+    return `(CASE WHEN ${cleaned} IS NULL THEN NULL WHEN ${collatedClean} ~ ${collatedPattern} THEN ${cleaned}::double precision ELSE NULL END)`;
   }
 
   private numericFromJson(expr: string): string {
     const jsonExpr = `(${expr})::jsonb`;
     const numericPattern = `'^[+-]{0,1}(\\d+(\\.\\d+){0,1}|\\.\\d+)$'`;
-    const arraySum = `(SELECT SUM(CASE WHEN elem.value ~ ${numericPattern} THEN elem.value::double precision ELSE NULL END) FROM jsonb_array_elements_text(${jsonExpr}) AS elem(value))`;
+    const collatedPattern = `${numericPattern} COLLATE "C"`;
+    const arraySum = `(SELECT SUM(CASE WHEN (elem.value COLLATE "C") ~ ${collatedPattern} THEN elem.value::double precision ELSE NULL END) FROM jsonb_array_elements_text(${jsonExpr}) AS elem(value))`;
     return `(CASE
       WHEN ${expr} IS NULL THEN NULL
       WHEN jsonb_typeof(${jsonExpr}) = 'array' THEN ${arraySum}
@@ -165,18 +187,35 @@ export class SelectQueryPostgres extends SelectQueryAbstract {
 
   private isTextLikeExpression(value: string, metadataIndex?: number): boolean {
     const trimmed = this.stripOuterParentheses(value);
+    if (this.isEmptyStringLiteral(trimmed)) {
+      return false;
+    }
     if (/^'.*'$/.test(trimmed)) {
       return true;
     }
 
     const paramInfo = metadataIndex != null ? this.getParamInfo(metadataIndex) : undefined;
-    if (paramInfo?.hasMetadata && isTextLikeParam(paramInfo)) {
-      return true;
+    if (paramInfo?.hasMetadata) {
+      if (
+        paramInfo.fieldDbType === DbFieldType.Real ||
+        paramInfo.fieldDbType === DbFieldType.Integer ||
+        paramInfo.fieldCellValueType === 'number'
+      ) {
+        return false;
+      }
+      if (isTextLikeParam(paramInfo)) {
+        return true;
+      }
     }
 
+    return this.getExpressionFieldType(value) === DbFieldType.Text;
+  }
+
+  private getExpressionFieldType(value: string): DbFieldType | undefined {
+    const trimmed = this.stripOuterParentheses(value);
     const columnMatch = trimmed.match(/^"([^"]+)"$/) ?? trimmed.match(/^"[^"]+"\."([^"]+)"$/);
     if (!columnMatch || columnMatch.length < 2) {
-      return false;
+      return undefined;
     }
 
     const columnName = columnMatch[1];
@@ -184,11 +223,18 @@ export class SelectQueryPostgres extends SelectQueryAbstract {
     const field =
       table?.fieldList?.find((item) => item.dbFieldName === columnName) ??
       table?.fields?.ordered?.find((item) => item.dbFieldName === columnName);
-    if (!field) {
+    return field?.dbFieldType as DbFieldType | undefined;
+  }
+
+  private isHardTextExpression(value: string): boolean {
+    const trimmed = this.stripOuterParentheses(value);
+    if (this.isEmptyStringLiteral(trimmed)) {
       return false;
     }
-
-    return field.dbFieldType === DbFieldType.Text;
+    if (/^'.+'$/.test(trimmed)) {
+      return true;
+    }
+    return this.getExpressionFieldType(value) === DbFieldType.Text;
   }
 
   private coerceArrayLikeToText(expr: string, metadataIndex?: number): string {
@@ -277,6 +323,16 @@ export class SelectQueryPostgres extends SelectQueryAbstract {
 
     const wrapped = `(${value})`;
     const paramInfo = metadataIndex != null ? this.getParamInfo(metadataIndex) : undefined;
+    const expressionFieldType = this.getExpressionFieldType(value);
+    const numericField =
+      paramInfo?.fieldDbType === DbFieldType.Real ||
+      paramInfo?.fieldDbType === DbFieldType.Integer ||
+      paramInfo?.fieldCellValueType === 'number' ||
+      expressionFieldType === DbFieldType.Real ||
+      expressionFieldType === DbFieldType.Integer;
+    if (numericField && !paramInfo?.isJsonField && !paramInfo?.isMultiValueField) {
+      return wrapped;
+    }
     if (paramInfo?.hasMetadata) {
       if (isJsonLikeParam(paramInfo)) {
         const coercedJson = this.coerceJsonExpressionToText(wrapped);
@@ -1127,11 +1183,32 @@ export class SelectQueryPostgres extends SelectQueryAbstract {
 
   if(condition: string, valueIfTrue: string, valueIfFalse: string): string {
     const truthinessScore = this.truthinessScore(condition, 0);
+    const trueIsBlank = this.isEmptyStringLiteral(valueIfTrue);
+    const falseIsBlank = this.isEmptyStringLiteral(valueIfFalse);
     const trueIsText = this.isTextLikeExpression(valueIfTrue, 1);
     const falseIsText = this.isTextLikeExpression(valueIfFalse, 2);
-    const normalizeText = trueIsText || falseIsText;
-    const trueBranch = normalizeText ? this.coerceToTextComparable(valueIfTrue, 1) : valueIfTrue;
-    const falseBranch = normalizeText ? this.coerceToTextComparable(valueIfFalse, 2) : valueIfFalse;
+    const trueIsHardText = this.isHardTextExpression(valueIfTrue);
+    const falseIsHardText = this.isHardTextExpression(valueIfFalse);
+    const numericWithBlank = (trueIsBlank && !falseIsHardText) || (falseIsBlank && !trueIsHardText);
+    if (numericWithBlank) {
+      const trueBranchNumeric = trueIsBlank ? 'NULL' : this.toNumericSafe(valueIfTrue, 1);
+      const falseBranchNumeric = falseIsBlank ? 'NULL' : this.toNumericSafe(valueIfFalse, 2);
+      return `CASE WHEN (${truthinessScore}) = 1 THEN ${trueBranchNumeric} ELSE ${falseBranchNumeric} END`;
+    }
+    const hasTextBranch = (trueIsText && !trueIsBlank) || (falseIsText && !falseIsBlank);
+    const blankPresent = trueIsBlank || falseIsBlank;
+    const hasTextAfterBlank = blankPresent ? false : hasTextBranch;
+    const normalizeBlankAsNull = !hasTextAfterBlank && blankPresent;
+    const trueBranch = hasTextAfterBlank
+      ? this.coerceToTextComparable(valueIfTrue, 1)
+      : trueIsBlank && normalizeBlankAsNull
+        ? 'NULL'
+        : valueIfTrue;
+    const falseBranch = hasTextAfterBlank
+      ? this.coerceToTextComparable(valueIfFalse, 2)
+      : falseIsBlank && normalizeBlankAsNull
+        ? 'NULL'
+        : valueIfFalse;
     return `CASE WHEN (${truthinessScore}) = 1 THEN ${trueBranch} ELSE ${falseBranch} END`;
   }
 

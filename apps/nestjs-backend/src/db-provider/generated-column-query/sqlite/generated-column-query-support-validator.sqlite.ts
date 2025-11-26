@@ -197,7 +197,8 @@ export class GeneratedColumnQuerySupportValidatorSqlite
   }
 
   dateAdd(_date: string, _count: string, _unit: string): boolean {
-    return true;
+    // DATE_ADD relies on SQLite datetime helpers that are not immutable-safe for generated columns
+    return false;
   }
 
   datestr(_date: string): boolean {

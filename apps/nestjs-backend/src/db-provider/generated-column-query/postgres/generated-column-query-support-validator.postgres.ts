@@ -191,7 +191,9 @@ export class GeneratedColumnQuerySupportValidatorPostgres
   }
 
   dateAdd(_date: string, _count: string, _unit: string): boolean {
-    return true;
+    // DATE_ADD relies on timestamp input parsing which is not immutable in PostgreSQL
+    // (casts depend on DateStyle/TimeZone). Treat as unsupported for generated columns.
+    return false;
   }
 
   datestr(_date: string): boolean {

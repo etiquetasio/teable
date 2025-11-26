@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable sonarjs/no-duplicate-string */
 import type { INestApplication } from '@nestjs/common';
@@ -96,6 +97,46 @@ describe('Formula meta persistedAsGeneratedColumn (e2e)', () => {
       expect(meta).toBeDefined();
       // expression is simple and supported as generated column across providers
       expect(meta.persistedAsGeneratedColumn).toBe(true);
+    });
+  });
+
+  describe('dateAdd should not be persisted as generated (immutability)', () => {
+    let table: ITableFullVo;
+
+    beforeEach(async () => {
+      table = await createTable(baseId, {
+        name: 'formula-meta-dateadd',
+        fields: [{ name: 'Start Date', type: FieldType.Date }],
+        records: [{ fields: { 'Start Date': '2024-01-10' } }],
+      });
+    });
+
+    afterEach(async () => {
+      if (table?.id) {
+        await deleteTable(baseId, table.id);
+      }
+    });
+
+    it('stores persistedAsGeneratedColumn=false for DATE_ADD formulas', async () => {
+      const startFieldId = table.fields.find((f) => f.name === 'Start Date')!.id;
+
+      const created = await createField(table.id, {
+        name: 'Start Minus 7',
+        type: FieldType.Formula,
+        options: {
+          expression: `DATE_ADD({${startFieldId}},-7,\"day\")`,
+          timeZone: 'Asia/Shanghai',
+          formatting: { date: 'YYYY-MM-DD', time: 'None', timeZone: 'Asia/Shanghai' },
+        },
+      });
+
+      const fieldRaw = await prisma.field.findUniqueOrThrow({
+        where: { id: created.id },
+        select: { meta: true },
+      });
+
+      const meta = parsePersistedMeta(fieldRaw.meta);
+      expect(meta?.persistedAsGeneratedColumn).not.toBe(true);
     });
   });
 

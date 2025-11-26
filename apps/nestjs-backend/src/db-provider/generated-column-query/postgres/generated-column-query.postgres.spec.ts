@@ -116,6 +116,13 @@ describe('GeneratedColumnQueryPostgres unit-aware helpers', () => {
     }
   );
 
+  it('dateAdd with numeric literal count avoids regex and remains immutable', () => {
+    const sql = query.dateAdd('"Chuang_Jian_Ri_Qi"', '-7', `'day'`);
+
+    expect(sql).toContain("INTERVAL '1 day'");
+    expect(sql).not.toContain('REGEXP_REPLACE');
+  });
+
   const diffSeconds = `(EXTRACT(EPOCH FROM ${castTs('date_start')} - ${castTs('date_end')}))`;
   const datetimeDiffCases: Array<{ literal: string; expected: string }> = [
     {
@@ -324,5 +331,21 @@ describe('GeneratedColumnQueryPostgres unit-aware helpers', () => {
     query.setCallMetadata(undefined);
     const sql = query.if('"text_col"', "'yes'", "'no'");
     expect(sql).toContain('pg_typeof("text_col")::text');
+  });
+
+  it('avoids regex coercion for unary minus numeric literals', () => {
+    query.setCallMetadata(undefined);
+    const sql = query.value(query.unaryMinus('7'));
+
+    expect(sql).not.toContain('REGEXP_REPLACE');
+  });
+
+  it('collates regex-based numeric coercion to avoid collation conflicts', () => {
+    query.setCallMetadata(undefined);
+    const sql = query.value('"text_col"');
+
+    expect(sql).toContain('REGEXP_REPLACE');
+    expect(sql).toContain('COLLATE "C"');
+    expect(sql).toContain('~ \'^[+-]{0,1}(\\d+(\\.\\d+){0,1}|\\.\\d+)$\' COLLATE "C"');
   });
 });

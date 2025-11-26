@@ -101,6 +101,22 @@ describe('SelectQueryPostgres unit-aware date helpers', () => {
     query.setCallMetadata(undefined);
   });
 
+  it('avoids regex coercion for unary minus numeric literals', () => {
+    query.setCallMetadata(undefined);
+    const sql = query.value(query.unaryMinus('7'));
+
+    expect(sql).not.toContain('REGEXP_REPLACE');
+  });
+
+  it('collates regex-based numeric coercion to avoid collation conflicts', () => {
+    query.setCallMetadata(undefined);
+    const sql = query.value('"text_col"');
+
+    expect(sql).toContain('REGEXP_REPLACE');
+    expect(sql).toContain('COLLATE "C"');
+    expect(sql).toContain('~ \'^[+-]{0,1}(\\d+(\\.\\d+){0,1}|\\.\\d+)$\' COLLATE "C"');
+  });
+
   describe('timezone-aware wrappers', () => {
     let tzQuery: SelectQueryPostgres;
     const timeZone = 'Asia/Shanghai';
