@@ -6,8 +6,16 @@
  * - ss / s map to second tokens (SS / FMSS)
  * Other common tokens are passed through as-is.
  */
-export const normalizeAirtableDatetimeFormatExpression = (formatExpr: string): string => {
+export const normalizeAirtableDatetimeFormatExpression = (formatExpr?: string | null): string => {
+  if (typeof formatExpr !== 'string') {
+    return "''";
+  }
+
   const trimmed = formatExpr.trim();
+  if (!trimmed) {
+    return "''";
+  }
+
   if (!trimmed.startsWith("'") || !trimmed.endsWith("'")) {
     return formatExpr;
   }

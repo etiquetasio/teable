@@ -166,6 +166,13 @@ describe('SelectQueryPostgres unit-aware date helpers', () => {
       );
     });
 
+    it('datetimeFormat tolerates missing or empty format expressions', () => {
+      expect(tzQuery.datetimeFormat('date_col', undefined as unknown as string)).toBe(
+        `TO_CHAR(${tz('date_col')}, '')`
+      );
+      expect(tzQuery.datetimeFormat('date_col', '   ')).toBe(`TO_CHAR(${tz('date_col')}, '')`);
+    });
+
     it('isAfter compares timezone-normalized expressions', () => {
       expect(tzQuery.isAfter('date_a', 'date_b')).toBe(`${tz('date_a')} > ${tz('date_b')}`);
     });

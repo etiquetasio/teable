@@ -67,4 +67,49 @@ describe('Formula numeric blank comparison duplication (regression)', () => {
       await permanentDeleteTable(baseId, table.id);
     }
   });
+
+  it('duplicates IF with blank fallback comparing number field with empty string without errors', async () => {
+    const percentFieldId = generateFieldId();
+    const table = (await createTable(baseId, {
+      name: 'numeric_blank_dup_two_arg',
+      fields: [
+        {
+          id: percentFieldId,
+          name: 'Percent',
+          type: FieldType.Number,
+        },
+        {
+          name: 'PercentColor',
+          type: FieldType.Formula,
+          options: {
+            expression: `IF({${percentFieldId}}="", "empty", BLANK())`,
+          },
+        },
+      ],
+      records: [
+        { fields: {} }, // Percent is null
+        { fields: { Percent: 0.2 } },
+      ],
+    })) as ITableFullVo;
+
+    try {
+      const formulaFieldId = table.fields.find((f) => f.name === 'PercentColor')?.id as string;
+
+      const duplicated = await duplicateField(table.id, formulaFieldId, {
+        name: 'PercentColor Copy 2',
+      });
+
+      const { records } = await getRecords(table.id, { fieldKeyType: FieldKeyType.Id });
+
+      const first = records[0];
+      const second = records[1];
+
+      expect(first.fields[formulaFieldId]).toBe('empty');
+      expect(first.fields[duplicated.data.id]).toBe('empty');
+      expect(second.fields[formulaFieldId] ?? null).toBeNull();
+      expect(second.fields[duplicated.data.id] ?? null).toBeNull();
+    } finally {
+      await permanentDeleteTable(baseId, table.id);
+    }
+  });
 });

@@ -393,7 +393,7 @@ abstract class BaseSqlConversionVisitor<
   visitFieldReferenceCurly(ctx: FieldReferenceCurlyContext): string {
     const normalizedFieldId = extractFieldReferenceId(ctx);
     const rawToken = getFieldReferenceTokenText(ctx);
-    const fieldId = normalizedFieldId ?? rawToken?.slice(1, -1).trim() ?? '';
+    const fieldId = normalizedFieldId ?? rawToken?.slice(1, -1)?.trim() ?? '';
 
     const fieldInfo = this.context.table.getField(fieldId);
     if (!fieldInfo) {
@@ -577,7 +577,11 @@ abstract class BaseSqlConversionVisitor<
 
           // Logical Functions
           .with(FunctionName.If, () => {
-            const [conditionSql, trueSql, falseSql] = params;
+            const [rawConditionSql, rawTrueSql, rawFalseSql] = params;
+            const conditionSql = rawConditionSql ?? 'NULL';
+            const trueSql = rawTrueSql ?? 'NULL';
+            const falseSql = rawFalseSql ?? 'NULL';
+
             let coercedTrue = trueSql;
             let coercedFalse = falseSql;
 
@@ -585,9 +589,16 @@ abstract class BaseSqlConversionVisitor<
             const falseExprCtx = exprContexts[2];
             const trueType = this.inferExpressionType(trueExprCtx);
             const falseType = this.inferExpressionType(falseExprCtx);
-            const trueIsBlank = this.isBlankLikeExpression(trueExprCtx) || trueSql.trim() === "''";
+            const trueSqlTrimmed = (rawTrueSql ?? '').trim();
+            const falseSqlTrimmed = (rawFalseSql ?? '').trim();
+            const trueIsBlank =
+              rawTrueSql == null ||
+              this.isBlankLikeExpression(trueExprCtx) ||
+              trueSqlTrimmed === "''";
             const falseIsBlank =
-              this.isBlankLikeExpression(falseExprCtx) || falseSql.trim() === "''";
+              rawFalseSql == null ||
+              this.isBlankLikeExpression(falseExprCtx) ||
+              falseSqlTrimmed === "''";
 
             const shouldNullOutTrueBranch = trueIsBlank && falseType !== 'string';
             const shouldNullOutFalseBranch = falseIsBlank && trueType !== 'string';
@@ -656,7 +667,8 @@ abstract class BaseSqlConversionVisitor<
               const requiresDatetime = hasDatetime;
 
               const shouldNullifyEntry = (entry: SwitchResultEntry): boolean => {
-                const isBlank = this.isBlankLikeExpression(entry.ctx) || entry.sql.trim() === "''";
+                const isBlank =
+                  this.isBlankLikeExpression(entry.ctx) || (entry.sql ?? '').trim() === "''";
 
                 if (!isBlank) {
                   return false;
@@ -1035,7 +1047,7 @@ abstract class BaseSqlConversionVisitor<
     if (exprCtx instanceof FieldReferenceCurlyContext) {
       const normalizedFieldId = extractFieldReferenceId(exprCtx);
       const rawToken = getFieldReferenceTokenText(exprCtx);
-      const fieldId = normalizedFieldId ?? rawToken?.slice(1, -1).trim() ?? '';
+      const fieldId = normalizedFieldId ?? rawToken?.slice(1, -1)?.trim() ?? '';
       if (!fieldId) {
         return undefined;
       }
@@ -1309,7 +1321,7 @@ abstract class BaseSqlConversionVisitor<
     if (exprCtx instanceof FieldReferenceCurlyContext) {
       const normalizedFieldId = extractFieldReferenceId(exprCtx);
       const rawToken = getFieldReferenceTokenText(exprCtx);
-      const fieldId = normalizedFieldId ?? rawToken?.slice(1, -1).trim() ?? '';
+      const fieldId = normalizedFieldId ?? rawToken?.slice(1, -1)?.trim() ?? '';
       fieldInfo = this.context.table.getField(fieldId);
       const isMultiField = this.isMultiValueField(fieldInfo as FieldCore);
       if (
@@ -1478,7 +1490,7 @@ abstract class BaseSqlConversionVisitor<
 
     const normalizedFieldId = extractFieldReferenceId(exprCtx);
     const rawToken = getFieldReferenceTokenText(exprCtx);
-    const fieldId = normalizedFieldId ?? rawToken?.slice(1, -1).trim() ?? '';
+    const fieldId = normalizedFieldId ?? rawToken?.slice(1, -1)?.trim() ?? '';
     const fieldInfo = this.context.table?.getField(fieldId);
     if (!fieldInfo) {
       return null;
@@ -1612,7 +1624,7 @@ abstract class BaseSqlConversionVisitor<
   } {
     const normalizedFieldId = extractFieldReferenceId(ctx);
     const rawToken = getFieldReferenceTokenText(ctx);
-    const fieldId = normalizedFieldId ?? rawToken?.slice(1, -1).trim() ?? '';
+    const fieldId = normalizedFieldId ?? rawToken?.slice(1, -1)?.trim() ?? '';
     const fieldInfo = this.context.table.getField(fieldId);
     return { fieldId, fieldInfo };
   }
@@ -1749,8 +1761,16 @@ abstract class BaseSqlConversionVisitor<
 
     if (fnName === FunctionName.If) {
       const [, trueExpr, falseExpr] = ctx.expr();
-      const trueType = this.inferExpressionType(trueExpr);
-      const falseType = this.inferExpressionType(falseExpr);
+      const trueType = trueExpr ? this.inferExpressionType(trueExpr) : 'unknown';
+      const falseType = falseExpr ? this.inferExpressionType(falseExpr) : 'unknown';
+
+      if (!falseExpr) {
+        return trueType;
+      }
+
+      if (!trueExpr) {
+        return falseType;
+      }
 
       if (trueType === falseType) {
         return trueType;
@@ -1925,7 +1945,7 @@ export class GeneratedColumnSqlConversionVisitor extends BaseSqlConversionVisito
   visitFieldReferenceCurly(ctx: FieldReferenceCurlyContext): string {
     const normalizedFieldId = extractFieldReferenceId(ctx);
     const rawToken = getFieldReferenceTokenText(ctx);
-    const fieldId = normalizedFieldId ?? rawToken?.slice(1, -1).trim() ?? '';
+    const fieldId = normalizedFieldId ?? rawToken?.slice(1, -1)?.trim() ?? '';
     this.dependencies.push(fieldId);
     return super.visitFieldReferenceCurly(ctx);
   }
