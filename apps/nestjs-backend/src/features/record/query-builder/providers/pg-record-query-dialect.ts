@@ -3,6 +3,7 @@ import type {
   ICurrencyFormatting,
   FieldCore,
   IDatetimeFormatting,
+  Relationship,
 } from '@teable/core';
 import {
   DriverClient,
@@ -11,7 +12,6 @@ import {
   DbFieldType,
   DateFormattingPreset,
   TimeFormatting,
-  Relationship,
 } from '@teable/core';
 import type { Knex } from 'knex';
 import type { IRecordQueryDialectProvider } from '../record-query-dialect.interface';
@@ -57,30 +57,6 @@ export class PgRecordQueryDialect implements IRecordQueryDialectProvider {
   }
 
   formatStringArray(expr: string, opts?: { fieldInfo?: FieldCore }): string {
-    const fieldInfo = opts?.fieldInfo;
-    if (fieldInfo) {
-      const isLink =
-        fieldInfo.type === FieldType.Link ||
-        ((fieldInfo as unknown as { isLookup?: boolean }).isLookup === true &&
-          (fieldInfo as unknown as { lookupOptions?: { linkFieldId?: string } }).lookupOptions
-            ?.linkFieldId);
-
-      if (isLink) {
-        const isMultiple =
-          (fieldInfo as unknown as { isMultipleCellValue?: boolean }).isMultipleCellValue ===
-            true ||
-          (fieldInfo as unknown as { options?: { relationship?: Relationship } }).options
-            ?.relationship === Relationship.ManyMany ||
-          (fieldInfo as unknown as { options?: { relationship?: Relationship } }).options
-            ?.relationship === Relationship.OneMany;
-        const base = `(${expr})::jsonb`;
-        if (isMultiple) {
-          return `(SELECT string_agg(elem->>'title', ', ' ORDER BY ord) FROM jsonb_array_elements(${base}) WITH ORDINALITY AS t(elem, ord))`;
-        }
-        return `(CASE WHEN ${expr} IS NULL THEN NULL ELSE ${base}->>'title' END)`;
-      }
-    }
-
     const trimmedRaw = expr.trim();
     const upperExpr = trimmedRaw.toUpperCase();
     if (upperExpr === 'NULL' || upperExpr === 'NULL::JSONB' || upperExpr === 'NULL::JSON') {
@@ -95,13 +71,13 @@ export class PgRecordQueryDialect implements IRecordQueryDialectProvider {
     const safeArrayExpr =
       this.buildArrayNormalizerFromField(expr, opts?.fieldInfo) ??
       this.buildGenericArrayNormalizer(expr);
+    const elementText = `CASE
+      WHEN jsonb_typeof(elem) = 'object' THEN COALESCE(elem->>'title', elem->>'name', elem #>> '{}')
+      ELSE elem #>> '{}'
+    END`;
     return `(
         SELECT string_agg(
-          CASE
-            WHEN jsonb_typeof(elem) = 'string' THEN elem #>> '{}'
-            WHEN jsonb_typeof(elem) = 'object' THEN elem->>'title'
-            ELSE elem::text
-          END,
+          ${elementText},
           ', '
           ORDER BY ord
         )

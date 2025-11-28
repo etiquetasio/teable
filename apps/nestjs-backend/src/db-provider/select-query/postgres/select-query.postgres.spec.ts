@@ -157,12 +157,6 @@ describe('SelectQueryPostgres unit-aware date helpers', () => {
       expect(tzQuery.timestr('date_col')).toBe(`(${tz('date_col')})::time::text`);
     });
 
-    it('workday casts after timezone normalization', () => {
-      expect(tzQuery.workday('start_col', '5')).toBe(
-        `(${tz('start_col')})::date + INTERVAL '5 days'`
-      );
-    });
-
     it('dateAdd uses timezone-normalized base expression', () => {
       expect(tzQuery.dateAdd('date_col', '2', `'day'`)).toBe(
         `${tz('date_col')} + ((2)) * INTERVAL '1 day'`

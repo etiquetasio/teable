@@ -1332,6 +1332,12 @@ abstract class BaseSqlConversionVisitor<
       const fieldId = normalizedFieldId ?? rawToken?.slice(1, -1)?.trim() ?? '';
       fieldInfo = this.context.table.getField(fieldId);
       const isMultiField = this.isMultiValueField(fieldInfo as FieldCore);
+      const cellValueType = (fieldInfo as unknown as { cellValueType?: CellValueType })
+        ?.cellValueType;
+      const hasDatetimeSemantics =
+        (fieldInfo && DATETIME_FIELD_TYPES.has(fieldInfo.type as FieldType)) ||
+        cellValueType === CellValueType.DateTime ||
+        fieldInfo?.dbFieldType === DbFieldType.DateTime;
       if (
         fieldInfo &&
         (fieldInfo as unknown as { cellValueType?: CellValueType })?.cellValueType ===
@@ -1343,7 +1349,22 @@ abstract class BaseSqlConversionVisitor<
       if (isMultiField && this.dialect) {
         // Normalize multi-value references (lookup, link, multi-select, etc.) into a deterministic
         // comma-separated string so downstream text operations behave as expected.
-        normalizedValue = this.dialect.formatStringArray(value, { fieldInfo });
+        if (
+          fieldInfo &&
+          hasDatetimeSemantics &&
+          typeof this.dialect.formatDateArray === 'function'
+        ) {
+          const formatting =
+            this.getFieldDatetimeFormatting(fieldInfo) ??
+            ({
+              date: DateFormattingPreset.ISO,
+              time: TimeFormatting.Hour24,
+              timeZone: this.context?.timeZone ?? 'UTC',
+            } as IDatetimeFormatting);
+          normalizedValue = this.dialect.formatDateArray(value, formatting);
+        } else {
+          normalizedValue = this.dialect.formatStringArray(value, { fieldInfo });
+        }
         coercedMultiToString = true;
       }
     }

@@ -92,7 +92,11 @@ export class SelectQueryPostgres extends SelectQueryAbstract {
     return false;
   }
 
-  private toNumericSafe(expr: string, metadataIndex?: number): string {
+  private toNumericSafe(
+    expr: string,
+    metadataIndex?: number,
+    opts?: { collate?: boolean; guardDateLike?: boolean }
+  ): string {
     if (this.isNumericLiteral(expr)) {
       return `(${expr})::double precision`;
     }
@@ -111,10 +115,10 @@ export class SelectQueryPostgres extends SelectQueryAbstract {
       !paramInfo.isJsonField &&
       !paramInfo.isMultiValueField
     ) {
-      return this.looseNumericCoercion(expr);
+      return this.looseNumericCoercion(expr, opts);
     }
     if (expressionFieldType === DbFieldType.Text) {
-      return this.looseNumericCoercion(expr);
+      return this.looseNumericCoercion(expr, opts);
     }
     if (paramInfo?.isJsonField || paramInfo?.isMultiValueField) {
       return this.numericFromJson(expr);
@@ -138,10 +142,13 @@ export class SelectQueryPostgres extends SelectQueryAbstract {
       return `(${expr})::double precision`;
     }
 
-    return this.looseNumericCoercion(expr);
+    return this.looseNumericCoercion(expr, opts);
   }
 
-  private looseNumericCoercion(expr: string): string {
+  private looseNumericCoercion(
+    expr: string,
+    opts?: { collate?: boolean; guardDateLike?: boolean }
+  ): string {
     // Safely coerce any scalar to a floating-point number:
     // - Strip everything except digits, sign, decimal point
     // - Map empty string to NULL to avoid casting errors
@@ -149,24 +156,27 @@ export class SelectQueryPostgres extends SelectQueryAbstract {
     if (this.isNumericLiteral(expr)) {
       return `(${expr})::double precision`;
     }
-
-    const textExpr = `((${expr})::text) COLLATE "C"`;
+    const shouldCollate = opts?.collate !== false;
+    const textExpr = shouldCollate ? `((${expr})::text) COLLATE "C"` : `((${expr})::text)`;
     // Avoid treating obvious date-like strings (e.g., 2024/12/03) as numbers
     const dateLikePattern = `'^[0-9]{1,4}[-/][0-9]{1,2}[-/][0-9]{1,4}( .*){0,1}$'`;
     const collatedDatePattern = `${dateLikePattern} COLLATE "C"`;
     const sanitized = `REGEXP_REPLACE(${textExpr}, '[^0-9.+-]', '', 'g')`;
     const cleaned = `NULLIF(${sanitized}, '')`;
-    const collatedClean = `${cleaned} COLLATE "C"`;
     // Avoid "?" in the regex so knex.raw doesn't misinterpret it as a binding placeholder.
     const numericPattern = `'^[+-]{0,1}(\\d+(\\.\\d+){0,1}|\\.\\d+)$'`;
-    const collatedPattern = `${numericPattern} COLLATE "C"`;
-    return `(CASE
-      WHEN ${expr} IS NULL THEN NULL
-      WHEN ${textExpr} ~ ${collatedDatePattern} THEN NULL
-      WHEN ${cleaned} IS NULL THEN NULL
-      WHEN ${collatedClean} ~ ${collatedPattern} THEN ${cleaned}::double precision
-      ELSE NULL
-    END)`;
+    const matchClause = shouldCollate
+      ? `${cleaned} COLLATE "C" ~ ${numericPattern} COLLATE "C"`
+      : `${cleaned} ~ ${numericPattern}`;
+    const guards = [`WHEN ${cleaned} IS NULL THEN NULL`];
+    if (opts?.guardDateLike) {
+      const datePattern = shouldCollate ? collatedDatePattern : dateLikePattern;
+      const dateGuardExpr = `${textExpr} ~ ${datePattern}`;
+      guards.push(`WHEN ${dateGuardExpr} THEN NULL`);
+    }
+    guards.push(`WHEN ${matchClause} THEN ${cleaned}::double precision`);
+    guards.push('ELSE NULL');
+    return `(CASE ${guards.join(' ')} END)`;
   }
 
   private numericFromJson(expr: string): string {
@@ -432,8 +442,9 @@ export class SelectQueryPostgres extends SelectQueryAbstract {
     if (!trimmed) {
       return this.ensureTextCollation(value);
     }
-    if (/^'.*'$/.test(trimmed)) {
-      return this.ensureTextCollation(trimmed);
+    const isStringLiteral = /^'.*'$/.test(trimmed);
+    if (isStringLiteral) {
+      return trimmed;
     }
     if (trimmed.toUpperCase() === 'NULL') {
       return 'NULL';
@@ -460,12 +471,18 @@ export class SelectQueryPostgres extends SelectQueryAbstract {
       }
 
       if (isTextLikeParam(paramInfo)) {
-        return this.ensureTextCollation(value);
+        return this.isNumericLiteral(trimmed) ? this.ensureTextCollation(wrapped) : wrapped;
       }
 
       if (paramInfo.type && paramInfo.type !== 'unknown') {
         return this.ensureTextCollation(`${wrapped}::text`);
       }
+    }
+
+    // Heuristic: treat CASE/COALESCE/text-cast expressions as text without json wrapping to prevent
+    // runaway query growth in nested IF chains.
+    if (/^CASE\b/i.test(trimmed) || /::text\b/i.test(trimmed) || /\bCOALESCE\b/i.test(trimmed)) {
+      return this.ensureTextCollation(wrapped);
     }
 
     const jsonbValue = `to_jsonb${wrapped}`;
@@ -882,6 +899,23 @@ export class SelectQueryPostgres extends SelectQueryAbstract {
       return null;
     }
 
+    if (paramInfo.isMultiValueField) {
+      const normalizedArray = this.normalizeAnyToJsonArray(expr);
+      const { pattern, timeZone } = this.buildDatetimeFormatting({
+        ...(formatting ?? {}),
+        timeZone: timeZoneSource ?? this.context?.timeZone ?? 'UTC',
+      });
+      const scalar = `(CASE
+        WHEN jsonb_typeof(elem) = 'object' THEN COALESCE(elem->>'title', elem->>'name', elem #>> '{}')
+        ELSE elem #>> '{}'
+      END)`;
+      const sanitized = this.sanitizeTimestampInput(scalar);
+      const formatted = `TO_CHAR(((${sanitized}))::timestamptz AT TIME ZONE '${timeZone}', '${pattern}')`;
+      return `(SELECT string_agg(${formatted}, ', ' ORDER BY ord)
+        FROM jsonb_array_elements(${normalizedArray}) WITH ORDINALITY AS t(elem, ord)
+      )`;
+    }
+
     let normalizedExpr = expr;
     if (paramInfo.isMultiValueField) {
       normalizedExpr = this.extractFirstScalarFromMultiValue(expr);
@@ -943,6 +977,10 @@ export class SelectQueryPostgres extends SelectQueryAbstract {
     });
 
     const numerator = sumTerms.length === 1 ? sumTerms[0] : `(${sumTerms.join(' + ')})`;
+    const hasDynamicCount = countTerms.some((c) => c !== '1');
+    if (!hasDynamicCount) {
+      return `(${numerator}) / ${params.length}`;
+    }
     const denominator = countTerms.length === 1 ? countTerms[0] : `(${countTerms.join(' + ')})`;
     return `(CASE WHEN ${denominator} = 0 THEN NULL ELSE (${numerator}) / ${denominator} END)`;
   }
@@ -1055,7 +1093,7 @@ export class SelectQueryPostgres extends SelectQueryAbstract {
   }
 
   value(text: string): string {
-    return this.toNumericSafe(text, 0);
+    return this.toNumericSafe(text, 0, { collate: true });
   }
 
   // Text Functions
@@ -1174,8 +1212,8 @@ export class SelectQueryPostgres extends SelectQueryAbstract {
 
   dateAdd(date: string, count: string, unit: string): string {
     const { unit: cleanUnit, factor } = this.normalizeIntervalUnit(unit.replace(/^'|'$/g, ''));
-    const numericCount = this.toNumericSafe(count, 1);
-    const scaledCount = factor === 1 ? `(${numericCount})` : `(${numericCount}) * ${factor}`;
+    const countExpr = `(${count})`;
+    const scaledCount = factor === 1 ? `${countExpr}` : `${countExpr} * ${factor}`;
     const tsExpr = this.tzWrap(date, 0);
     if (cleanUnit === 'quarter') {
       return `${tsExpr} + (${scaledCount}) * INTERVAL '1 month'`;
