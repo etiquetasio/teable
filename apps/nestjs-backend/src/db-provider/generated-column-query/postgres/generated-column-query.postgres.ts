@@ -287,17 +287,28 @@ export class GeneratedColumnQueryPostgres extends GeneratedColumnQueryAbstract {
   }
 
   private buildJsonScalarCoercion(jsonExpr: string): string {
+    const elementScalar = `CASE
+      WHEN jsonb_typeof(elem.value) = 'object' THEN COALESCE(
+        elem.value->>'title',
+        elem.value->>'name',
+        elem.value #>> '{}'
+      )
+      WHEN jsonb_typeof(elem.value) = 'array' THEN NULL
+      ELSE elem.value #>> '{}'
+    END`;
+
     return `CASE jsonb_typeof(${jsonExpr})
-          WHEN 'string' THEN (${jsonExpr}) #>> '{}'
-          WHEN 'number' THEN (${jsonExpr}) #>> '{}'
-          WHEN 'boolean' THEN (${jsonExpr}) #>> '{}'
-          WHEN 'null' THEN NULL
-          WHEN 'array' THEN COALESCE((
-            SELECT STRING_AGG(elem.value, ', ' ORDER BY elem.ordinality)
-            FROM jsonb_array_elements_text(${jsonExpr}) WITH ORDINALITY AS elem(value, ordinality)
-          ), '')
-          ELSE (${jsonExpr})::text
-        END`;
+      WHEN 'string' THEN (${jsonExpr}) #>> '{}'
+      WHEN 'number' THEN (${jsonExpr}) #>> '{}'
+      WHEN 'boolean' THEN (${jsonExpr}) #>> '{}'
+      WHEN 'null' THEN NULL
+      WHEN 'array' THEN COALESCE((
+        SELECT STRING_AGG(${elementScalar}, ', ' ORDER BY elem.ordinality)
+        FROM jsonb_array_elements(${jsonExpr}) WITH ORDINALITY AS elem(value, ordinality)
+      ), '')
+      WHEN 'object' THEN COALESCE(${jsonExpr}->>'title', ${jsonExpr}->>'name', ${jsonExpr} #>> '{}')
+      ELSE (${jsonExpr})::text
+    END`;
   }
 
   private coerceJsonExpressionToText(wrapped: string): string {
@@ -413,10 +424,11 @@ export class GeneratedColumnQueryPostgres extends GeneratedColumnQueryAbstract {
     if (paramInfo.type === 'number') {
       return false;
     }
-    const looksDatetime =
-      isDatetimeLikeParam(paramInfo) ||
-      paramInfo.fieldDbType === DbFieldType.DateTime ||
-      paramInfo.fieldCellValueType === 'datetime';
+    const hasFieldDateMetadata =
+      paramInfo.fieldDbType === DbFieldType.DateTime || paramInfo.fieldCellValueType === 'datetime';
+    const typeSaysDatetime =
+      isDatetimeLikeParam(paramInfo) && !paramInfo.fieldDbType && !paramInfo.fieldCellValueType;
+    const looksDatetime = hasFieldDateMetadata || typeSaysDatetime;
 
     if (!looksDatetime) {
       return false;

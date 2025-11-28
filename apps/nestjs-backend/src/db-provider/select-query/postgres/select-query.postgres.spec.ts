@@ -630,6 +630,30 @@ describe('Select formula string comparisons', () => {
     expect(sql).toContain('("main"."text_col")::text');
     expect(sql).not.toContain('= "main"."json_col"');
   });
+
+  it('uses metadata to avoid pg_typeof guards for json fields in text comparisons', () => {
+    query.setContext(buildContext());
+    query.setCallMetadata([
+      {
+        type: 'string',
+        isFieldReference: true,
+        hasMetadata: true,
+        isJsonField: true,
+        isMultiValueField: false,
+        field: {
+          id: 'fldJson',
+          dbFieldType: DbFieldType.Json,
+          cellValueType: CellValueType.String,
+        },
+      } as IFormulaParamMetadata,
+      { type: 'string', isFieldReference: false } as IFormulaParamMetadata,
+    ]);
+
+    const sql = query.equal('"main"."json_col"', "''");
+
+    expect(sql).not.toContain('pg_typeof');
+    expect(sql).toContain('to_jsonb("main"."json_col")');
+  });
 });
 
 describe('Select formula boolean truthiness heuristics', () => {

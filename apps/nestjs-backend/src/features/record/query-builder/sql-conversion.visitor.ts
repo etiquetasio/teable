@@ -1063,37 +1063,44 @@ abstract class BaseSqlConversionVisitor<
       return false;
     }
 
-    if ((fieldInfo as unknown as { isMultipleCellValue?: boolean }).isMultipleCellValue) {
-      return true;
-    }
-
-    if (fieldInfo.dbFieldType === DbFieldType.Json) {
-      return true;
-    }
-
-    if (MULTI_VALUE_FIELD_TYPES.has(fieldInfo.type as FieldType)) {
-      return true;
-    }
-
+    const fieldType = fieldInfo.type as FieldType;
     const lookupHolder = fieldInfo as unknown as {
       isLookup?: boolean;
       dbFieldName?: string;
       lookupOptions?: { linkFieldId?: string };
+      isMultipleCellValue?: boolean;
     };
-    if (
+
+    // Link fields: only treat as multi-value when the relationship is multi or explicitly flagged.
+    if (fieldType === FieldType.Link) {
+      return this.isLinkFieldMulti(fieldInfo);
+    }
+
+    const isLookupField =
       lookupHolder.isLookup === true ||
       lookupHolder.dbFieldName?.startsWith('lookup_') ||
-      lookupHolder.dbFieldName?.startsWith('conditional_lookup_')
-    ) {
+      lookupHolder.dbFieldName?.startsWith('conditional_lookup_');
+
+    // Lookup of link: mirror the link field multiplicity instead of assuming array values.
+    if (isLookupField && lookupHolder.lookupOptions?.linkFieldId) {
+      const linkField = this.context.table.getField(lookupHolder.lookupOptions.linkFieldId);
+      if (this.isLinkFieldMulti(linkField as FieldCore | undefined)) {
+        return true;
+      }
+    }
+
+    if (lookupHolder.isMultipleCellValue) {
       return true;
     }
 
-    if (lookupHolder.lookupOptions?.linkFieldId) {
-      const linkField = this.context.table.getField(lookupHolder.lookupOptions.linkFieldId);
-      const linkIsMulti = this.isLinkFieldMulti(linkField as FieldCore | undefined);
-      if (linkIsMulti) {
-        return true;
-      }
+    // For lookup fields that are not multi-value (e.g., many-one link lookup), stop here to avoid
+    // treating scalar JSON objects as arrays.
+    if (isLookupField) {
+      return false;
+    }
+
+    if (MULTI_VALUE_FIELD_TYPES.has(fieldType)) {
+      return true;
     }
 
     return false;

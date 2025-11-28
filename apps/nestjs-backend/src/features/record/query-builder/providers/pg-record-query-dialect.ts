@@ -1,3 +1,9 @@
+import type {
+  INumberFormatting,
+  ICurrencyFormatting,
+  FieldCore,
+  IDatetimeFormatting,
+} from '@teable/core';
 import {
   DriverClient,
   FieldType,
@@ -5,13 +11,7 @@ import {
   DbFieldType,
   DateFormattingPreset,
   TimeFormatting,
-} from '@teable/core';
-import type {
-  INumberFormatting,
-  ICurrencyFormatting,
   Relationship,
-  FieldCore,
-  IDatetimeFormatting,
 } from '@teable/core';
 import type { Knex } from 'knex';
 import type { IRecordQueryDialectProvider } from '../record-query-dialect.interface';
@@ -57,6 +57,30 @@ export class PgRecordQueryDialect implements IRecordQueryDialectProvider {
   }
 
   formatStringArray(expr: string, opts?: { fieldInfo?: FieldCore }): string {
+    const fieldInfo = opts?.fieldInfo;
+    if (fieldInfo) {
+      const isLink =
+        fieldInfo.type === FieldType.Link ||
+        ((fieldInfo as unknown as { isLookup?: boolean }).isLookup === true &&
+          (fieldInfo as unknown as { lookupOptions?: { linkFieldId?: string } }).lookupOptions
+            ?.linkFieldId);
+
+      if (isLink) {
+        const isMultiple =
+          (fieldInfo as unknown as { isMultipleCellValue?: boolean }).isMultipleCellValue ===
+            true ||
+          (fieldInfo as unknown as { options?: { relationship?: Relationship } }).options
+            ?.relationship === Relationship.ManyMany ||
+          (fieldInfo as unknown as { options?: { relationship?: Relationship } }).options
+            ?.relationship === Relationship.OneMany;
+        const base = `(${expr})::jsonb`;
+        if (isMultiple) {
+          return `(SELECT string_agg(elem->>'title', ', ' ORDER BY ord) FROM jsonb_array_elements(${base}) WITH ORDINALITY AS t(elem, ord))`;
+        }
+        return `(CASE WHEN ${expr} IS NULL THEN NULL ELSE ${base}->>'title' END)`;
+      }
+    }
+
     const trimmedRaw = expr.trim();
     const upperExpr = trimmedRaw.toUpperCase();
     if (upperExpr === 'NULL' || upperExpr === 'NULL::JSONB' || upperExpr === 'NULL::JSON') {
@@ -115,24 +139,20 @@ export class PgRecordQueryDialect implements IRecordQueryDialectProvider {
   }
 
   private buildGenericArrayNormalizer(expr: string): string {
-    const typeExpr = `pg_typeof(${expr})::text`;
+    const jsonExpr = `to_jsonb(${expr})`;
     const textExpr = `((${expr})::text)`;
     const trimmedExpr = `BTRIM(${textExpr})`;
+    const parsedTextArray = `CASE
+          WHEN ${trimmedExpr} = '' THEN '[]'::jsonb
+          WHEN LEFT(${trimmedExpr}, 1) = '[' THEN COALESCE((${expr})::jsonb, '[]'::jsonb)
+          ELSE jsonb_build_array(${jsonExpr})
+        END`;
+
     return `(CASE
         WHEN ${expr} IS NULL THEN '[]'::jsonb
-        WHEN ${typeExpr} = 'jsonb' THEN COALESCE(to_jsonb(${expr}), '[]'::jsonb)
-        WHEN ${typeExpr} = 'json' THEN COALESCE(to_jsonb(${expr}), '[]'::jsonb)
-        WHEN ${typeExpr} IN ('text', 'varchar', 'bpchar', 'character varying', 'unknown') THEN
-          CASE
-            WHEN ${trimmedExpr} = '' THEN '[]'::jsonb
-            WHEN LEFT(${trimmedExpr}, 1) = '[' THEN COALESCE((${expr})::jsonb, '[]'::jsonb)
-            ELSE jsonb_build_array(to_jsonb(${expr}))
-          END
-        ELSE
-          CASE
-            WHEN jsonb_typeof(to_jsonb(${expr})) = 'array' THEN COALESCE(to_jsonb(${expr}), '[]'::jsonb)
-            ELSE jsonb_build_array(to_jsonb(${expr}))
-          END
+        WHEN jsonb_typeof(${jsonExpr}) = 'array' THEN COALESCE(${jsonExpr}, '[]'::jsonb)
+        WHEN jsonb_typeof(${jsonExpr}) = 'object' THEN jsonb_build_array(${jsonExpr})
+        ELSE ${parsedTextArray}
       END)`;
   }
 
@@ -258,15 +278,13 @@ export class PgRecordQueryDialect implements IRecordQueryDialectProvider {
   }
 
   linkExtractTitles(selectionSql: string, isMultiple: boolean): string {
+    const normalized = `${selectionSql}::jsonb`;
+
     if (isMultiple) {
-      return `(SELECT json_agg(value->>'title') FROM jsonb_array_elements(${selectionSql}::jsonb) AS value)::jsonb`;
+      return `(SELECT json_agg(value->>'title') FROM jsonb_array_elements(${normalized}) AS value)::jsonb`;
     }
-    return `(CASE
-      WHEN ${selectionSql} IS NULL THEN NULL
-      WHEN pg_typeof(${selectionSql}) = 'jsonb'::regtype THEN (${selectionSql})::jsonb->>'title'
-      WHEN pg_typeof(${selectionSql}) = 'json'::regtype THEN (${selectionSql})::jsonb->>'title'
-      ELSE (${selectionSql})::text
-    END)`;
+
+    return `(CASE WHEN ${selectionSql} IS NULL THEN NULL ELSE (${normalized})->>'title' END)`;
   }
 
   jsonTitleFromExpr(selectionSql: string): string {

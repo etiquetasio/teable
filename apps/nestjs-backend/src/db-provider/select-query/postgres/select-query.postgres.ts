@@ -149,6 +149,7 @@ export class SelectQueryPostgres extends SelectQueryAbstract {
     if (this.isNumericLiteral(expr)) {
       return `(${expr})::double precision`;
     }
+
     const textExpr = `((${expr})::text) COLLATE "C"`;
     // Avoid treating obvious date-like strings (e.g., 2024/12/03) as numbers
     const dateLikePattern = `'^[0-9]{1,4}[-/][0-9]{1,2}[-/][0-9]{1,4}( .*){0,1}$'`;
@@ -214,10 +215,11 @@ export class SelectQueryPostgres extends SelectQueryAbstract {
     if (paramInfo.type === 'number') {
       return false;
     }
-    const looksDatetime =
-      isDatetimeLikeParam(paramInfo) ||
-      paramInfo.fieldDbType === DbFieldType.DateTime ||
-      paramInfo.fieldCellValueType === 'datetime';
+    const hasFieldDateMetadata =
+      paramInfo.fieldDbType === DbFieldType.DateTime || paramInfo.fieldCellValueType === 'datetime';
+    const typeSaysDatetime =
+      isDatetimeLikeParam(paramInfo) && !paramInfo.fieldDbType && !paramInfo.fieldCellValueType;
+    const looksDatetime = hasFieldDateMetadata || typeSaysDatetime;
 
     if (!looksDatetime) {
       return false;
@@ -338,12 +340,16 @@ export class SelectQueryPostgres extends SelectQueryAbstract {
       return this.ensureTextCollation(expr);
     }
 
+    // When metadata tells us the operand is a multi/json field, trust it and avoid runtime pg_typeof
+    const useTrustedJson = !!paramInfo?.hasMetadata;
     const textExpr = `((${expr})::text)`;
-    const safeJsonExpr = `(CASE
+    const trustedJsonExpr = `(CASE WHEN ${expr} IS NULL THEN NULL ELSE to_jsonb(${expr}) END)`;
+    const guardedJsonExpr = `(CASE
       WHEN ${expr} IS NULL THEN NULL
       WHEN pg_typeof(${expr})::text IN ('json', 'jsonb') THEN (${expr})::jsonb
       ELSE NULL
     END)`;
+    const safeJsonExpr = useTrustedJson ? trustedJsonExpr : guardedJsonExpr;
 
     const flattened = `(CASE
       WHEN ${expr} IS NULL THEN NULL
@@ -364,31 +370,50 @@ export class SelectQueryPostgres extends SelectQueryAbstract {
   }
 
   private buildJsonScalarCoercion(jsonExpr: string): string {
+    const elementScalar = `CASE
+      WHEN jsonb_typeof(elem.value) = 'object' THEN COALESCE(
+        elem.value->>'title',
+        elem.value->>'name',
+        elem.value #>> '{}'
+      )
+      WHEN jsonb_typeof(elem.value) = 'array' THEN NULL
+      ELSE elem.value #>> '{}'
+    END`;
+
     return `CASE jsonb_typeof(${jsonExpr})
-          WHEN 'string' THEN (${jsonExpr}) #>> '{}'
-          WHEN 'number' THEN (${jsonExpr}) #>> '{}'
-          WHEN 'boolean' THEN (${jsonExpr}) #>> '{}'
-          WHEN 'null' THEN NULL
-          WHEN 'array' THEN COALESCE((
-            SELECT STRING_AGG(elem.value, ', ' ORDER BY elem.ordinality)
-            FROM jsonb_array_elements_text(${jsonExpr}) WITH ORDINALITY AS elem(value, ordinality)
-          ), '')
-          ELSE (${jsonExpr})::text
-        END`;
+      WHEN 'string' THEN (${jsonExpr}) #>> '{}'
+      WHEN 'number' THEN (${jsonExpr}) #>> '{}'
+      WHEN 'boolean' THEN (${jsonExpr}) #>> '{}'
+      WHEN 'null' THEN NULL
+      WHEN 'array' THEN COALESCE((
+        SELECT STRING_AGG(${elementScalar}, ', ' ORDER BY elem.ordinality)
+        FROM jsonb_array_elements(${jsonExpr}) WITH ORDINALITY AS elem(value, ordinality)
+      ), '')
+      WHEN 'object' THEN COALESCE(${jsonExpr}->>'title', ${jsonExpr}->>'name', ${jsonExpr} #>> '{}')
+      ELSE (${jsonExpr})::text
+    END`;
   }
 
-  private coerceJsonExpressionToText(wrapped: string): string {
+  private coerceJsonExpressionToText(wrapped: string, metadataIndex?: number): string {
+    const paramInfo = metadataIndex != null ? this.getParamInfo(metadataIndex) : undefined;
     const doubleWrapped = `(${wrapped})`;
-    const directJsonExpr = `${doubleWrapped}::jsonb`;
+    const directJsonExpr = `to_jsonb${wrapped}`;
     const fallbackJsonExpr = `to_jsonb${wrapped}`;
     const jsonTypeGuard = `pg_typeof(${wrapped}) = ANY('{json,jsonb}'::regtype[])`;
+    const hasTrustedJsonMetadata =
+      !!paramInfo?.hasMetadata && (paramInfo.isJsonField || paramInfo.isMultiValueField);
+
+    if (hasTrustedJsonMetadata) {
+      return `(CASE
+        WHEN ${wrapped} IS NULL THEN NULL
+        ELSE ${this.buildJsonScalarCoercion(directJsonExpr)}
+      END)`;
+    }
 
     return `(CASE
       WHEN ${wrapped} IS NULL THEN NULL
-      WHEN ${jsonTypeGuard} THEN
-        ${this.buildJsonScalarCoercion(directJsonExpr)}
-      ELSE
-        ${this.buildJsonScalarCoercion(fallbackJsonExpr)}
+      WHEN ${jsonTypeGuard} THEN ${this.buildJsonScalarCoercion(directJsonExpr)}
+      ELSE ${this.buildJsonScalarCoercion(fallbackJsonExpr)}
     END)`;
   }
 
@@ -430,7 +455,7 @@ export class SelectQueryPostgres extends SelectQueryAbstract {
     }
     if (paramInfo?.hasMetadata) {
       if (isJsonLikeParam(paramInfo)) {
-        const coercedJson = this.coerceJsonExpressionToText(wrapped);
+        const coercedJson = this.coerceJsonExpressionToText(wrapped, metadataIndex);
         return this.ensureTextCollation(coercedJson);
       }
 
