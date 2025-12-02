@@ -1352,9 +1352,14 @@ export class FieldCteVisitor implements IFieldVisitor<ICteResult> {
             if (isDateLikeField(foreignField) || isDateLikeField(hostField)) {
               return { ok: false, residual: null };
             }
+            // When the foreign scope is the same table, compare the host record's fieldId
+            // against the foreign row's referenced field so "Field A is {Field B}" reads as
+            // host.FieldA = foreign.FieldB instead of the reverse.
+            const hostJoinField = foreignTable.id === table.id ? foreignField : hostField;
+            const foreignJoinField = foreignTable.id === table.id ? hostField : foreignField;
             const joinKey = this.buildConditionalEqualityJoinKey(
-              hostField,
-              foreignField,
+              hostJoinField,
+              foreignJoinField,
               mainAlias,
               foreignAlias
             );

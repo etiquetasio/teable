@@ -1146,7 +1146,7 @@ describe('OpenAPI Conditional Lookup field (e2e)', () => {
       await permanentDeleteTable(baseId, table.id);
     });
 
-    it('should return Title2 from foreign rows where Name2 equals host Name', async () => {
+    it('should return Title2 from foreign rows where host Name2 matches foreign Name', async () => {
       const records = await getRecords(table.id, { fieldKeyType: FieldKeyType.Id });
       const row1 = records.records.find((r) => r.id === row1Id)!;
       const row2 = records.records.find((r) => r.id === row2Id)!;
@@ -1154,7 +1154,7 @@ describe('OpenAPI Conditional Lookup field (e2e)', () => {
       const row4 = records.records.find((r) => r.id === row4Id)!;
 
       expect(row1.fields[lookupAltTitleField.id]).toEqual(['00001']);
-      expect(row2.fields[lookupAltTitleField.id]).toEqual(['00002']);
+      expect(row2.fields[lookupAltTitleField.id] ?? []).toEqual([]);
       expect(row3.fields[lookupAltTitleField.id] ?? []).toEqual([]);
       expect(row4.fields[lookupAltTitleField.id] ?? []).toEqual([]);
     });
