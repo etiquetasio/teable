@@ -998,89 +998,64 @@ describe('OpenAPI Conditional Lookup field (e2e)', () => {
     });
   });
 
-  describe('self-table filters combining text and single select references', () => {
+  describe('self-table field-reference lookups projecting alternate fields', () => {
     let table: ITableFullVo;
-    let categoryId: string;
-    let labelId: string;
-    let receiptDateId: string;
-    let matchedDateField: IFieldVo;
-    let transportLabeledId: string;
-    let transportUnlabeledId: string;
-    let foodLabeledId: string;
+    let titleId: string;
+    let nameId: string;
+    let nameMirrorId: string;
+    let title2Id: string;
+    let matchingLookupField: IFieldVo;
+    let rowAliceId: string;
+    let rowBobId: string;
+    let rowCharlieId: string;
+    let rowDaveId: string;
 
     beforeAll(async () => {
-      const categoryChoices = [
-        { id: 'cat-transport', name: 'Transportation', color: Colors.Green },
-        { id: 'cat-food', name: 'Food & Dining', color: Colors.Blue },
-      ];
-
       table = await createTable(baseId, {
-        name: 'ConditionalLookup_Self_Table_Filter',
+        name: 'ConditionalLookup_Self_AltProjection',
         fields: [
-          {
-            name: 'Category',
-            type: FieldType.SingleSelect,
-            options: { choices: categoryChoices },
-          } as IFieldRo,
-          { name: 'Label', type: FieldType.SingleLineText } as IFieldRo,
-          { name: 'ReceiptDate', type: FieldType.Date } as IFieldRo,
+          { name: 'Title', type: FieldType.SingleLineText } as IFieldRo,
+          { name: 'Name', type: FieldType.SingleLineText } as IFieldRo,
+          { name: 'NameMirror', type: FieldType.SingleLineText } as IFieldRo,
+          { name: 'Title2', type: FieldType.SingleLineText } as IFieldRo,
         ],
         records: [
-          {
-            fields: {
-              Category: 'Transportation',
-              Label: 'Transportation',
-              ReceiptDate: '2025-04-22',
-            },
-          },
-          {
-            fields: {
-              Category: 'Transportation',
-              ReceiptDate: '2025-04-23',
-            },
-          },
-          {
-            fields: {
-              Category: 'Food & Dining',
-              Label: 'Food & Dining',
-              ReceiptDate: '2025-05-01',
-            },
-          },
+          { fields: { Title: 'T1', Name: 'Alice', NameMirror: 'Alice', Title2: 'T1-alt' } },
+          { fields: { Title: 'T2', Name: 'Bob', NameMirror: 'Alice', Title2: 'T2-alt' } },
+          { fields: { Title: 'T3', Name: 'Charlie', NameMirror: 'Charlie', Title2: 'T3-alt' } },
+          { fields: { Title: 'T4', Name: 'Dave', Title2: 'T4-alt' } },
         ],
       });
 
-      categoryId = table.fields.find((f) => f.name === 'Category')!.id;
-      labelId = table.fields.find((f) => f.name === 'Label')!.id;
-      receiptDateId = table.fields.find((f) => f.name === 'ReceiptDate')!.id;
+      titleId = table.fields.find((f) => f.name === 'Title')!.id;
+      nameId = table.fields.find((f) => f.name === 'Name')!.id;
+      nameMirrorId = table.fields.find((f) => f.name === 'NameMirror')!.id;
+      title2Id = table.fields.find((f) => f.name === 'Title2')!.id;
 
-      transportLabeledId = table.records[0].id;
-      transportUnlabeledId = table.records[1].id;
-      foodLabeledId = table.records[2].id;
+      rowAliceId = table.records[0].id;
+      rowBobId = table.records[1].id;
+      rowCharlieId = table.records[2].id;
+      rowDaveId = table.records[3].id;
 
       const filter: IFilter = {
         conjunction: 'and',
         filterSet: [
           {
-            fieldId: categoryId,
+            fieldId: nameMirrorId,
             operator: 'is',
-            value: { type: 'field', fieldId: categoryId },
-          },
-          {
-            fieldId: labelId,
-            operator: 'is',
-            value: { type: 'field', fieldId: labelId },
+            value: { type: 'field', fieldId: nameId },
           },
         ],
       };
 
-      matchedDateField = await createField(table.id, {
-        name: 'Matched Receipt Dates',
-        type: FieldType.Date,
+      matchingLookupField = await createField(table.id, {
+        name: 'Matching Title2 Values',
+        type: FieldType.SingleLineText,
         isLookup: true,
         isConditionalLookup: true,
         lookupOptions: {
           foreignTableId: table.id,
-          lookupFieldId: receiptDateId,
+          lookupFieldId: title2Id,
           filter,
         } as ILookupOptionsRo,
       } as IFieldRo);
@@ -1090,24 +1065,98 @@ describe('OpenAPI Conditional Lookup field (e2e)', () => {
       await permanentDeleteTable(baseId, table.id);
     });
 
-    it('should not share matches across rows when both host fields differ', async () => {
+    it('should project the requested field from matching self-table rows', async () => {
       const records = await getRecords(table.id, { fieldKeyType: FieldKeyType.Id });
-      const transportLabeled = records.records.find((r) => r.id === transportLabeledId)!;
-      const transportUnlabeled = records.records.find((r) => r.id === transportUnlabeledId)!;
-      const foodLabeled = records.records.find((r) => r.id === foodLabeledId)!;
+      const rowAlice = records.records.find((r) => r.id === rowAliceId)!;
+      const rowBob = records.records.find((r) => r.id === rowBobId)!;
+      const rowCharlie = records.records.find((r) => r.id === rowCharlieId)!;
+      const rowDave = records.records.find((r) => r.id === rowDaveId)!;
 
-      expect(transportLabeled.fields[matchedDateField.id]).toEqual([
-        '2025-04-21T16:00:00.000Z',
-        '2025-04-30T16:00:00.000Z',
-      ]);
-      expect(transportUnlabeled.fields[matchedDateField.id] ?? []).toEqual([
-        '2025-04-21T16:00:00.000Z',
-        '2025-04-30T16:00:00.000Z',
-      ]);
-      expect(foodLabeled.fields[matchedDateField.id]).toEqual([
-        '2025-04-21T16:00:00.000Z',
-        '2025-04-30T16:00:00.000Z',
-      ]);
+      expect(rowAlice.fields[matchingLookupField.id]).toEqual(['T1-alt']);
+      expect(rowBob.fields[matchingLookupField.id]).toEqual(['T1-alt']);
+      expect(rowCharlie.fields[matchingLookupField.id]).toEqual(['T3-alt']);
+      expect(rowDave.fields[matchingLookupField.id] ?? []).toEqual([]);
+    });
+  });
+
+  describe('self-table field-reference lookups selecting alternate titles', () => {
+    let table: ITableFullVo;
+    let titleId: string;
+    let nameId: string;
+    let name2Id: string;
+    let title2Id: string;
+    let lookupAltTitleField: IFieldVo;
+    let row1Id: string;
+    let row2Id: string;
+    let row3Id: string;
+    let row4Id: string;
+
+    beforeAll(async () => {
+      table = await createTable(baseId, {
+        name: 'ConditionalLookup_Self_Title2',
+        fields: [
+          { name: 'Title', type: FieldType.SingleLineText } as IFieldRo,
+          { name: 'Name', type: FieldType.SingleLineText } as IFieldRo,
+          { name: 'Name2', type: FieldType.SingleLineText } as IFieldRo,
+          { name: 'Title2', type: FieldType.SingleLineText } as IFieldRo,
+        ],
+        records: [
+          { fields: { Title: '00001', Name: '张三', Name2: '张三', Title2: '00001' } },
+          { fields: { Title: '00002', Name: '李四', Name2: null, Title2: null } },
+          { fields: { Title: '00003', Name: '王五', Name2: '李四', Title2: '00002' } },
+          { fields: { Title: '00004', Name: '赵六', Name2: '你好', Title2: null } },
+        ],
+      });
+
+      titleId = table.fields.find((f) => f.name === 'Title')!.id;
+      nameId = table.fields.find((f) => f.name === 'Name')!.id;
+      name2Id = table.fields.find((f) => f.name === 'Name2')!.id;
+      title2Id = table.fields.find((f) => f.name === 'Title2')!.id;
+
+      row1Id = table.records[0].id;
+      row2Id = table.records[1].id;
+      row3Id = table.records[2].id;
+      row4Id = table.records[3].id;
+
+      const filter: IFilter = {
+        conjunction: 'and',
+        filterSet: [
+          {
+            fieldId: name2Id,
+            operator: 'is',
+            value: { type: 'field', fieldId: nameId },
+          },
+        ],
+      };
+
+      lookupAltTitleField = await createField(table.id, {
+        name: 'Title2 via matching Name2',
+        type: FieldType.SingleLineText,
+        isLookup: true,
+        isConditionalLookup: true,
+        lookupOptions: {
+          foreignTableId: table.id,
+          lookupFieldId: title2Id,
+          filter,
+        } as ILookupOptionsRo,
+      } as IFieldRo);
+    });
+
+    afterAll(async () => {
+      await permanentDeleteTable(baseId, table.id);
+    });
+
+    it('should return Title2 from foreign rows where Name2 equals host Name', async () => {
+      const records = await getRecords(table.id, { fieldKeyType: FieldKeyType.Id });
+      const row1 = records.records.find((r) => r.id === row1Id)!;
+      const row2 = records.records.find((r) => r.id === row2Id)!;
+      const row3 = records.records.find((r) => r.id === row3Id)!;
+      const row4 = records.records.find((r) => r.id === row4Id)!;
+
+      expect(row1.fields[lookupAltTitleField.id]).toEqual(['00001']);
+      expect(row2.fields[lookupAltTitleField.id]).toEqual(['00002']);
+      expect(row3.fields[lookupAltTitleField.id] ?? []).toEqual([]);
+      expect(row4.fields[lookupAltTitleField.id] ?? []).toEqual([]);
     });
   });
 
