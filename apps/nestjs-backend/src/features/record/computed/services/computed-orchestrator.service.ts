@@ -163,7 +163,6 @@ export class ComputedOrchestratorService {
     await update();
     const tableDomains = await this.resolveTableDomains(impactPre);
     const total = await this.evaluator.evaluate(impactPre, {
-      versionBaseline: 'current',
       tableDomains,
     });
 
@@ -265,7 +264,6 @@ export class ComputedOrchestratorService {
 
     const tableDomains = await this.resolveTableDomains(impactPost);
     const total = await this.evaluator.evaluate(impactPost, {
-      versionBaseline: 'current',
       excludeFieldIds: exclude,
       tableDomains,
     });
@@ -308,7 +306,6 @@ export class ComputedOrchestratorService {
     }
 
     const total = await this.evaluator.evaluate(impact, {
-      versionBaseline: 'current',
       preferAutoNumberPaging: true,
       ...(exclude.size ? { excludeFieldIds: exclude } : {}),
       tableDomains,
