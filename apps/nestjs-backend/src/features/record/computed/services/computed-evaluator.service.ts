@@ -43,7 +43,6 @@ export class ComputedEvaluatorService {
   async evaluate(
     impact: IComputedImpactByTable,
     opts: {
-      versionBaseline?: 'previous' | 'current';
       excludeFieldIds?: Set<string>;
       preferAutoNumberPaging?: boolean;
       tableDomains: ReadonlyMap<string, TableDomain>;
@@ -114,7 +113,7 @@ export class ComputedEvaluatorService {
       const strategy = this.selectPaginationStrategy(paginationContext);
       await strategy.run(paginationContext, async (rows) => {
         if (!rows.length) return;
-        const evaluatedRows = this.buildEvaluatedRows(rows, fieldInstances, opts);
+        const evaluatedRows = this.buildEvaluatedRows(rows, fieldInstances);
         totalOps += this.publishBatch(
           tableId,
           impactedFieldIds,
@@ -160,15 +159,11 @@ export class ComputedEvaluatorService {
 
   private buildEvaluatedRows(
     rows: Array<IComputedRowResult>,
-    fieldInstances: IFieldInstance[],
-    opts?: { versionBaseline?: 'previous' | 'current' }
+    fieldInstances: IFieldInstance[]
   ): Array<{ recordId: string; version: number; fields: Record<string, unknown> }> {
     return rows.map((row) => {
       const recordId = row.__id;
-      const version =
-        opts?.versionBaseline === 'current'
-          ? (row.__version as number)
-          : (row.__prev_version as number | undefined) ?? (row.__version as number) - 1;
+      const version = row.__version as number;
 
       const fieldsMap: Record<string, unknown> = {};
       for (const field of fieldInstances) {
