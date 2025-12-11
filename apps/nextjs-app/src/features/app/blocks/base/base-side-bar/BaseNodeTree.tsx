@@ -24,24 +24,23 @@ import AddBoldIcon from '@teable/ui-lib/icons/app/add-bold.svg';
 import { Button, cn, Input, Skeleton } from '@teable/ui-lib/shadcn';
 import { ScrollArea, ScrollBar } from '@teable/ui-lib/shadcn/ui/scroll-area';
 import { Tree, TreeDragLine, TreeItem, TreeItemLabel } from '@teable/ui-lib/src/shadcn/ui/tree';
-import { useParams } from 'next/navigation';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useClickAway, useLocalStorage } from 'react-use';
 import { Emoji } from '@/features/app/components/emoji/Emoji';
 import { EmojiPicker } from '@/features/app/components/emoji/EmojiPicker';
+import { useBaseResource } from '@/features/app/hooks/useBaseResource';
 import { useDisableAIAction } from '@/features/app/hooks/useDisableAIAction';
 import { useSetting } from '@/features/app/hooks/useSetting';
+import { usePinMap } from '../../space/usePinMap';
 import { useTableHref } from '../../table-list/useTableHref';
 import { useGridSearchStore } from '../../view/grid/useGridSearchStore';
 import {
   BaseNodeResourceIconMap,
-  BaseNodeResourceLastVisitMap,
   getNodeIcon,
   getNodeName,
   getNodeUrl,
-  parseNodeUrl,
   ROOT_ID,
   useBaseNodeCrud,
 } from '../base-node/hooks';
@@ -127,18 +126,13 @@ export const BaseNodeTree = (props: IBaseNodeTreeProps) => {
   const { t } = useTranslation(['common']);
   const baseId = useBaseId() as string;
   const router = useRouter();
-  const urlPath = router.asPath;
-  const urlParams = useParams<{
-    dashboardId?: string;
-    automationId?: string;
-    appId?: string;
-    tableId?: string;
-  }>();
+  const baseResource = useBaseResource();
   const { highlightedTableId } = useGridSearchStore();
-  const tableHrefMap = useTableHref();
+  const { hrefMap: tableHrefMap, viewIdMap: tableViewIdsMap } = useTableHref();
   const permission = useBasePermission();
   const { buildApp: buildAppEnabled } = useDisableAIAction();
   const { disallowDashboard } = useSetting();
+  const pinMap = usePinMap();
   const canCreateTable = Boolean(permission?.['table|create']);
   const canCreateDashboard = Boolean(permission?.['base|update'] && !disallowDashboard);
   const canCreateWorkflow = Boolean(permission?.['automation|create']);
@@ -164,28 +158,22 @@ export const BaseNodeTree = (props: IBaseNodeTreeProps) => {
     LocalStorageKeys.BaseNodeTreeExpandedItems,
     {}
   );
-
-  const expandedItems = useMemo(() => expandedItemsMap?.[baseId] ?? [], [expandedItemsMap, baseId]);
-  const setExpandedItems = useCallback(
-    (updater: string[] | ((prev: string[]) => string[])) => {
-      setExpandedItemsMap((prev) => {
-        const currentExpanded = prev?.[baseId] ?? [];
-        const newExpanded = typeof updater === 'function' ? updater(currentExpanded) : updater;
-        return {
-          ...prev,
-          [baseId]: newExpanded,
-        };
-      });
-    },
-    [baseId, setExpandedItemsMap]
-  );
+  const [expandedItems, setExpandedItems] = useState<string[]>(expandedItemsMap?.[baseId] ?? []);
+  useEffect(() => {
+    setExpandedItemsMap((prev) => {
+      return {
+        ...prev,
+        [baseId]: expandedItems,
+      };
+    });
+  }, [expandedItems, baseId, setExpandedItemsMap]);
 
   const handlePrimaryAction = useCallback(
     (item: ItemInstance<TreeItemData>) => {
       const node = item.getItemData();
       const { resourceType, resourceId } = node;
       if (resourceType === BaseNodeResourceType.Table) {
-        const viewId = router.query.viewId as string;
+        const viewId = tableViewIdsMap[resourceId];
         const url = tableHrefMap[resourceId];
         if (url) {
           router.push({ pathname: url }, undefined, {
@@ -205,7 +193,7 @@ export const BaseNodeTree = (props: IBaseNodeTreeProps) => {
         shallow: true,
       });
     },
-    [baseId, router, tableHrefMap]
+    [baseId, router, tableHrefMap, tableViewIdsMap]
   );
 
   const handleDrop = (items: ItemInstance<TreeItemData>[], target: DragTarget<TreeItemData>) => {
@@ -253,11 +241,7 @@ export const BaseNodeTree = (props: IBaseNodeTreeProps) => {
       selectedItems,
       expandedItems,
     },
-    setSelectedItems: (updater) => {
-      setSelectedItems((prev) => {
-        return typeof updater === 'function' ? updater(prev) : updater;
-      });
-    },
+    setSelectedItems,
     setExpandedItems,
     rootItemId: ROOT_ID,
     indent: INDENTATION_WIDTH,
@@ -413,7 +397,9 @@ export const BaseNodeTree = (props: IBaseNodeTreeProps) => {
         const nextItem = findNextNonFolderItem(item);
         if (nextItem) {
           const nextParentIds = getAllParentIds(nextItem.getId());
-          setExpandedItems((prev) => [...new Set([...(prev ?? []), ...nextParentIds])]);
+          if (nextParentIds.length > 0) {
+            setExpandedItems((prev) => [...new Set([...(prev ?? []), ...nextParentIds])]);
+          }
           handlePrimaryAction(nextItem);
         }
       };
@@ -432,19 +418,43 @@ export const BaseNodeTree = (props: IBaseNodeTreeProps) => {
     treeItemsRef.current = treeItems;
   }, [treeItems]);
 
+  const currentResourceId = useMemo(() => {
+    switch (baseResource.resourceType) {
+      case BaseNodeResourceType.Table:
+        return baseResource.tableId;
+      case BaseNodeResourceType.Dashboard:
+        return baseResource.dashboardId;
+      case BaseNodeResourceType.Workflow:
+        return baseResource.workflowId;
+      case BaseNodeResourceType.App:
+        return baseResource.appId;
+      default:
+        return undefined;
+    }
+  }, [baseResource]);
+
   useEffect(() => {
     if (Object.keys(treeItems).length === 0) return;
     const nodes = Object.values(treeItems);
-    const { resourceType, resourceId } = parseNodeUrl({ baseId, url: urlPath, urlParams }) ?? {};
+    const { resourceType } = baseResource;
     const node = nodes.find(
-      (node) => node.resourceType === resourceType && node.resourceId === resourceId
+      (node) => node.resourceType === resourceType && node.resourceId === currentResourceId
     );
     if (!node) return;
 
     const parentIds = getAllParentIds(node.id);
-    setExpandedItems((prev) => [...new Set([...(prev ?? []), ...parentIds])]);
+    if (parentIds.length > 0) {
+      setExpandedItems((prev) => [...new Set([...(prev ?? []), ...parentIds])]);
+    }
     setSelectedItems([node.id]);
-  }, [treeItems, urlPath, urlParams, baseId]);
+  }, [
+    treeItems,
+    baseResource,
+    currentResourceId,
+    getAllParentIds,
+    setExpandedItems,
+    setSelectedItems,
+  ]);
 
   useEffect(() => {
     if (selectedItems.length === 0) return;
@@ -457,9 +467,9 @@ export const BaseNodeTree = (props: IBaseNodeTreeProps) => {
   }, [selectedItems, tree, treeItems]);
 
   useEffect(() => {
-    if (!Object.keys(treeItems).length) return;
+    if (isLoading) return;
     tree.rebuildTree();
-  }, [tree, treeItems]);
+  }, [tree, treeItems, isLoading]);
 
   useEffect(() => {
     let timeout: NodeJS.Timeout | null = null;
@@ -584,7 +594,7 @@ export const BaseNodeTree = (props: IBaseNodeTreeProps) => {
               const { resourceType, resourceId } = node;
               const name = getNodeName(node);
               const isHighlighted = isEditMode && highlightedTableId === resourceId;
-
+              const isPinned = pinMap?.[resourceId];
               return (
                 <TreeItem asChild key={nodeId} item={item}>
                   <div className="h-8 w-full cursor-pointer">
@@ -641,9 +651,11 @@ export const BaseNodeTree = (props: IBaseNodeTreeProps) => {
                                 onClick={(e) => {
                                   e.stopPropagation();
                                 }}
-                                className="flex shrink-0 cursor-pointer items-center gap-2"
+                                className={cn('flex shrink-0 cursor-pointer items-center gap-2', {
+                                  'w-0 group-hover:w-auto': !isPinned,
+                                })}
                               >
-                                <div className="opacity-0 group-hover:opacity-100 group-data-[folder=false]:hidden  group-data-[selected=true]:opacity-100">
+                                <div className="opacity-0 group-hover:opacity-100 group-data-[folder=false]:hidden">
                                   {canCreateResource && (
                                     <BaseNodeAddResourceButton
                                       curdHooks={curdHooks}
@@ -667,7 +679,7 @@ export const BaseNodeTree = (props: IBaseNodeTreeProps) => {
                                   resourceType={resourceType}
                                   resourceId={resourceId}
                                 />
-                                <div className="opacity-0 group-hover:opacity-100 group-data-[selected=true]:opacity-100">
+                                <div className="opacity-0 group-hover:opacity-100 ">
                                   <BaseNodeMore
                                     resourceType={resourceType}
                                     resourceId={resourceId}

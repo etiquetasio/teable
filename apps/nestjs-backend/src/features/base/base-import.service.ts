@@ -482,9 +482,12 @@ export class BaseImportService {
   }
 
   private async createFolders(baseId: string, folders: IBaseJson['folders']) {
+    const folderIdMap: Record<string, string> = {};
+    if (!Array.isArray(folders) || folders.length === 0) {
+      return { folderIdMap };
+    }
     const prisma = this.prismaService.txClient();
     const userId = this.cls.get('user.id');
-    const folderIdMap: Record<string, string> = {};
     for (const folder of folders) {
       const { id, name } = folder;
       const newFolderId = generateBaseNodeFolderId();
@@ -507,7 +510,7 @@ export class BaseImportService {
       appIdMap?: Record<string, string>;
     }
   ) {
-    if (!nodes || nodes.length === 0) {
+    if (!Array.isArray(nodes) || nodes.length === 0) {
       return;
     }
 
