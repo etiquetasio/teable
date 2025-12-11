@@ -8,6 +8,7 @@ import { EventEmitterService } from '../../../event-emitter/event-emitter.servic
 import { Events } from '../../../event-emitter/events';
 import type { IClsStore } from '../../../types/cls';
 import { retryOnDeadlock } from '../../../utils/retry-decorator';
+import { Timing } from '../../../utils/timing';
 import { BatchService } from '../../calculation/batch.service';
 import { LinkService } from '../../calculation/link.service';
 import { SystemFieldService } from '../../calculation/system-field.service';
@@ -35,6 +36,12 @@ export class RecordUpdateService {
     private readonly cls: ClsService<IClsStore>
   ) {}
 
+  @Timing({
+    key: 'updateRecords',
+    thresholdMs: 2000,
+    reportToSentry: true,
+    sentryTag: 'record-update',
+  })
   @retryOnDeadlock()
   async updateRecords(
     tableId: string,
