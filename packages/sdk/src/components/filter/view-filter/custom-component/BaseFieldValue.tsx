@@ -422,9 +422,9 @@ export function BaseFieldValue(props: IBaseFieldValue) {
       };
       if (components && components[FieldType.Link]) {
         const LinkComponents = components[FieldType.Link];
-        return <LinkComponents {...linkProps} />;
+        return wrapWithReference(<LinkComponents {...linkProps} />);
       }
-      return <FilterLink {...linkProps} modal={modal} />;
+      return wrapWithReference(<FilterLink {...linkProps} modal={modal} />);
     }
     case FieldType.Attachment:
       return <FileTypeSelect value={value as string} onSelect={onSelect} />;

@@ -22,7 +22,8 @@ export const FilterLinkSelect = (props: FilterLinkSelectProps) => {
   const InnerSelector = List ?? DefaultList;
 
   const onListClick = (recordId: string) => {
-    const values = typeof value === 'string' ? [value] : value || [];
+    const values = typeof value === 'string' ? [value] : Array.isArray(value) ? value : [];
+    const firstValue = values[0];
 
     if (!SINGLE_SELECT_OPERATORS.includes(operator)) {
       values.includes(recordId)
@@ -30,7 +31,7 @@ export const FilterLinkSelect = (props: FilterLinkSelectProps) => {
         : onSelect([...values, recordId]);
     } else {
       setOpen(false);
-      onSelect(value?.[0] === recordId ? null : recordId);
+      onSelect(firstValue === recordId ? null : recordId);
     }
   };
 
