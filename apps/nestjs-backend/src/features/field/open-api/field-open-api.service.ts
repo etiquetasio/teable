@@ -17,6 +17,7 @@ import {
   extractFieldIdsFromFilter,
 } from '@teable/core';
 import type {
+  IColumn,
   IFieldVo,
   IConvertFieldRo,
   IUpdateFieldRo,
@@ -594,12 +595,13 @@ export class FieldOpenApiService {
       (refId) => !curReference.find((ref) => ref.fromFieldId === refId)
     );
 
-    for (const refId of missingReferenceIds) {
-      await this.prismaService.txClient().reference.create({
-        data: {
-          fromFieldId: refId,
+    if (missingReferenceIds.length) {
+      await this.prismaService.txClient().reference.createMany({
+        data: missingReferenceIds.map((fromFieldId) => ({
+          fromFieldId,
           toFieldId: field.id,
-        },
+        })),
+        skipDuplicates: true,
       });
     }
 
@@ -618,77 +620,193 @@ export class FieldOpenApiService {
     }
   }
 
+  private sortCreateFieldsByDependencies<
+    T extends IFieldVo & { columnMeta?: IColumnMeta; references?: string[] },
+  >(tableId: string, fields: T[]): T[] {
+    if (!fields.length) return fields;
+
+    const idSet = new Set(fields.map((f) => f.id));
+    const originalIndex = fields.reduce<Record<string, number>>((acc, field, index) => {
+      acc[field.id] = index;
+      return acc;
+    }, {});
+
+    const depsByFieldId = new Map<string, string[]>();
+    for (const field of fields) {
+      const { columnMeta: _columnMeta, references: _references, ...fieldVo } = field;
+      try {
+        const instance = createFieldInstanceByVo(fieldVo);
+        const deps = this.fieldSupplementService
+          .getFieldReferenceIds(instance)
+          .filter((id): id is string => typeof id === 'string' && idSet.has(id) && id !== field.id);
+        depsByFieldId.set(field.id, deps);
+      } catch (e) {
+        this.logger.warn(
+          `createFields: failed to resolve dependencies for ${field.id} in ${tableId}: ${String(e)}`
+        );
+        return fields;
+      }
+    }
+
+    const indegree = new Map<string, number>();
+    const outgoing = new Map<string, string[]>();
+    for (const field of fields) {
+      indegree.set(field.id, 0);
+      outgoing.set(field.id, []);
+    }
+
+    for (const field of fields) {
+      const deps = depsByFieldId.get(field.id) ?? [];
+      for (const depId of deps) {
+        outgoing.get(depId)?.push(field.id);
+        indegree.set(field.id, (indegree.get(field.id) ?? 0) + 1);
+      }
+    }
+
+    const ready: string[] = [];
+    for (const field of fields) {
+      if ((indegree.get(field.id) ?? 0) === 0) ready.push(field.id);
+    }
+    ready.sort((a, b) => (originalIndex[a] ?? 0) - (originalIndex[b] ?? 0));
+
+    const orderedIds: string[] = [];
+    while (ready.length) {
+      const current = ready.shift()!;
+      orderedIds.push(current);
+      for (const next of outgoing.get(current) ?? []) {
+        const nextDegree = (indegree.get(next) ?? 0) - 1;
+        indegree.set(next, nextDegree);
+        if (nextDegree === 0) {
+          ready.push(next);
+          ready.sort((a, b) => (originalIndex[a] ?? 0) - (originalIndex[b] ?? 0));
+        }
+      }
+    }
+
+    if (orderedIds.length !== fields.length) {
+      this.logger.warn(
+        `createFields: detected a dependency cycle in ${tableId}; falling back to input order`
+      );
+      return fields;
+    }
+
+    const byId = new Map(fields.map((f) => [f.id, f] as const));
+    return orderedIds.map((id) => byId.get(id)!).filter(Boolean);
+  }
+
   @Timing()
   async createFields(
     tableId: string,
     fields: (IFieldVo & { columnMeta?: IColumnMeta; references?: string[] })[]
   ) {
+    if (!fields.length) return;
+
+    const orderedFields = this.sortCreateFieldsByDependencies(tableId, fields);
+
     // Create fields and compute/publish record changes within the same transaction
-    const newFields = await this.prismaService.$tx(
+    const createdFields = await this.prismaService.$tx(
       async () => {
         const created: { tableId: string; field: IFieldInstance }[] = [];
-        for (let i = 0; i < fields.length; i++) {
-          const field = fields[i];
-          const { columnMeta, references, ...fieldVo } = field;
-          const fieldInstance = createFieldInstanceByVo(fieldVo);
-          const sourceEntries = [{ tableId, fieldIds: [fieldInstance.id] }];
+        const sourceEntries: Array<{ tableId: string; fieldIds: string[] }> = [];
+        const referencesToRestore = new Set<string>();
+        const pendingByTable = new Map<string, Set<string>>();
 
-          await this.computedOrchestrator.computeCellChangesForFieldsAfterCreate(
-            sourceEntries,
-            async () => {
-              const createResult = await this.fieldCreatingService.alterCreateField(
-                tableId,
-                fieldInstance,
-                columnMeta
-              );
-              if (references) {
-                await this.restoreReference(references);
-              }
-              // Ensure dependent formula generated columns are recreated BEFORE
-              // evaluating and returning values in the computed pipeline.
-              // This avoids UPDATE ... RETURNING selecting non-existent generated columns
-              // right after restoring a base field.
-              try {
-                await this.fieldService.recreateDependentFormulaColumns(tableId, [
-                  fieldInstance.id,
-                ]);
-              } catch (e) {
-                this.logger.warn(
-                  `createFields: failed to recreate dependent formulas for ${fieldInstance.id}: ${String(
-                    e
-                  )}`
-                );
-              }
-              created.push(...createResult);
-              for (const { tableId: tid, field } of createResult) {
-                let entry = sourceEntries.find((s) => s.tableId === tid);
-                if (!entry) {
-                  entry = { tableId: tid, fieldIds: [] };
-                  sourceEntries.push(entry);
-                }
-                if (!entry.fieldIds.includes(field.id)) {
-                  entry.fieldIds.push(field.id);
-                }
-                if (field.isComputed) {
-                  await this.fieldService.resolvePending(tid, [field.id]);
-                }
+        const addSourceField = (tid: string, fieldId: string) => {
+          let entry = sourceEntries.find((s) => s.tableId === tid);
+          if (!entry) {
+            entry = { tableId: tid, fieldIds: [] };
+            sourceEntries.push(entry);
+          }
+          if (!entry.fieldIds.includes(fieldId)) {
+            entry.fieldIds.push(fieldId);
+          }
+        };
+
+        const markPending = (tid: string, fieldId: string) => {
+          let set = pendingByTable.get(tid);
+          if (!set) {
+            set = new Set<string>();
+            pendingByTable.set(tid, set);
+          }
+          set.add(fieldId);
+        };
+
+        const createPayload = orderedFields.map((field) => {
+          const { columnMeta, references, ...fieldVo } = field;
+          if (references?.length) {
+            references.forEach((refId) => referencesToRestore.add(refId));
+          }
+
+          return {
+            field: createFieldInstanceByVo(fieldVo),
+            columnMeta: columnMeta as unknown as Record<string, IColumn>,
+          };
+        });
+
+        await this.computedOrchestrator.computeCellChangesForFieldsAfterCreate(
+          sourceEntries,
+          async () => {
+            const createResult = await this.fieldCreatingService.alterCreateFieldsInExistingTable(
+              tableId,
+              createPayload
+            );
+            created.push(...createResult);
+
+            for (const { tableId: tid, field } of createResult) {
+              addSourceField(tid, field.id);
+              if (field.isComputed) {
+                markPending(tid, field.id);
               }
             }
-          );
-        }
 
-        // Repair dependent formula generated columns for fields restored in this table
-        const createdFieldIds = created
-          .filter((nf) => nf.tableId === tableId)
-          .map((nf) => nf.field.id);
-        if (createdFieldIds.length) {
-          await this.fieldService.recreateDependentFormulaColumns(tableId, createdFieldIds);
-        }
+            if (referencesToRestore.size) {
+              await this.restoreReference(Array.from(referencesToRestore));
+            }
+
+            // Ensure dependent formula generated columns are recreated BEFORE
+            // evaluating and returning values in the computed pipeline.
+            // This avoids UPDATE ... RETURNING selecting non-existent generated columns
+            // right after restoring base fields.
+            const createdFieldIds = created
+              .filter((nf) => nf.tableId === tableId)
+              .map((nf) => nf.field.id);
+            if (createdFieldIds.length) {
+              try {
+                await this.fieldService.recreateDependentFormulaColumns(tableId, createdFieldIds);
+              } catch (e) {
+                this.logger.warn(
+                  `createFields: failed to recreate dependent formulas for ${tableId}: ${String(e)}`
+                );
+              }
+            }
+
+            // Resolve pending computed fields in batches per table
+            for (const [tid, ids] of pendingByTable.entries()) {
+              const list = Array.from(ids);
+              if (list.length) {
+                await this.fieldService.resolvePending(tid, list);
+              }
+            }
+          }
+        );
 
         return created;
       },
       { timeout: this.thresholdConfig.bigTransactionTimeout }
     );
+
+    // Recreate search indexes after schema changes (outside tx boundaries)
+    for (const { tableId: tid, field } of createdFields) {
+      await this.tableIndexService.createSearchFieldSingleIndex(tid, field);
+    }
+  }
+
+  @Timing()
+  async createFieldsByRo(tableId: string, fieldRos: IFieldRo[]): Promise<IFieldVo[]> {
+    if (!fieldRos.length) return [];
+    const fieldVos = await this.fieldSupplementService.prepareCreateFields(tableId, fieldRos);
+    await this.createFields(tableId, fieldVos);
+    return fieldVos;
   }
 
   private async getFieldReferenceMap(fieldIds: string[]) {

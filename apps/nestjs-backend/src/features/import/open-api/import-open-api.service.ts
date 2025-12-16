@@ -185,9 +185,7 @@ export class ImportOpenApiService {
         continue;
       }
 
-      for (const field of chunk) {
-        await this.fieldOpenApiService.createField(tableId, field);
-      }
+      await this.fieldOpenApiService.createFieldsByRo(tableId, chunk);
     }
 
     const table = (await this.tableOpenApiService.getTable(baseId, tableId!)) as ITableFullVo;

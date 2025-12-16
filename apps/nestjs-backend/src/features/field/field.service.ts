@@ -206,6 +206,7 @@ export class FieldService implements IReadonlyAdapterService {
             description,
             type,
             options,
+            aiConfig,
             lookupOptions,
             notNull,
             unique,
@@ -225,6 +226,7 @@ export class FieldService implements IReadonlyAdapterService {
           name,
           description,
           type,
+          aiConfig: aiConfig ? JSON.stringify(aiConfig) : undefined,
           options: JSON.stringify(options),
           notNull,
           unique,
@@ -259,14 +261,155 @@ export class FieldService implements IReadonlyAdapterService {
   }
 
   async dbCreateMultipleField(tableId: string, fieldInstances: IFieldInstance[]) {
-    const multiFieldData: RawField[] = [];
+    if (!fieldInstances.length) {
+      return [];
+    }
 
+    const prisma = this.prismaService.txClient();
+    const userId = this.cls.get('user.id');
+    const fieldIds = fieldInstances.map((field) => field.id);
+
+    // Determine order base once so inserts/restores keep the same ordering behavior as sequential creates.
+    const agg = await prisma.field.aggregate({
+      where: { tableId, deletedTime: null },
+      _max: { order: true },
+    });
+    const baseOrder = agg._max.order == null ? 0 : agg._max.order + 1;
+
+    // Fast path: if none of the ids exist (including deleted rows), use createMany.
+    const existing = await prisma.field.findMany({
+      where: { id: { in: fieldIds } },
+      select: { id: true },
+    });
+
+    if (!existing.length) {
+      const data: Prisma.FieldCreateManyInput[] = fieldInstances.map((fieldInstance, index) => {
+        const {
+          id,
+          name,
+          description,
+          type,
+          options,
+          aiConfig,
+          lookupOptions,
+          notNull,
+          unique,
+          isPrimary,
+          isComputed,
+          hasError,
+          dbFieldType,
+          cellValueType,
+          isMultipleCellValue,
+          isLookup,
+          isConditionalLookup,
+          meta,
+          dbFieldName,
+        } = fieldInstance;
+        return {
+          id,
+          name,
+          description,
+          type,
+          aiConfig: aiConfig ? JSON.stringify(aiConfig) : undefined,
+          options: JSON.stringify(options),
+          meta: meta ? JSON.stringify(meta) : undefined,
+          notNull,
+          unique,
+          isPrimary,
+          order: baseOrder + index,
+          version: 1,
+          isComputed,
+          isLookup,
+          isConditionalLookup,
+          hasError,
+          lookupLinkedFieldId:
+            lookupOptions && isLinkLookupOptions(lookupOptions)
+              ? lookupOptions.linkFieldId
+              : undefined,
+          lookupOptions: lookupOptions ? JSON.stringify(lookupOptions) : undefined,
+          dbFieldName,
+          dbFieldType,
+          cellValueType,
+          isMultipleCellValue,
+          createdBy: userId,
+          tableId,
+        };
+      });
+
+      await prisma.field.createMany({ data });
+      this.invalidateFieldLoader(tableId);
+      return prisma.field.findMany({ where: { id: { in: fieldIds } } });
+    }
+
+    const multiFieldData: RawField[] = [];
     for (let i = 0; i < fieldInstances.length; i++) {
       const fieldInstance = fieldInstances[i];
-      const fieldData = await this.dbCreateField(tableId, fieldInstance);
+      const {
+        id,
+        name,
+        dbFieldName,
+        description,
+        type,
+        options,
+        meta,
+        aiConfig,
+        lookupOptions,
+        notNull,
+        unique,
+        isPrimary,
+        isComputed,
+        hasError,
+        dbFieldType,
+        cellValueType,
+        isMultipleCellValue,
+        isLookup,
+        isConditionalLookup,
+      } = fieldInstance;
 
-      multiFieldData.push(fieldData);
+      const data: Prisma.FieldCreateInput = {
+        id,
+        table: {
+          connect: {
+            id: tableId,
+          },
+        },
+        name,
+        description,
+        type,
+        aiConfig: aiConfig && JSON.stringify(aiConfig),
+        options: JSON.stringify(options),
+        meta: meta && JSON.stringify(meta),
+        notNull,
+        unique,
+        isPrimary,
+        order: baseOrder + i,
+        version: 1,
+        isComputed,
+        isLookup,
+        hasError,
+        // add lookupLinkedFieldId for indexing
+        lookupLinkedFieldId:
+          lookupOptions && isLinkLookupOptions(lookupOptions)
+            ? lookupOptions.linkFieldId
+            : undefined,
+        lookupOptions: lookupOptions && JSON.stringify(lookupOptions),
+        dbFieldName,
+        dbFieldType,
+        cellValueType,
+        isMultipleCellValue,
+        isConditionalLookup,
+        createdBy: userId,
+      };
+
+      const field = await prisma.field.upsert({
+        where: { id: data.id },
+        create: data,
+        update: { ...data, deletedTime: null, version: undefined },
+      });
+      multiFieldData.push(field);
     }
+
+    this.invalidateFieldLoader(tableId);
     return multiFieldData;
   }
 
@@ -275,21 +418,17 @@ export class FieldService implements IReadonlyAdapterService {
   }
 
   private async alterTableAddField(
+    tableId: string,
     dbTableName: string,
     fieldInstances: IFieldInstance[],
     isNewTable: boolean = false,
     isSymmetricField?: boolean
   ) {
-    // Get table ID from dbTableName for field map construction
-    const tableMeta = await this.prismaService.txClient().tableMeta.findFirst({
-      where: { dbTableName },
-      select: { id: true },
-    });
-
-    if (!tableMeta) {
-      throw new NotFoundException(`Table not found: ${dbTableName}`);
-    }
-    const tableDomain = await this.tableDomainQueryService.getTableDomainById(tableMeta.id);
+    const tableDomain = await this.tableDomainQueryService.getTableDomainById(tableId);
+    const tableNameMap = await this.linkFieldQueryService.getTableNameMapForLinkFields(
+      tableId,
+      fieldInstances
+    );
 
     for (const fieldInstance of fieldInstances) {
       const { dbFieldName, type, isLookup, unique, notNull, id: fieldId, name } = fieldInstance;
@@ -302,18 +441,12 @@ export class FieldService implements IReadonlyAdapterService {
         );
       }
 
-      // Build table name map for all field operations
-      const tableNameMap = await this.linkFieldQueryService.getTableNameMapForLinkFields(
-        tableMeta.id,
-        [fieldInstance]
-      );
-
       const alterTableQueries = this.dbProvider.createColumnSchema(
         dbTableName,
         fieldInstance,
         tableDomain,
         isNewTable,
-        tableMeta.id,
+        tableId,
         tableNameMap,
         isSymmetricField,
         false
@@ -752,10 +885,10 @@ export class FieldService implements IReadonlyAdapterService {
   }
 
   async getDbTableName(tableId: string) {
-    const tableMeta = await this.prismaService.txClient().tableMeta.findUniqueOrThrow({
-      where: { id: tableId },
-      select: { dbTableName: true },
-    });
+    const [tableMeta] = await this.dataLoaderService.table.loadByIds([tableId]);
+    if (!tableMeta) {
+      throw new NotFoundException(`Table not found: ${tableId}`);
+    }
     return tableMeta.dbTableName;
   }
 
@@ -799,69 +932,138 @@ export class FieldService implements IReadonlyAdapterService {
    */
   // eslint-disable-next-line sonarjs/cognitive-complexity
   async recreateDependentFormulaColumns(tableId: string, fieldIds: string[]) {
-    if (!fieldIds?.length) return;
+    const uniqueSourceIds = Array.from(new Set((fieldIds ?? []).filter(Boolean)));
+    if (!uniqueSourceIds.length) return;
 
+    const prisma = this.prismaService.txClient();
     const tableDomain = await this.tableDomainQueryService.getTableDomainById(tableId);
 
-    for (const sourceFieldId of fieldIds) {
+    let deps: { id: string; tableId: string; level: number }[] = [];
+    try {
+      deps = await this.formulaFieldService.getDependentFormulaFieldsInOrderMulti(uniqueSourceIds);
+    } catch (e) {
+      this.logger.warn(
+        `recreateDependentFormulaColumns: failed to resolve dependents for ${tableId}: ${String(e)}`
+      );
+
+      // Fallback: preserve existing behavior (per-source query) if multi-root CTE fails
+      const results = await Promise.all(
+        uniqueSourceIds.map((id) =>
+          this.formulaFieldService
+            .getDependentFormulaFieldsInOrder(id)
+            .catch(() => [] as { id: string; tableId: string; level: number }[])
+        )
+      );
+      const merged = new Map<string, { id: string; tableId: string; level: number }>();
+      for (const list of results) {
+        for (const item of list) {
+          const current = merged.get(item.id);
+          if (!current || item.level > current.level) {
+            merged.set(item.id, item);
+          }
+        }
+      }
+      deps = Array.from(merged.values()).sort(
+        (a, b) => b.level - a.level || a.id.localeCompare(b.id)
+      );
+    }
+
+    const formulaIdsInOrder = deps.filter((d) => d.tableId === tableId).map((d) => d.id);
+    if (!formulaIdsInOrder.length) return;
+
+    const formulaRaws = await prisma.field.findMany({
+      where: { id: { in: formulaIdsInOrder }, tableId, deletedTime: null },
+    });
+    if (!formulaRaws.length) return;
+
+    const rawById = new Map(formulaRaws.map((r) => [r.id, r] as const));
+    const referencedIdSet = new Set<string>();
+    const formulas = formulaIdsInOrder
+      .map((id) => {
+        const raw = rawById.get(id);
+        if (!raw) return null;
+        const instance = createFieldInstanceByRaw(raw);
+        if (instance.type !== FieldType.Formula) return null;
+        const core = instance as FormulaFieldDto;
+        const referencedIds = (core.getReferenceFieldIds() || []).filter(Boolean);
+        referencedIds.forEach((fid) => referencedIdSet.add(fid));
+        return { id, rawHasError: raw.hasError === true, core, referencedIds };
+      })
+      .filter(Boolean) as Array<{
+      id: string;
+      rawHasError: boolean;
+      core: FormulaFieldDto;
+      referencedIds: string[];
+    }>;
+
+    if (!formulas.length) return;
+
+    const existingRefSet = new Set<string>();
+    if (referencedIdSet.size) {
+      const existing = await prisma.field.findMany({
+        where: { id: { in: Array.from(referencedIdSet) }, deletedTime: null },
+        select: { id: true },
+      });
+      existing.forEach((row) => existingRefSet.add(row.id));
+    }
+
+    const toMarkErrorTrue: string[] = [];
+    const toMarkErrorFalse: string[] = [];
+    const toRecreate: Array<{ id: string; core: FormulaFieldDto }> = [];
+
+    for (const f of formulas) {
+      const allPresent = f.referencedIds.every((id) => existingRefSet.has(id));
+      if (!allPresent) {
+        if (!f.rawHasError) {
+          toMarkErrorTrue.push(f.id);
+        }
+        continue;
+      }
+
+      if (f.rawHasError) {
+        toMarkErrorFalse.push(f.id);
+      }
+
+      if (f.core.getIsPersistedAsGeneratedColumn()) {
+        toRecreate.push({ id: f.id, core: f.core });
+      }
+    }
+
+    if (toMarkErrorTrue.length) {
+      await this.markError(tableId, toMarkErrorTrue, true);
+    }
+    if (toMarkErrorFalse.length) {
+      await this.markError(tableId, toMarkErrorFalse, false);
+    }
+
+    if (!toRecreate.length) return;
+
+    const tableMeta = await prisma.tableMeta.findUnique({
+      where: { id: tableId },
+      select: { dbTableName: true },
+    });
+    if (!tableMeta) return;
+
+    const fieldMap = tableDomain.fields.toFieldMap();
+    const fieldMapObj = Object.fromEntries(fieldMap);
+
+    for (const { id: formulaFieldId, core } of toRecreate) {
       try {
-        const deps = await this.formulaFieldService.getDependentFormulaFieldsInOrder(sourceFieldId);
-        if (!deps.length) continue;
-
-        for (const { id: formulaFieldId, tableId: formulaTableId } of deps) {
-          if (formulaTableId !== tableId) continue;
-
-          const formulaRaw = await this.prismaService.txClient().field.findUnique({
-            where: { id: formulaFieldId, tableId: formulaTableId, deletedTime: null },
-          });
-          if (!formulaRaw) continue;
-
-          const formulaField = createFieldInstanceByRaw(formulaRaw);
-          if (formulaField.type !== FieldType.Formula) continue;
-
-          const formulaCore = formulaField as FormulaFieldDto;
-          const referencedIds = formulaCore.getReferenceFieldIds();
-          if (referencedIds.length) {
-            const existing = await this.prismaService.txClient().field.findMany({
-              where: { id: { in: referencedIds }, deletedTime: null },
-              select: { id: true },
-            });
-            const allPresent = existing.length === referencedIds.length;
-            if (!allPresent) {
-              await this.markError(formulaTableId, [formulaFieldId], true);
-              continue;
-            }
-          }
-
-          // Dependencies satisfied: clear error
-          await this.markError(formulaTableId, [formulaFieldId], false);
-
-          // If not persisted as generated column, nothing to recreate at DB level
-          if (!formulaCore.getIsPersistedAsGeneratedColumn()) continue;
-
-          // Recalculate types and recreate generated column
-          const fieldMap = tableDomain.fields.toFieldMap();
-          formulaCore.recalculateFieldTypes(Object.fromEntries(fieldMap));
-
-          const tableMeta = await this.prismaService.txClient().tableMeta.findUnique({
-            where: { id: formulaTableId },
-            select: { dbTableName: true },
-          });
-          if (!tableMeta) continue;
-
-          const sqls = this.dbProvider.modifyColumnSchema(
-            tableMeta.dbTableName,
-            formulaCore,
-            formulaCore,
-            tableDomain
-          );
-          for (const sql of sqls) {
-            await this.prismaService.txClient().$executeRawUnsafe(sql);
-          }
+        core.recalculateFieldTypes(fieldMapObj);
+        const sqls = this.dbProvider.modifyColumnSchema(
+          tableMeta.dbTableName,
+          core,
+          core,
+          tableDomain
+        );
+        for (const sql of sqls) {
+          await prisma.$executeRawUnsafe(sql);
         }
       } catch (e) {
         this.logger.warn(
-          `Failed to recreate dependent formulas for ${sourceFieldId}: ${String(e)}`
+          `recreateDependentFormulaColumns: failed to recreate generated column for ${formulaFieldId} in ${tableId}: ${String(
+            e
+          )}`
         );
       }
     }
@@ -988,7 +1190,7 @@ export class FieldService implements IReadonlyAdapterService {
     });
 
     // 1. alter table with real field in visual table
-    await this.alterTableAddField(dbTableName, fields, false, isSymmetricField);
+    await this.alterTableAddField(tableId, dbTableName, fields, false, isSymmetricField);
 
     // 2. save field meta in db
     await this.dbCreateMultipleField(tableId, fields);
@@ -1010,7 +1212,7 @@ export class FieldService implements IReadonlyAdapterService {
     });
 
     // 1. alter table with real field in visual table
-    await this.alterTableAddField(dbTableName, fields, true); // This is new table creation
+    await this.alterTableAddField(tableId, dbTableName, fields, true); // This is new table creation
 
     // 2. save field meta in db
     await this.dbCreateMultipleFields(tableId, fields);
@@ -1023,7 +1225,7 @@ export class FieldService implements IReadonlyAdapterService {
     const dbTableName = await this.getDbTableName(tableId);
 
     // 1. alter table with real field in visual table
-    await this.alterTableAddField(dbTableName, [fieldInstance]);
+    await this.alterTableAddField(tableId, dbTableName, [fieldInstance]);
 
     // 2. save field meta in db
     await this.dbCreateMultipleField(tableId, [fieldInstance]);

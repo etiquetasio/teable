@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/cognitive-complexity */
 import { BadGatewayException, Injectable, Logger } from '@nestjs/common';
 import type {
   IFieldVo,
@@ -47,40 +48,37 @@ export class FieldDuplicateService {
   ) {}
 
   async createCommonFields(fields: IFieldWithTableIdJson[], fieldMap: Record<string, string>) {
+    const byTable = new Map<string, IFieldWithTableIdJson[]>();
     for (const field of fields) {
-      const {
-        name,
-        type,
-        options,
-        targetTableId,
-        isPrimary,
-        notNull,
-        dbFieldName,
-        description,
-        unique,
-      } = field;
-      const newFieldVo = await this.fieldOpenApiService.createField(targetTableId, {
-        name,
-        type,
-        options,
-        dbFieldName,
-        description,
-      });
-      await this.replenishmentConstraint(newFieldVo.id, targetTableId, field.order, {
-        notNull,
-        unique,
-        dbFieldName: newFieldVo.dbFieldName,
-        isPrimary,
-      });
-      fieldMap[field.id] = newFieldVo.id;
-      await this.prismaService.txClient().field.update({
-        where: {
-          id: newFieldVo.id,
-        },
-        data: {
-          order: field.order,
-        },
-      });
+      const list = byTable.get(field.targetTableId) ?? [];
+      list.push(field);
+      byTable.set(field.targetTableId, list);
+    }
+
+    for (const [targetTableId, tableFields] of byTable.entries()) {
+      const fieldRos: IFieldRo[] = tableFields.map(
+        ({ name, type, options, dbFieldName, description }) => ({
+          name,
+          type,
+          options,
+          dbFieldName,
+          description,
+        })
+      );
+
+      const newFieldVos = await this.fieldOpenApiService.createFieldsByRo(targetTableId, fieldRos);
+
+      for (let index = 0; index < tableFields.length; index++) {
+        const original = tableFields[index];
+        const newFieldVo = newFieldVos[index];
+        await this.replenishmentConstraint(newFieldVo.id, targetTableId, original.order, {
+          notNull: original.notNull,
+          unique: original.unique,
+          dbFieldName: newFieldVo.dbFieldName,
+          isPrimary: original.isPrimary,
+        });
+        fieldMap[original.id] = newFieldVo.id;
+      }
     }
   }
 
@@ -102,60 +100,63 @@ export class FieldDuplicateService {
     primaryFormulaFields: IFieldWithTableIdJson[],
     fieldMap: Record<string, string>
   ) {
+    const byTable = new Map<string, IFieldWithTableIdJson[]>();
     for (const field of primaryFormulaFields) {
-      const {
-        type,
-        dbFieldName,
-        name,
-        options,
-        id,
-        notNull,
-        unique,
-        description,
-        isPrimary,
-        targetTableId,
-        order,
-        hasError,
-      } = field;
-      const newField = await this.fieldOpenApiService.createField(targetTableId, {
-        type,
-        dbFieldName,
-        description,
-        options: {
-          // ...options,
-          expression: DEFAULT_EXPRESSION,
-          timeZone: (options as IFormulaFieldOptions).timeZone,
-        },
-        name,
-      });
-      // Ensure meta is present for Postgres generated columns
-      // In duplication flow, we use a safe default expression that is supported as generated column
-      // Explicitly persist meta to satisfy consumers expecting it on error formulas
-      if (newField.meta) {
-        await this.prismaService.txClient().field.update({
-          where: { id: newField.id },
-          data: { meta: JSON.stringify(newField.meta) },
-        });
-      }
-      await this.replenishmentConstraint(newField.id, targetTableId, order, {
-        notNull,
-        unique,
-        dbFieldName,
-        isPrimary,
-      });
-      fieldMap[id] = newField.id;
+      const list = byTable.get(field.targetTableId) ?? [];
+      list.push(field);
+      byTable.set(field.targetTableId, list);
+    }
 
-      if (hasError) {
-        await this.prismaService.txClient().field.update({
-          where: {
-            id: newField.id,
+    for (const [targetTableId, tableFields] of byTable.entries()) {
+      const fieldRos: IFieldRo[] = tableFields.map(
+        ({ type, dbFieldName, description, options, name }) => ({
+          type,
+          dbFieldName,
+          description,
+          options: {
+            expression: DEFAULT_EXPRESSION,
+            timeZone: (options as IFormulaFieldOptions).timeZone,
           },
-          data: {
-            hasError,
-            // error formulas should not be persisted as generated columns
-            meta: null,
-          },
+          name,
+        })
+      );
+
+      const newFields = await this.fieldOpenApiService.createFieldsByRo(targetTableId, fieldRos);
+
+      for (let index = 0; index < tableFields.length; index++) {
+        const original = tableFields[index];
+        const newField = newFields[index];
+
+        // Ensure meta is present for Postgres generated columns
+        // In duplication flow, we use a safe default expression that is supported as generated column
+        // Explicitly persist meta to satisfy consumers expecting it on error formulas
+        if (newField.meta) {
+          await this.prismaService.txClient().field.update({
+            where: { id: newField.id },
+            data: { meta: JSON.stringify(newField.meta) },
+          });
+        }
+
+        await this.replenishmentConstraint(newField.id, targetTableId, original.order, {
+          notNull: original.notNull,
+          unique: original.unique,
+          dbFieldName: original.dbFieldName,
+          isPrimary: original.isPrimary,
         });
+        fieldMap[original.id] = newField.id;
+
+        if (original.hasError) {
+          await this.prismaService.txClient().field.update({
+            where: {
+              id: newField.id,
+            },
+            data: {
+              hasError: original.hasError,
+              // error formulas should not be persisted as generated columns
+              meta: null,
+            },
+          });
+        }
       }
     }
   }
@@ -253,17 +254,22 @@ export class FieldDuplicateService {
       }
     }
 
-    for (const [toFieldId, fromFieldIds] of referenceFields) {
-      for (const fromFieldId of fromFieldIds) {
-        await this.prismaService.txClient().reference.createMany({
-          data: [
-            {
-              fromFieldId,
-              toFieldId,
-            },
-          ],
-        });
-      }
+    const referenceRows = referenceFields
+      .flatMap(([toFieldId, fromFieldIds]) =>
+        fromFieldIds.map((fromFieldId) => ({ fromFieldId, toFieldId }))
+      )
+      .filter(
+        (row, index, list) =>
+          list.findIndex(
+            (other) => other.fromFieldId === row.fromFieldId && other.toFieldId === row.toFieldId
+          ) === index
+      );
+
+    if (referenceRows.length) {
+      await this.prismaService.txClient().reference.createMany({
+        data: referenceRows,
+        skipDuplicates: true,
+      });
     }
   }
 
@@ -335,147 +341,136 @@ export class FieldDuplicateService {
       ({ options }) => (options as ILinkFieldOptions).isOneWay
     );
 
+    const oneWayByTable = new Map<string, IFieldWithTableIdJson[]>();
     for (const field of oneWaySelfLinkFields) {
-      const {
-        name,
-        targetTableId,
-        type,
-        options,
-        description,
-        notNull,
-        unique,
-        dbFieldName,
-        isPrimary,
-      } = field;
-      const { relationship } = options as ILinkFieldOptions;
-      const newFieldVo = await this.fieldOpenApiService.createField(targetTableId, {
-        name,
-        type,
-        dbFieldName,
-        description,
-        options: {
-          foreignTableId: targetTableId,
-          relationship,
-          isOneWay: true,
+      const list = oneWayByTable.get(field.targetTableId) ?? [];
+      list.push(field);
+      oneWayByTable.set(field.targetTableId, list);
+    }
+
+    for (const [targetTableId, tableFields] of oneWayByTable.entries()) {
+      const fieldRos: IFieldRo[] = tableFields.map(
+        ({ name, type, options, description, dbFieldName }) => ({
+          name,
+          type,
+          dbFieldName,
+          description,
+          options: {
+            foreignTableId: targetTableId,
+            relationship: (options as ILinkFieldOptions).relationship,
+            isOneWay: true,
+          },
+        })
+      );
+
+      const newFieldVos = await this.fieldOpenApiService.createFieldsByRo(targetTableId, fieldRos);
+
+      const { dbTableName } = await this.prismaService.txClient().tableMeta.findUniqueOrThrow({
+        where: {
+          id: targetTableId,
+        },
+        select: {
+          dbTableName: true,
         },
       });
-      await this.replenishmentConstraint(newFieldVo.id, targetTableId, field.order, {
-        notNull,
-        unique,
-        dbFieldName,
-        isPrimary,
-      });
-      fieldMap[field.id] = newFieldVo.id;
-      if ((field.options as ILinkFieldOptions).selfKeyName.startsWith('__fk_')) {
-        fkMap[(field.options as ILinkFieldOptions).selfKeyName] = (
-          newFieldVo.options as ILinkFieldOptions
-        ).selfKeyName;
+
+      for (let index = 0; index < tableFields.length; index++) {
+        const original = tableFields[index];
+        const newFieldVo = newFieldVos[index];
+        await this.replenishmentConstraint(
+          newFieldVo.id,
+          targetTableId,
+          original.order,
+          {
+            notNull: original.notNull,
+            unique: original.unique,
+            dbFieldName: newFieldVo.dbFieldName,
+            isPrimary: original.isPrimary,
+          },
+          dbTableName
+        );
+        fieldMap[original.id] = newFieldVo.id;
+        if ((original.options as ILinkFieldOptions).selfKeyName.startsWith('__fk_')) {
+          fkMap[(original.options as ILinkFieldOptions).selfKeyName] = (
+            newFieldVo.options as ILinkFieldOptions
+          ).selfKeyName;
+        }
       }
     }
 
-    for (const field of mergedTwoWaySelfLinkFields) {
-      const index = field.findIndex(
-        (f) => (f.options as ILinkFieldOptions).isOneWay === undefined
-      )!;
+    const twoWayByTable = new Map<
+      string,
+      Array<{ driverField: IFieldWithTableIdJson; groupField: IFieldWithTableIdJson }>
+    >();
+    for (const pair of mergedTwoWaySelfLinkFields) {
+      const index = pair.findIndex((f) => (f.options as ILinkFieldOptions).isOneWay === undefined)!;
       const passiveIndex = index === -1 ? 0 : index;
       const driverIndex = passiveIndex === 0 ? 1 : 0;
 
-      const groupField = field[passiveIndex];
-      const {
-        name,
-        type,
-        id,
-        description,
-        targetTableId,
-        notNull,
-        unique,
-        dbFieldName,
-        isPrimary,
-        order,
-      } = field[driverIndex];
-      const options = field[driverIndex].options as ILinkFieldOptions;
-      const newField = await this.fieldOpenApiService.createField(targetTableId, {
-        type: type as FieldType,
-        dbFieldName,
-        name,
-        description,
-        options: {
-          ...pick(options, [
-            'relationship',
-            'isOneWay',
-            'filterByViewId',
-            'filter',
-            'visibleFieldIds',
-          ]),
-          foreignTableId: targetTableId,
-        },
+      const groupField = pair[passiveIndex];
+      const driverField = pair[driverIndex];
+      const list = twoWayByTable.get(driverField.targetTableId) ?? [];
+      list.push({ driverField, groupField });
+      twoWayByTable.set(driverField.targetTableId, list);
+    }
+
+    for (const [targetTableId, pairs] of twoWayByTable.entries()) {
+      const fieldRos: IFieldRo[] = pairs.map(({ driverField }) => {
+        const options = driverField.options as ILinkFieldOptions;
+        return {
+          type: driverField.type as FieldType,
+          dbFieldName: driverField.dbFieldName,
+          name: driverField.name,
+          description: driverField.description,
+          options: {
+            ...pick(options, [
+              'relationship',
+              'isOneWay',
+              'filterByViewId',
+              'filter',
+              'visibleFieldIds',
+            ]),
+            foreignTableId: targetTableId,
+          },
+        };
       });
-      await this.replenishmentConstraint(newField.id, targetTableId, order, {
-        notNull,
-        unique,
-        dbFieldName,
-        isPrimary,
-      });
-      fieldMap[id] = newField.id;
-      if ((options as ILinkFieldOptions).selfKeyName.startsWith('__fk_')) {
-        fkMap[(options as ILinkFieldOptions).selfKeyName] = (
-          newField.options as ILinkFieldOptions
-        ).selfKeyName;
-      }
-      fieldMap[groupField.id] = (newField.options as ILinkFieldOptions).symmetricFieldId!;
 
-      // self link should updated the opposite field dbFieldName and name
-      const { dbTableName: targetDbTableName } = await this.prismaService
-        .txClient()
-        .tableMeta.findUniqueOrThrow({
-          where: {
-            id: targetTableId,
-          },
-          select: {
-            dbTableName: true,
-          },
-        });
+      const newFieldVos = await this.fieldOpenApiService.createFieldsByRo(targetTableId, fieldRos);
 
-      const { dbFieldName: genDbFieldName } = await this.prismaService
-        .txClient()
-        .field.findUniqueOrThrow({
-          where: {
-            id: fieldMap[groupField.id],
-          },
-          select: {
-            dbFieldName: true,
-          },
-        });
-
-      await this.prismaService.txClient().field.update({
+      const { dbTableName } = await this.prismaService.txClient().tableMeta.findUniqueOrThrow({
         where: {
-          id: fieldMap[groupField.id],
+          id: targetTableId,
         },
-        data: {
-          dbFieldName: groupField.dbFieldName,
-          name: groupField.name,
-          description: groupField.description,
-          order: groupField.order,
+        select: {
+          dbTableName: true,
         },
       });
 
-      if (genDbFieldName !== groupField.dbFieldName) {
-        const exists = await this.dbProvider.checkColumnExist(
-          targetDbTableName,
-          genDbFieldName,
-          this.prismaService.txClient()
+      for (let index = 0; index < pairs.length; index++) {
+        const { driverField, groupField } = pairs[index];
+        const newFieldVo = newFieldVos[index];
+        await this.replenishmentConstraint(
+          newFieldVo.id,
+          targetTableId,
+          driverField.order,
+          {
+            notNull: driverField.notNull,
+            unique: driverField.unique,
+            dbFieldName: newFieldVo.dbFieldName,
+            isPrimary: driverField.isPrimary,
+          },
+          dbTableName
         );
-        if (exists) {
-          const alterTableSql = this.dbProvider.renameColumn(
-            targetDbTableName,
-            genDbFieldName,
-            groupField.dbFieldName
-          );
-
-          for (const sql of alterTableSql) {
-            await this.prismaService.txClient().$executeRawUnsafe(sql);
-          }
+        fieldMap[driverField.id] = newFieldVo.id;
+        if ((driverField.options as ILinkFieldOptions).selfKeyName.startsWith('__fk_')) {
+          fkMap[(driverField.options as ILinkFieldOptions).selfKeyName] = (
+            newFieldVo.options as ILinkFieldOptions
+          ).selfKeyName;
         }
+
+        const symmetricFieldId = (newFieldVo.options as ILinkFieldOptions).symmetricFieldId!;
+        fieldMap[groupField.id] = symmetricFieldId;
+        await this.repairSymmetricField(groupField, targetTableId, symmetricFieldId, dbTableName);
       }
     }
   }
@@ -490,42 +485,64 @@ export class FieldDuplicateService {
     const oneWayFields = fields.filter(({ options }) => (options as ILinkFieldOptions).isOneWay);
     const twoWayFields = fields.filter(({ options }) => !(options as ILinkFieldOptions).isOneWay);
 
+    const oneWayByTable = new Map<string, IFieldWithTableIdJson[]>();
     for (const field of oneWayFields) {
-      const {
-        name,
-        type,
-        options,
-        targetTableId,
-        description,
-        notNull,
-        unique,
-        dbFieldName,
-        isPrimary,
-      } = field;
-      const { foreignTableId, relationship } = options as ILinkFieldOptions;
-      const newFieldVo = await this.fieldOpenApiService.createField(targetTableId, {
-        name,
-        type,
-        description,
-        dbFieldName,
-        options: {
-          foreignTableId: allowCrossBase ? foreignTableId : tableIdMap[foreignTableId],
-          relationship,
-          isOneWay: true,
+      const list = oneWayByTable.get(field.targetTableId) ?? [];
+      list.push(field);
+      oneWayByTable.set(field.targetTableId, list);
+    }
+
+    for (const [targetTableId, tableFields] of oneWayByTable.entries()) {
+      const fieldRos: IFieldRo[] = tableFields.map(
+        ({ name, type, options, description, dbFieldName }) => {
+          const { foreignTableId, relationship } = options as ILinkFieldOptions;
+          return {
+            name,
+            type,
+            description,
+            dbFieldName,
+            options: {
+              foreignTableId: allowCrossBase ? foreignTableId : tableIdMap[foreignTableId],
+              relationship,
+              isOneWay: true,
+            },
+          };
+        }
+      );
+
+      const newFieldVos = await this.fieldOpenApiService.createFieldsByRo(targetTableId, fieldRos);
+
+      const { dbTableName } = await this.prismaService.txClient().tableMeta.findUniqueOrThrow({
+        where: {
+          id: targetTableId,
+        },
+        select: {
+          dbTableName: true,
         },
       });
-      fieldMap[field.id] = newFieldVo.id;
-      if ((field.options as ILinkFieldOptions).selfKeyName.startsWith('__fk_')) {
-        fkMap[(field.options as ILinkFieldOptions).selfKeyName] = (
-          newFieldVo.options as ILinkFieldOptions
-        ).selfKeyName;
+
+      for (let index = 0; index < tableFields.length; index++) {
+        const original = tableFields[index];
+        const newFieldVo = newFieldVos[index];
+        fieldMap[original.id] = newFieldVo.id;
+        if ((original.options as ILinkFieldOptions).selfKeyName.startsWith('__fk_')) {
+          fkMap[(original.options as ILinkFieldOptions).selfKeyName] = (
+            newFieldVo.options as ILinkFieldOptions
+          ).selfKeyName;
+        }
+        await this.replenishmentConstraint(
+          newFieldVo.id,
+          targetTableId,
+          original.order,
+          {
+            notNull: original.notNull,
+            unique: original.unique,
+            dbFieldName: newFieldVo.dbFieldName,
+            isPrimary: original.isPrimary,
+          },
+          dbTableName
+        );
       }
-      await this.replenishmentConstraint(newFieldVo.id, targetTableId, field.order, {
-        notNull,
-        unique,
-        dbFieldName,
-        isPrimary,
-      });
     }
 
     const groupedTwoWayFields = [] as [IFieldWithTableIdJson, IFieldWithTableIdJson][];
@@ -540,76 +557,41 @@ export class FieldDuplicateService {
       }
     });
 
-    for (const field of groupedTwoWayFields) {
+    const twoWayByTable = new Map<
+      string,
+      Array<{ passiveField: IFieldWithTableIdJson; symmetricField: IFieldWithTableIdJson }>
+    >();
+    for (const pair of groupedTwoWayFields) {
       // fk would like in this table
-      const index = field.findIndex(
-        (f) => (f.options as ILinkFieldOptions).isOneWay === undefined
-      )!;
+      const index = pair.findIndex((f) => (f.options as ILinkFieldOptions).isOneWay === undefined)!;
       const passiveIndex = index === -1 ? 0 : index;
       const driverIndex = passiveIndex === 0 ? 1 : 0;
-      const {
-        name,
-        type,
-        options,
-        targetTableId,
-        description,
-        id: fieldId,
-        notNull,
-        unique,
-        dbFieldName,
-        isPrimary,
-        order,
-      } = field[passiveIndex];
-      const symmetricField = field[driverIndex];
-      const { foreignTableId, relationship } = options as ILinkFieldOptions;
-      const newFieldVo = await this.fieldOpenApiService.createField(targetTableId, {
-        name,
-        type,
-        description,
-        dbFieldName,
-        options: {
-          foreignTableId: tableIdMap[foreignTableId],
-          relationship,
-          isOneWay: false,
-        },
-      });
-      fieldMap[fieldId] = newFieldVo.id;
-      fieldMap[symmetricField.id] = (newFieldVo.options as ILinkFieldOptions).symmetricFieldId!;
-      if ((field[passiveIndex].options as ILinkFieldOptions).selfKeyName.startsWith('__fk_')) {
-        fkMap[(field[passiveIndex].options as ILinkFieldOptions).selfKeyName] = (
-          newFieldVo.options as ILinkFieldOptions
-        ).selfKeyName;
-      }
-      await this.replenishmentConstraint(newFieldVo.id, targetTableId, order, {
-        notNull,
-        unique,
-        dbFieldName,
-        isPrimary,
-      });
-      await this.repairSymmetricField(
-        symmetricField,
-        (newFieldVo.options as ILinkFieldOptions).foreignTableId,
-        (newFieldVo.options as ILinkFieldOptions).symmetricFieldId!
-      );
+      const passiveField = pair[passiveIndex];
+      const symmetricField = pair[driverIndex];
+      const list = twoWayByTable.get(passiveField.targetTableId) ?? [];
+      list.push({ passiveField, symmetricField });
+      twoWayByTable.set(passiveField.targetTableId, list);
     }
-  }
 
-  // create two-way link, the symmetricFieldId created automatically, and need to update config
-  async repairSymmetricField(
-    symmetricField: IFieldWithTableIdJson,
-    targetTableId: string,
-    newFieldId: string
-  ) {
-    const { notNull, unique, dbFieldName, isPrimary, description, name, order } = symmetricField;
-    await this.replenishmentConstraint(newFieldId, targetTableId, order, {
-      notNull,
-      unique,
-      dbFieldName,
-      isPrimary,
-    });
-    const { dbTableName: targetDbTableName } = await this.prismaService
-      .txClient()
-      .tableMeta.findUniqueOrThrow({
+    for (const [targetTableId, pairs] of twoWayByTable.entries()) {
+      const fieldRos: IFieldRo[] = pairs.map(({ passiveField }) => {
+        const { foreignTableId, relationship } = passiveField.options as ILinkFieldOptions;
+        return {
+          name: passiveField.name,
+          type: passiveField.type as FieldType,
+          description: passiveField.description,
+          dbFieldName: passiveField.dbFieldName,
+          options: {
+            foreignTableId: tableIdMap[foreignTableId],
+            relationship,
+            isOneWay: false,
+          },
+        };
+      });
+
+      const newFieldVos = await this.fieldOpenApiService.createFieldsByRo(targetTableId, fieldRos);
+
+      const { dbTableName } = await this.prismaService.txClient().tableMeta.findUniqueOrThrow({
         where: {
           id: targetTableId,
         },
@@ -617,6 +599,70 @@ export class FieldDuplicateService {
           dbTableName: true,
         },
       });
+
+      for (let index = 0; index < pairs.length; index++) {
+        const { passiveField, symmetricField } = pairs[index];
+        const newFieldVo = newFieldVos[index];
+        fieldMap[passiveField.id] = newFieldVo.id;
+        const symmetricFieldId = (newFieldVo.options as ILinkFieldOptions).symmetricFieldId!;
+        fieldMap[symmetricField.id] = symmetricFieldId;
+        if ((passiveField.options as ILinkFieldOptions).selfKeyName.startsWith('__fk_')) {
+          fkMap[(passiveField.options as ILinkFieldOptions).selfKeyName] = (
+            newFieldVo.options as ILinkFieldOptions
+          ).selfKeyName;
+        }
+        await this.replenishmentConstraint(
+          newFieldVo.id,
+          targetTableId,
+          passiveField.order,
+          {
+            notNull: passiveField.notNull,
+            unique: passiveField.unique,
+            dbFieldName: newFieldVo.dbFieldName,
+            isPrimary: passiveField.isPrimary,
+          },
+          dbTableName
+        );
+        await this.repairSymmetricField(
+          symmetricField,
+          (newFieldVo.options as ILinkFieldOptions).foreignTableId,
+          symmetricFieldId
+        );
+      }
+    }
+  }
+
+  // create two-way link, the symmetricFieldId created automatically, and need to update config
+  async repairSymmetricField(
+    symmetricField: IFieldWithTableIdJson,
+    targetTableId: string,
+    newFieldId: string,
+    targetDbTableName?: string
+  ) {
+    const { notNull, unique, dbFieldName, isPrimary, description, name, order } = symmetricField;
+    const { dbTableName: resolvedDbTableName } = targetDbTableName
+      ? { dbTableName: targetDbTableName }
+      : await this.prismaService.txClient().tableMeta.findUniqueOrThrow({
+          where: {
+            id: targetTableId,
+          },
+          select: {
+            dbTableName: true,
+          },
+        });
+
+    await this.replenishmentConstraint(
+      newFieldId,
+      targetTableId,
+      order,
+      {
+        notNull,
+        unique,
+        dbFieldName,
+        isPrimary,
+      },
+      resolvedDbTableName
+    );
 
     const { dbFieldName: genDbFieldName } = await this.prismaService
       .txClient()
@@ -642,7 +688,7 @@ export class FieldDuplicateService {
 
     if (genDbFieldName !== dbFieldName) {
       const exists = await this.dbProvider.checkColumnExist(
-        targetDbTableName,
+        resolvedDbTableName,
         genDbFieldName,
         this.prismaService.txClient()
       );
@@ -650,13 +696,13 @@ export class FieldDuplicateService {
         // Debug logging for rename operation to diagnose failures
         // eslint-disable-next-line no-console
         console.log('[repairSymmetricField] renameColumn info', {
-          targetDbTableName,
+          targetDbTableName: resolvedDbTableName,
           genDbFieldName,
           desiredDbFieldName: dbFieldName,
           symmetricFieldId: newFieldId,
         });
         const alterTableSql = this.dbProvider.renameColumn(
-          targetDbTableName,
+          resolvedDbTableName,
           genDbFieldName,
           dbFieldName
         );
@@ -1399,7 +1445,8 @@ export class FieldDuplicateService {
       unique,
       dbFieldName,
       isPrimary,
-    }: { notNull?: boolean; unique?: boolean; dbFieldName: string; isPrimary?: boolean }
+    }: { notNull?: boolean; unique?: boolean; dbFieldName: string; isPrimary?: boolean },
+    dbTableName?: string
   ) {
     await this.prismaService.txClient().field.update({
       where: {
@@ -1413,15 +1460,18 @@ export class FieldDuplicateService {
       return;
     }
 
-    const { dbTableName } = await this.prismaService.txClient().tableMeta.findUniqueOrThrow({
-      where: {
-        id: targetTableId,
-        deletedTime: null,
-      },
-      select: {
-        dbTableName: true,
-      },
-    });
+    const resolvedDbTableName =
+      dbTableName ??
+      (
+        await this.prismaService.txClient().tableMeta.findUniqueOrThrow({
+          where: {
+            id: targetTableId,
+          },
+          select: {
+            dbTableName: true,
+          },
+        })
+      ).dbTableName;
 
     await this.prismaService.txClient().field.update({
       where: {
@@ -1436,11 +1486,11 @@ export class FieldDuplicateService {
 
     if (notNull || unique) {
       const fieldValidationSqls = this.knex.schema
-        .alterTable(dbTableName, (table) => {
+        .alterTable(resolvedDbTableName, (table) => {
           if (unique)
             table.unique([dbFieldName], {
               indexName: this.fieldOpenApiService.getFieldUniqueKeyName(
-                dbTableName,
+                resolvedDbTableName,
                 dbFieldName,
                 fId
               ),
