@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable sonarjs/no-duplicate-string */
-import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import {
   canManageRole,
   getRandomString,
@@ -29,6 +29,7 @@ import { EventEmitterService } from '../../event-emitter/event-emitter.service';
 import {
   CollaboratorCreateEvent,
   CollaboratorDeleteEvent,
+  CollaboratorUpdateEvent,
   Events,
 } from '../../event-emitter/events';
 import type { IClsStore } from '../../types/cls';
@@ -436,10 +437,6 @@ export class CollaboratorService {
       orderBy?: 'desc' | 'asc';
     }
   ): Promise<CollaboratorItem[]> {
-    const isCommunityEdition =
-      process.env.NEXT_BUILD_ENV_EDITION?.toUpperCase() !== 'EE' &&
-      process.env.NEXT_BUILD_ENV_EDITION?.toUpperCase() !== 'CLOUD';
-
     const builder = this.knex.queryBuilder();
     builder.whereNotNull('users.id');
     const { baseMap } = await this.getSpaceCollaboratorBuilder(builder, spaceId, options);
@@ -459,27 +456,7 @@ export class CollaboratorService {
     >(builder.toQuery());
 
     // Get billable users if not community edition and includeBase is true
-    let billableUserIds = new Set<string>();
-    if (!isCommunityEdition && options?.includeBase) {
-      const billableRoles = ['owner', 'creator', 'editor'];
-      const billableBuilder = this.knex.queryBuilder();
-      await this.getSpaceCollaboratorBuilder(billableBuilder, spaceId, {
-        ...options,
-        includeBase: true,
-      });
-      billableBuilder.whereIn('collaborator.role_name', billableRoles);
-      billableBuilder.select({ user_id: 'users.id' });
-
-      const billableUsers = await this.prismaService
-        .txClient()
-        .$queryRawUnsafe<{ user_id: string }[]>(billableBuilder.toQuery());
-
-      billableUserIds = new Set(billableUsers.map((u) => u.user_id));
-    }
-
     return collaborators.map((collaborator) => {
-      const billableRoles = ['owner', 'creator', 'editor'];
-
       return {
         type: PrincipalType.User,
         resourceType: collaborator.resource_type as CollaboratorType,
@@ -490,10 +467,6 @@ export class CollaboratorService {
         role: collaborator.role_name as IRole,
         createdTime: collaborator.created_time.toISOString(),
         base: baseMap[collaborator.resource_id],
-        billable:
-          !isCommunityEdition &&
-          (billableRoles.includes(collaborator.role_name) ||
-            billableUserIds.has(collaborator.user_id)),
       };
     });
   }
@@ -686,7 +659,7 @@ export class CollaboratorService {
       );
     }
 
-    return this.prismaService.txClient().collaborator.updateMany({
+    const res = await this.prismaService.txClient().collaborator.updateMany({
       where: {
         resourceId: resourceId,
         resourceType: resourceType,
@@ -698,6 +671,25 @@ export class CollaboratorService {
         lastModifiedBy: currentUserId,
       },
     });
+
+    let spaceId: string = '';
+    if (resourceType === CollaboratorType.Base) {
+      const space = await this.prismaService
+        .txClient()
+        .base.findUniqueOrThrow({ where: { id: resourceId }, select: { spaceId: true } });
+      spaceId = space.spaceId;
+    } else if (resourceType === CollaboratorType.Space) {
+      spaceId = resourceId;
+    }
+
+    if (spaceId) {
+      this.eventEmitterService.emitAsync(
+        Events.COLLABORATOR_UPDATE,
+        new CollaboratorUpdateEvent(spaceId)
+      );
+    }
+
+    return res;
   }
 
   async getCurrentUserCollaboratorsBaseAndSpaceArray(searchRoles?: IRole[]) {

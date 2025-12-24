@@ -159,6 +159,7 @@ export const Collaborators: FC<PropsWithChildren<ICollaborators>> = (props) => {
                 email: item.email,
                 avatar: item.avatar,
                 id: item.userId,
+                billable: item.billable,
               }
             : {
                 type: PrincipalType.Department as const,
@@ -186,7 +187,7 @@ export const Collaborators: FC<PropsWithChildren<ICollaborators>> = (props) => {
             deletable={!deleteCollaboratorLoading && canOperator}
             collaboratorTips={
               isBase && (
-                <div className="ml-3 inline-flex items-center gap-2">
+                <div className="inline-flex items-center gap-2">
                   <Badge className="text-muted-foreground" variant={'outline'}>
                     {base?.name}
                   </Badge>
