@@ -263,12 +263,12 @@ export class FieldOpenApiService {
       return true;
     }
 
-    if (field.type === FieldType.ConditionalRollup) {
-      return await this.validateConditionalRollupAggregation(tableId, field);
-    }
-
     if (field.isConditionalLookup) {
       return await this.validateConditionalLookup(tableId, field);
+    }
+
+    if (field.type === FieldType.ConditionalRollup) {
+      return await this.validateConditionalRollupAggregation(tableId, field);
     }
 
     return true;

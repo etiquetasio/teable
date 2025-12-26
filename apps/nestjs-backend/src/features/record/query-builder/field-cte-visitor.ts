@@ -40,6 +40,7 @@ import {
   type FieldCore,
   type IRollupFieldOptions,
   DbFieldType,
+  extractFieldIdsFromFilter,
   SortFunc,
   isFieldReferenceValue,
   isLinkLookupOptions,
@@ -247,6 +248,7 @@ class FieldCteSelectionVisitor implements IFieldVisitor<IFieldSelectName> {
     }
     return `"${alias}"."${field.dbFieldName}"`;
   }
+
   /**
    * Build a subquery (SELECT 1 WHERE ...) for foreign table filter using provider's filterQuery.
    * The subquery references the current foreign alias in-scope and carries proper bindings.
@@ -1044,11 +1046,76 @@ export class FieldCteVisitor implements IFieldVisitor<ICteResult> {
     return this.state.getCteName(fieldId) ?? this.pendingLinkCteNames.get(fieldId);
   }
 
+  private buildFieldReferenceContext(
+    table: TableDomain,
+    foreignTable: TableDomain,
+    mainAlias: string,
+    foreignAlias: string
+  ): {
+    fieldReferenceSelectionMap: Map<string, string>;
+    fieldReferenceFieldMap: Map<string, FieldCore>;
+  } {
+    const fieldReferenceSelectionMap = new Map<string, string>();
+    const fieldReferenceFieldMap = new Map<string, FieldCore>();
+
+    if (table.id === foreignTable.id) {
+      for (const field of table.fields.ordered) {
+        fieldReferenceSelectionMap.set(field.id, `"${foreignAlias}"."${field.dbFieldName}"`);
+        fieldReferenceFieldMap.set(field.id, field as FieldCore);
+      }
+      return { fieldReferenceSelectionMap, fieldReferenceFieldMap };
+    }
+
+    for (const field of table.fields.ordered) {
+      fieldReferenceSelectionMap.set(field.id, `"${mainAlias}"."${field.dbFieldName}"`);
+      fieldReferenceFieldMap.set(field.id, field as FieldCore);
+    }
+
+    for (const field of foreignTable.fields.ordered) {
+      if (fieldReferenceSelectionMap.has(field.id)) continue;
+      fieldReferenceSelectionMap.set(field.id, `"${foreignAlias}"."${field.dbFieldName}"`);
+      fieldReferenceFieldMap.set(field.id, field as FieldCore);
+    }
+
+    return { fieldReferenceSelectionMap, fieldReferenceFieldMap };
+  }
+
   private buildPhysicalFieldExpression(field: FieldCore, alias: string): string {
     if (field.hasError) {
       return this.dialect.typedNullFor(field.dbFieldType);
     }
     return `"${alias}"."${field.dbFieldName}"`;
+  }
+
+  private buildConditionalFilterSelectionMap(
+    foreignTable: TableDomain,
+    foreignAlias: string,
+    filter: IFilter | null | undefined,
+    selectVisitor: FieldSelectVisitor
+  ): Map<string, string> {
+    const selectionMap = new Map<string, string>();
+    if (!filter) return selectionMap;
+
+    const filterFieldIds = extractFieldIdsFromFilter(filter);
+    for (const fieldId of filterFieldIds) {
+      const field = foreignTable.getField(fieldId);
+      if (!field) continue;
+      let selection = this.buildPhysicalFieldExpression(field, foreignAlias);
+      if (
+        this.expandFormulaReferences &&
+        (field.type === FieldType.ConditionalRollup || field.isConditionalLookup)
+      ) {
+        selection = this.resolveConditionalComputedTargetExpression(
+          field,
+          foreignTable,
+          foreignAlias,
+          selectVisitor
+        );
+      }
+      selectionMap.set(field.id, selection);
+    }
+
+    return selectionMap;
   }
 
   private getBaseIdSubquery(): Knex.QueryBuilder | undefined {
@@ -1576,15 +1643,8 @@ export class FieldCteVisitor implements IFieldVisitor<ICteResult> {
             selectionMap.set(f.id, `"${foreignAliasUsed}"."${f.dbFieldName}"`);
           }
 
-          const fieldReferenceSelectionMap = new Map<string, string>();
-          const fieldReferenceFieldMap = new Map<string, FieldCore>();
-          for (const mainField of table.fields.ordered) {
-            fieldReferenceSelectionMap.set(
-              mainField.id,
-              `"${mainAlias}"."${mainField.dbFieldName}"`
-            );
-            fieldReferenceFieldMap.set(mainField.id, mainField as FieldCore);
-          }
+          const { fieldReferenceSelectionMap, fieldReferenceFieldMap } =
+            this.buildFieldReferenceContext(table, foreignTable, mainAlias, foreignAliasUsed);
 
           this.dbProvider
             .filterQuery(countsQuery, fieldMap, equalityPlan.residualFilter, undefined, {
@@ -1645,23 +1705,15 @@ export class FieldCteVisitor implements IFieldVisitor<ICteResult> {
           {} as Record<string, FieldCore>
         );
 
-        const selectionMap = new Map<string, IFieldSelectName>();
-        for (const f of foreignTable.fields.ordered) {
-          selectionMap.set(f.id, `"${foreignAliasUsed}"."${f.dbFieldName}"`);
-        }
+        const selectionMap = this.buildConditionalFilterSelectionMap(
+          foreignTable,
+          foreignAliasUsed,
+          filter,
+          selectVisitor
+        );
 
-        const fieldReferenceSelectionMap = new Map<string, string>();
-        const fieldReferenceFieldMap = new Map<string, FieldCore>();
-        // For self-table conditional lookups, resolve field references against the foreign alias
-        // so comparisons like "Status is {Title}" are evaluated on the foreign row.
-        const referenceAlias = foreignTable.id === table.id ? foreignAliasUsed : mainAlias;
-        for (const mainField of table.fields.ordered) {
-          fieldReferenceSelectionMap.set(
-            mainField.id,
-            `"${referenceAlias}"."${mainField.dbFieldName}"`
-          );
-          fieldReferenceFieldMap.set(mainField.id, mainField as FieldCore);
-        }
+        const { fieldReferenceSelectionMap, fieldReferenceFieldMap } =
+          this.buildFieldReferenceContext(table, foreignTable, mainAlias, foreignAliasUsed);
 
         this.dbProvider
           .filterQuery(aggregateSourceQuery, fieldMap, filter, undefined, {
@@ -1884,23 +1936,15 @@ export class FieldCteVisitor implements IFieldVisitor<ICteResult> {
           {} as Record<string, FieldCore>
         );
 
-        const selectionMap = new Map<string, IFieldSelectName>();
-        for (const f of foreignTable.fields.ordered) {
-          selectionMap.set(f.id, `"${foreignAliasUsed}"."${f.dbFieldName}"`);
-        }
+        const selectionMap = this.buildConditionalFilterSelectionMap(
+          foreignTable,
+          foreignAliasUsed,
+          targetFilter,
+          selectVisitor
+        );
 
-        const fieldReferenceSelectionMap = new Map<string, string>();
-        const fieldReferenceFieldMap = new Map<string, FieldCore>();
-        // For self-table conditional lookups, resolve field references against the foreign alias
-        // so comparisons like "Status is {Title}" are evaluated on the foreign row.
-        const referenceAlias = foreignTable.id === table.id ? foreignAliasUsed : mainAlias;
-        for (const mainField of table.fields.ordered) {
-          fieldReferenceSelectionMap.set(
-            mainField.id,
-            `"${referenceAlias}"."${mainField.dbFieldName}"`
-          );
-          fieldReferenceFieldMap.set(mainField.id, mainField as FieldCore);
-        }
+        const { fieldReferenceSelectionMap, fieldReferenceFieldMap } =
+          this.buildFieldReferenceContext(table, foreignTable, mainAlias, foreignAliasUsed);
 
         this.dbProvider
           .filterQuery(targetQb, fieldMap, targetFilter, undefined, {
@@ -2932,6 +2976,9 @@ export class FieldCteVisitor implements IFieldVisitor<ICteResult> {
   }
   visitRollupField(_field: RollupFieldCore): void {}
   visitConditionalRollupField(field: ConditionalRollupFieldCore): void {
+    if (field.isLookup) {
+      return;
+    }
     this.generateConditionalRollupFieldCte(field);
   }
   visitSingleSelectField(_field: SingleSelectFieldCore): void {}

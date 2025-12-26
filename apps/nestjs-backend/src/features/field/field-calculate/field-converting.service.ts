@@ -254,6 +254,9 @@ export class FieldConvertingService {
     fieldMap: IFieldMap
   ): IOtOperation[] {
     const ops: IOtOperation[] = [];
+    if (field.isLookup) {
+      return ops;
+    }
     const lookupFieldId = field.options.lookupFieldId;
     const referencedFieldIds = this.fieldSupplementService
       .getFieldReferenceIds(field)

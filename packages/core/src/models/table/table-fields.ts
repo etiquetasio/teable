@@ -346,19 +346,18 @@ export class TableFields {
       if (fieldIdSet && !fieldIdSet.has(field.id)) {
         continue;
       }
-      if (field.type === FieldType.ConditionalRollup) {
-        const foreignTableId = (field as ConditionalRollupFieldCore).getForeignTableId?.();
-        if (foreignTableId) {
-          foreignTableIds.add(foreignTableId);
-        }
-        continue;
-      }
-
       if (field.isConditionalLookup) {
         const options = field.lookupOptions;
         const foreignTableId = isConditionalLookupOptions(options)
           ? options.foreignTableId
           : undefined;
+        if (foreignTableId) {
+          foreignTableIds.add(foreignTableId);
+        }
+        continue;
+      }
+      if (field.type === FieldType.ConditionalRollup) {
+        const foreignTableId = (field as ConditionalRollupFieldCore).getForeignTableId?.();
         if (foreignTableId) {
           foreignTableIds.add(foreignTableId);
         }

@@ -206,19 +206,19 @@ export class FieldSelectVisitor implements IFieldVisitor<IFieldSelectName> {
       }
 
       // Conditional lookup CTEs are stored against the field itself.
-      if (
-        field.isConditionalLookup &&
-        fieldCteMap.has(field.id) &&
-        this.isLinkFieldReady(field.id)
-      ) {
+      if (field.isConditionalLookup && fieldCteMap.has(field.id)) {
         const conditionalCteName = fieldCteMap.get(field.id)!;
-        const column =
-          field.type === FieldType.ConditionalRollup
-            ? `conditional_rollup_${field.id}`
-            : `conditional_lookup_${field.id}`;
-        const rawExpression = this.qb.client.raw(`??."${column}"`, [conditionalCteName]);
-        this.state.setSelection(field.id, `"${conditionalCteName}"."${column}"`);
-        return rawExpression;
+        if (!this.state.isCteJoined(conditionalCteName)) {
+          // If the CTE isn't joined in this scope, fall back to raw column access.
+        } else {
+          const column =
+            field.type === FieldType.ConditionalRollup
+              ? `conditional_rollup_${field.id}`
+              : `conditional_lookup_${field.id}`;
+          const rawExpression = this.qb.client.raw(`??."${column}"`, [conditionalCteName]);
+          this.state.setSelection(field.id, `"${conditionalCteName}"."${column}"`);
+          return rawExpression;
+        }
       }
 
       // For regular lookup fields, use the corresponding link field CTE

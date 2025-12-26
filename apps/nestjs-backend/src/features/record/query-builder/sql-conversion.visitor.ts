@@ -2386,10 +2386,6 @@ export class SelectColumnSqlConversionVisitor extends BaseSqlConversionVisitor<I
       return expr;
     }
 
-    if (fieldInfo.dbFieldType !== DbFieldType.Json) {
-      return expr;
-    }
-
     const titlesExpr = dialect.linkExtractTitles(expr, !!fieldInfo.isMultipleCellValue);
     if (fieldInfo.isMultipleCellValue) {
       return dialect.formatStringArray(titlesExpr, { fieldInfo });
