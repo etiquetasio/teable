@@ -295,7 +295,7 @@ export class MultipleJsonCellValueFilterAdapter extends CellValueFilterPostgres 
 
   private buildJsonArrayExpression(columnExpression: string, field?: FieldCore): string {
     const targetField = field ?? this.field;
-    const fallback = targetField.isMultipleCellValue ? "'[]'::jsonb" : "'null'::jsonb'";
+    const fallback = targetField.isMultipleCellValue ? "'[]'::jsonb" : "'null'::jsonb";
     return `jsonb_path_query_array(COALESCE(${columnExpression}, ${fallback}), ${this.getJsonPath(
       targetField
     )})`;
