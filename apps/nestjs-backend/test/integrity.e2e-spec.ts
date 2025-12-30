@@ -60,6 +60,23 @@ describe('OpenAPI integrity (e2e)', () => {
     return result;
   }
 
+  async function getColumnValue(tableName: string, columnName: string, recordId: string) {
+    const query = knex(tableName).select(columnName).where('__id', recordId).toQuery();
+    const rows = await prisma.$queryRawUnsafe<Record<string, string | null>[]>(query);
+    return rows[0]?.[columnName] ?? null;
+  }
+
+  async function getJunctionForeignIds(
+    tableName: string,
+    selfKeyName: string,
+    foreignKeyName: string,
+    selfId: string
+  ) {
+    const query = knex(tableName).select(foreignKeyName).where(selfKeyName, selfId).toQuery();
+    const rows = await prisma.$queryRawUnsafe<Record<string, string | null>[]>(query);
+    return rows.map((row) => row[foreignKeyName]).filter(Boolean) as string[];
+  }
+
   beforeAll(async () => {
     const appCtx = await initApp();
     app = appCtx.app;
@@ -454,7 +471,6 @@ describe('OpenAPI integrity (e2e)', () => {
 
       await executeKnex(
         knex.schema.alterTable(options.fkHostTableName, (table) => {
-          table.dropForeign(options.foreignKeyName, `fk_${options.foreignKeyName}`);
           table.dropColumn(options.foreignKeyName);
         })
       );
@@ -541,6 +557,306 @@ describe('OpenAPI integrity (e2e)', () => {
 
       const integrityAfterFix = await checkBaseIntegrity(baseId2, base2table1.id);
       expect(integrityAfterFix.data.hasIssues).toEqual(false);
+    });
+
+    it('should backfill ManyOne foreign key values from link cell data', async () => {
+      const linkFieldRo: IFieldRo = {
+        name: 'many one link backfill',
+        type: FieldType.Link,
+        options: {
+          baseId: baseId2,
+          relationship: Relationship.ManyOne,
+          foreignTableId: base2table2.id,
+        },
+      };
+
+      const linkField = await createField(base2table1.id, linkFieldRo);
+      const options = linkField.options as ILinkFieldOptions;
+
+      await updateRecord(base2table2.id, base2table2.records[0].id, {
+        record: {
+          fields: {
+            [base2table2.fields[0].name]: 'b1',
+          },
+        },
+      });
+
+      await updateRecord(base2table1.id, base2table1.records[0].id, {
+        record: {
+          fields: {
+            [linkField.name]: { id: base2table2.records[0].id },
+          },
+        },
+      });
+
+      await executeKnex(
+        knex.schema.alterTable(options.fkHostTableName, (table) => {
+          table.dropForeign(options.foreignKeyName, `fk_${options.foreignKeyName}`);
+          table.dropColumn(options.foreignKeyName);
+        })
+      );
+
+      await fixBaseIntegrity(baseId2, base2table1.id);
+
+      const fkValue = await getColumnValue(
+        options.fkHostTableName,
+        options.foreignKeyName,
+        base2table1.records[0].id
+      );
+      expect(fkValue).toEqual(base2table2.records[0].id);
+
+      const record = await getRecord(base2table1.id, base2table1.records[0].id);
+      expect(record.data.fields[linkField.name]).toEqual(
+        expect.objectContaining({ id: base2table2.records[0].id })
+      );
+    });
+
+    it('should backfill OneMany (two-way) foreign key values from link cell data', async () => {
+      const linkFieldRo: IFieldRo = {
+        name: 'one many link backfill',
+        type: FieldType.Link,
+        options: {
+          baseId: baseId2,
+          relationship: Relationship.OneMany,
+          foreignTableId: base2table2.id,
+        },
+      };
+
+      const linkField = await createField(base2table1.id, linkFieldRo);
+      const options = linkField.options as ILinkFieldOptions;
+
+      await updateRecord(base2table1.id, base2table1.records[0].id, {
+        record: {
+          fields: {
+            [linkField.name]: [
+              { id: base2table2.records[0].id },
+              { id: base2table2.records[1].id },
+            ],
+          },
+        },
+      });
+
+      await executeKnex(
+        knex.schema.alterTable(options.fkHostTableName, (table) => {
+          table.dropForeign(options.selfKeyName, `fk_${options.selfKeyName}`);
+          table.dropColumn(options.selfKeyName);
+        })
+      );
+
+      await fixBaseIntegrity(baseId2, base2table1.id);
+
+      const fkValue1 = await getColumnValue(
+        options.fkHostTableName,
+        options.selfKeyName,
+        base2table2.records[0].id
+      );
+      const fkValue2 = await getColumnValue(
+        options.fkHostTableName,
+        options.selfKeyName,
+        base2table2.records[1].id
+      );
+      expect([fkValue1, fkValue2]).toEqual([base2table1.records[0].id, base2table1.records[0].id]);
+
+      const record = await getRecord(base2table1.id, base2table1.records[0].id);
+      const linkIds = (record.data.fields[linkField.name] as { id: string }[])
+        .map((item) => item.id)
+        .sort();
+      expect(linkIds).toEqual([base2table2.records[0].id, base2table2.records[1].id].sort());
+    });
+
+    it('should backfill OneMany (one-way) junction rows from link cell data', async () => {
+      const linkFieldRo: IFieldRo = {
+        name: 'one way link backfill',
+        type: FieldType.Link,
+        options: {
+          baseId: baseId2,
+          relationship: Relationship.OneMany,
+          foreignTableId: base2table2.id,
+          isOneWay: true,
+        },
+      };
+
+      const linkField = await createField(base2table1.id, linkFieldRo);
+      const options = linkField.options as ILinkFieldOptions;
+
+      await updateRecord(base2table1.id, base2table1.records[0].id, {
+        record: {
+          fields: {
+            [linkField.name]: [
+              { id: base2table2.records[0].id },
+              { id: base2table2.records[1].id },
+            ],
+          },
+        },
+      });
+
+      await executeKnex(knex.schema.dropTable(options.fkHostTableName));
+
+      await fixBaseIntegrity(baseId2, base2table1.id);
+
+      const foreignIds = await getJunctionForeignIds(
+        options.fkHostTableName,
+        options.selfKeyName,
+        options.foreignKeyName,
+        base2table1.records[0].id
+      );
+      expect(foreignIds.sort()).toEqual(
+        [base2table2.records[0].id, base2table2.records[1].id].sort()
+      );
+
+      const record = await getRecord(base2table1.id, base2table1.records[0].id);
+      const linkIds = (record.data.fields[linkField.name] as { id: string }[])
+        .map((item) => item.id)
+        .sort();
+      expect(linkIds).toEqual([base2table2.records[0].id, base2table2.records[1].id].sort());
+    });
+
+    it('should backfill ManyMany junction rows when foreign key column is missing', async () => {
+      const linkFieldRo: IFieldRo = {
+        name: 'many many link backfill (drop column)',
+        type: FieldType.Link,
+        options: {
+          baseId: baseId2,
+          relationship: Relationship.ManyMany,
+          foreignTableId: base2table2.id,
+        },
+      };
+
+      const linkField = await createField(base2table1.id, linkFieldRo);
+      const options = linkField.options as ILinkFieldOptions;
+
+      await updateRecord(base2table1.id, base2table1.records[0].id, {
+        record: {
+          fields: {
+            [linkField.name]: [
+              { id: base2table2.records[0].id },
+              { id: base2table2.records[1].id },
+            ],
+          },
+        },
+      });
+
+      await executeKnex(
+        knex.schema.alterTable(options.fkHostTableName, (table) => {
+          table.dropForeign(options.foreignKeyName, `fk_${options.foreignKeyName}`);
+          table.dropColumn(options.foreignKeyName);
+        })
+      );
+
+      await fixBaseIntegrity(baseId2, base2table1.id);
+
+      const foreignIds = await getJunctionForeignIds(
+        options.fkHostTableName,
+        options.selfKeyName,
+        options.foreignKeyName,
+        base2table1.records[0].id
+      );
+      expect(foreignIds.sort()).toEqual(
+        [base2table2.records[0].id, base2table2.records[1].id].sort()
+      );
+
+      const record = await getRecord(base2table1.id, base2table1.records[0].id);
+      const linkIds = (record.data.fields[linkField.name] as { id: string }[])
+        .map((item) => item.id)
+        .sort();
+      expect(linkIds).toEqual([base2table2.records[0].id, base2table2.records[1].id].sort());
+    });
+
+    it('should backfill ManyMany junction rows when junction table is missing', async () => {
+      const linkFieldRo: IFieldRo = {
+        name: 'many many link backfill (drop table)',
+        type: FieldType.Link,
+        options: {
+          baseId: baseId2,
+          relationship: Relationship.ManyMany,
+          foreignTableId: base2table2.id,
+        },
+      };
+
+      const linkField = await createField(base2table1.id, linkFieldRo);
+      const options = linkField.options as ILinkFieldOptions;
+
+      await updateRecord(base2table1.id, base2table1.records[0].id, {
+        record: {
+          fields: {
+            [linkField.name]: [
+              { id: base2table2.records[0].id },
+              { id: base2table2.records[1].id },
+            ],
+          },
+        },
+      });
+
+      await executeKnex(knex.schema.dropTable(options.fkHostTableName));
+
+      await fixBaseIntegrity(baseId2, base2table1.id);
+
+      const foreignIds = await getJunctionForeignIds(
+        options.fkHostTableName,
+        options.selfKeyName,
+        options.foreignKeyName,
+        base2table1.records[0].id
+      );
+      expect(foreignIds.sort()).toEqual(
+        [base2table2.records[0].id, base2table2.records[1].id].sort()
+      );
+
+      const record = await getRecord(base2table1.id, base2table1.records[0].id);
+      const linkIds = (record.data.fields[linkField.name] as { id: string }[])
+        .map((item) => item.id)
+        .sort();
+      expect(linkIds).toEqual([base2table2.records[0].id, base2table2.records[1].id].sort());
+    });
+
+    it('should backfill OneOne foreign key values from link cell data', async () => {
+      const linkFieldRo: IFieldRo = {
+        name: 'one one link backfill',
+        type: FieldType.Link,
+        options: {
+          baseId: baseId2,
+          relationship: Relationship.OneOne,
+          foreignTableId: base2table2.id,
+        },
+      };
+
+      const linkField = await createField(base2table1.id, linkFieldRo);
+      const options = linkField.options as ILinkFieldOptions;
+
+      await updateRecord(base2table2.id, base2table2.records[0].id, {
+        record: {
+          fields: {
+            [base2table2.fields[0].name]: 'b1',
+          },
+        },
+      });
+
+      await updateRecord(base2table1.id, base2table1.records[0].id, {
+        record: {
+          fields: {
+            [linkField.name]: { id: base2table2.records[0].id },
+          },
+        },
+      });
+
+      await executeKnex(
+        knex.schema.alterTable(options.fkHostTableName, (table) => {
+          table.dropColumn(options.foreignKeyName);
+        })
+      );
+
+      await fixBaseIntegrity(baseId2, base2table1.id);
+
+      const fkValue = await getColumnValue(
+        options.fkHostTableName,
+        options.foreignKeyName,
+        base2table1.records[0].id
+      );
+      expect(fkValue).toEqual(base2table2.records[0].id);
+
+      const record = await getRecord(base2table1.id, base2table1.records[0].id);
+      expect(record.data.fields[linkField.name]).toEqual(
+        expect.objectContaining({ id: base2table2.records[0].id })
+      );
     });
   });
 
