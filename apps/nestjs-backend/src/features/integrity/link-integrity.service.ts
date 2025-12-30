@@ -6,6 +6,7 @@ import {
   CellValueType,
   DbFieldType,
   Relationship,
+  DriverClient,
 } from '@teable/core';
 import type { Field } from '@teable/db-main-prisma';
 import { Prisma, PrismaService } from '@teable/db-main-prisma';
@@ -382,6 +383,11 @@ export class LinkIntegrityService {
       return;
     }
 
+    if (options.relationship === Relationship.OneOne && options.foreignKeyName === '__id') {
+      // Symmetric OneOne fields do not own the FK column.
+      return;
+    }
+
     const tableDomain = await this.tableDomainQueryService.getTableDomainById(fieldRaw.tableId);
     const tableNameMap = await this.linkFieldQueryService.getTableNameMapForLinkFields(
       fieldRaw.tableId,
@@ -532,11 +538,256 @@ export class LinkIntegrityService {
       }
     }
 
+    await this.backfillForeignKeysFromLinkColumn({
+      dbTableName: tableMeta.dbTableName,
+      linkDbFieldName: linkField.dbFieldName,
+      fkHostTableName: options.fkHostTableName,
+      selfKeyName: options.selfKeyName,
+      foreignKeyName: options.foreignKeyName,
+      relationship: options.relationship,
+      isOneWay: options.isOneWay,
+    });
+
     return {
       type: issueType ?? IntegrityIssueType.ForeignKeyNotFound,
       fieldId,
       message: `Restored missing foreign key columns for link field (Field Name: ${fieldRaw.name}, Field ID: ${fieldId})`,
     };
+  }
+
+  private async backfillForeignKeysFromLinkColumn(params: {
+    dbTableName: string;
+    linkDbFieldName: string;
+    fkHostTableName: string;
+    selfKeyName: string;
+    foreignKeyName: string;
+    relationship: Relationship;
+    isOneWay?: boolean;
+  }) {
+    const {
+      dbTableName,
+      linkDbFieldName,
+      fkHostTableName,
+      selfKeyName,
+      foreignKeyName,
+      relationship,
+      isOneWay,
+    } = params;
+    const prisma = this.prismaService.txClient();
+
+    const linkColumnExists = await this.dbProvider.checkColumnExist(
+      dbTableName,
+      linkDbFieldName,
+      prisma
+    );
+    if (!linkColumnExists) {
+      return;
+    }
+
+    const usesJunction =
+      relationship === Relationship.ManyMany ||
+      (relationship === Relationship.OneMany && Boolean(isOneWay));
+
+    if (relationship === Relationship.ManyOne || relationship === Relationship.OneOne) {
+      const foreignKeyExists = await this.dbProvider.checkColumnExist(
+        fkHostTableName,
+        foreignKeyName,
+        prisma
+      );
+      if (!foreignKeyExists) {
+        return;
+      }
+
+      const query =
+        this.dbProvider.driver === DriverClient.Pg
+          ? this.knex(fkHostTableName)
+              .update({
+                [foreignKeyName]: this.knex.raw(`NULLIF(??->>'id','')`, [linkDbFieldName]),
+              })
+              .whereNotNull(linkDbFieldName)
+              .whereNull(foreignKeyName)
+              .toQuery()
+          : this.knex(fkHostTableName)
+              .update({
+                [foreignKeyName]: this.knex.raw(`json_extract(??, '$.id')`, [linkDbFieldName]),
+              })
+              .whereNotNull(linkDbFieldName)
+              .whereNull(foreignKeyName)
+              .toQuery();
+
+      await prisma.$executeRawUnsafe(query);
+      return;
+    }
+
+    if (relationship === Relationship.OneMany && !usesJunction) {
+      const selfKeyExists = await this.dbProvider.checkColumnExist(
+        fkHostTableName,
+        selfKeyName,
+        prisma
+      );
+      if (!selfKeyExists) {
+        return;
+      }
+
+      const query =
+        this.dbProvider.driver === DriverClient.Pg
+          ? this.knex
+              .raw(
+                `
+                WITH pairs AS (
+                  SELECT s.__id AS self_id,
+                         (elem->>'id') AS foreign_id
+                  FROM ?? AS s
+                  JOIN LATERAL jsonb_array_elements(??.??) elem ON true
+                  WHERE ??.?? IS NOT NULL
+                ),
+                dedup AS (
+                  SELECT foreign_id, MIN(self_id) AS self_id
+                  FROM pairs
+                  WHERE foreign_id IS NOT NULL
+                  GROUP BY foreign_id
+                )
+                UPDATE ?? AS f
+                SET ?? = d.self_id
+                FROM dedup d
+                WHERE f.__id = d.foreign_id
+                  AND f.?? IS NULL
+                `,
+                [
+                  dbTableName,
+                  's',
+                  linkDbFieldName,
+                  's',
+                  linkDbFieldName,
+                  fkHostTableName,
+                  selfKeyName,
+                  selfKeyName,
+                ]
+              )
+              .toQuery()
+          : this.knex
+              .raw(
+                `
+                WITH pairs AS (
+                  SELECT s.__id AS self_id,
+                         json_extract(j.value, '$.id') AS foreign_id
+                  FROM ?? AS s
+                  JOIN json_each(??.??) j
+                  WHERE ??.?? IS NOT NULL
+                ),
+                dedup AS (
+                  SELECT foreign_id, MIN(self_id) AS self_id
+                  FROM pairs
+                  WHERE foreign_id IS NOT NULL
+                  GROUP BY foreign_id
+                )
+                UPDATE ??
+                SET ?? = (SELECT d.self_id FROM dedup d WHERE d.foreign_id = ??.__id)
+                WHERE __id IN (SELECT foreign_id FROM dedup)
+                  AND ?? IS NULL
+                `,
+                [
+                  dbTableName,
+                  's',
+                  linkDbFieldName,
+                  's',
+                  linkDbFieldName,
+                  fkHostTableName,
+                  selfKeyName,
+                  fkHostTableName,
+                  selfKeyName,
+                ]
+              )
+              .toQuery();
+
+      await prisma.$executeRawUnsafe(query);
+      return;
+    }
+
+    if (!usesJunction) {
+      return;
+    }
+
+    const [selfKeyExists, foreignKeyExists] = await Promise.all([
+      this.dbProvider.checkColumnExist(fkHostTableName, selfKeyName, prisma),
+      this.dbProvider.checkColumnExist(fkHostTableName, foreignKeyName, prisma),
+    ]);
+    if (!selfKeyExists || !foreignKeyExists) {
+      return;
+    }
+
+    const query =
+      this.dbProvider.driver === DriverClient.Pg
+        ? this.knex
+            .raw(
+              `
+              WITH pairs AS (
+                SELECT s.__id AS self_id,
+                       (elem->>'id') AS foreign_id
+                FROM ?? AS s
+                JOIN LATERAL jsonb_array_elements(??.??) elem ON true
+                WHERE ??.?? IS NOT NULL
+              )
+              INSERT INTO ?? (??, ??)
+              SELECT DISTINCT p.self_id, p.foreign_id
+              FROM pairs p
+              WHERE p.foreign_id IS NOT NULL
+                AND NOT EXISTS (
+                  SELECT 1 FROM ?? j
+                  WHERE j.?? = p.self_id AND j.?? = p.foreign_id
+                )
+              `,
+              [
+                dbTableName,
+                's',
+                linkDbFieldName,
+                's',
+                linkDbFieldName,
+                fkHostTableName,
+                selfKeyName,
+                foreignKeyName,
+                fkHostTableName,
+                selfKeyName,
+                foreignKeyName,
+              ]
+            )
+            .toQuery()
+        : this.knex
+            .raw(
+              `
+              WITH pairs AS (
+                SELECT s.__id AS self_id,
+                       json_extract(j.value, '$.id') AS foreign_id
+                FROM ?? AS s
+                JOIN json_each(??.??) j
+                WHERE ??.?? IS NOT NULL
+              )
+              INSERT INTO ?? (??, ??)
+              SELECT DISTINCT p.self_id, p.foreign_id
+              FROM pairs p
+              WHERE p.foreign_id IS NOT NULL
+                AND NOT EXISTS (
+                  SELECT 1 FROM ?? j
+                  WHERE j.?? = p.self_id AND j.?? = p.foreign_id
+                )
+              `,
+              [
+                dbTableName,
+                's',
+                linkDbFieldName,
+                's',
+                linkDbFieldName,
+                fkHostTableName,
+                selfKeyName,
+                foreignKeyName,
+                fkHostTableName,
+                selfKeyName,
+                foreignKeyName,
+              ]
+            )
+            .toQuery();
+
+    await prisma.$executeRawUnsafe(query);
   }
 
   async linkIntegrityFix(baseId: string, tableId?: string): Promise<IIntegrityIssue[]> {
