@@ -474,7 +474,6 @@ WHERE tc.constraint_type = 'FOREIGN KEY'
     // bump version on target table; qualify to avoid ambiguity with FROM subquery columns
     updateColumns['__version'] = this.knex.raw('?? + 1', [`${dbTableName}.__version`]);
 
-    const fromRaw = this.knex.raw('(?) as ??', [subQuery, alias]);
     const returningCols = [idFieldName, '__version', ...(returningDbFieldNames || dbFieldNames)];
     const qualifiedReturning = returningCols.map((c) => this.knex.ref(`${dbTableName}.${c}`));
     // also return previous version for ShareDB op version alignment
@@ -483,13 +482,35 @@ WHERE tc.constraint_type = 'FOREIGN KEY'
       // Unqualified reference to target table column to avoid FROM-clause issues
       this.knex.raw('?? - 1 as __prev_version', [`${dbTableName}.__version`]),
     ];
+    const recordIdsAlias = 'record_ids';
+    const recordIds = restrictRecordIds ?? [];
+    const hasRestrictRecordIds = recordIds.length > 0;
+    const normalizedRecordIds = hasRestrictRecordIds
+      ? Array.from(new Set(recordIds.filter((id) => typeof id === 'string' && id.length > 0)))
+      : [];
+    const recordIdsCte =
+      normalizedRecordIds.length > 0
+        ? this.knex.raw(
+            `select * from (values ${normalizedRecordIds.map(() => '(?)').join(', ')}) as ??(??)`,
+            [...normalizedRecordIds, recordIdsAlias, idFieldName]
+          )
+        : undefined;
+    const fromRaw =
+      recordIdsCte != null
+        ? this.knex.raw('(?) as ??, ??', [subQuery, alias, recordIdsAlias])
+        : this.knex.raw('(?) as ??', [subQuery, alias]);
+
     const builder = this.knex(dbTableName)
       .update(updateColumns)
       .updateFrom(fromRaw)
       .where(`${dbTableName}.${idFieldName}`, this.knex.ref(`${alias}.${idFieldName}`));
 
-    if (restrictRecordIds?.length) {
-      builder.whereIn(`${dbTableName}.${idFieldName}`, restrictRecordIds);
+    if (recordIdsCte) {
+      builder
+        .with(recordIdsAlias, recordIdsCte)
+        .where(`${dbTableName}.${idFieldName}`, this.knex.ref(`${recordIdsAlias}.${idFieldName}`));
+    } else if (hasRestrictRecordIds) {
+      builder.whereRaw('1 = 0');
     }
 
     const query = builder
