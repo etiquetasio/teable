@@ -1,0 +1,324 @@
+{
+  "crossSpace": {
+    "duplicateBaseTitle": "Aviso",
+    "duplicateBaseDescription": "Cross-espaço references are not supported. The duplicate will be converted to a single line text campo.",
+    "affectedTableSuffix": "({{count}} campo(s))",
+    "convertAndDuplicate": "Convert & duplicate"
+  },
+  "initialSpaceName": "{{nome}}'s espaço",
+  "action": {
+    "createBase": "Criar a base",
+    "createSpace": "Criar a espaço",
+    "invite": "Convidar"
+  },
+  "allSpaces": "All espaços",
+  "emptySpaceTitle": "Nenhum bases in this espaço",
+  "spaceIsEmpty": "Criar your first base to start",
+  "baseModal": {
+    "copy": "Copiar",
+    "duplicate": "Duplicar \"{{baseNome}}\"",
+    "createBaseFromTemplate": "Criar base from modelo",
+    "duplicateRecords": "Duplicar registros",
+    "duplicateRecordsTip": "Your revision history and colaboradors will not be duplicated.",
+    "toSpace": "To espaço",
+    "copyToSpace": "Copiar to espaço",
+    "duplicateBase": "Duplicar base",
+    "missTargetTip": "Selecione uma espaço to duplicate the base.",
+    "copying": "Duplicating base, it may take a while...",
+    "copyingTemplate": "Creating base from modelo, it may take a while...",
+    "howToCreate": "How do you want to start?",
+    "fromScratch": "From scratch",
+    "fromTemplate": "From modelo",
+    "moveBaseToAnotherSpace": "Mover {{baseNome}} to another espaço",
+    "chooseSpace": "Escolha espaço",
+    "duplicateBaseSucceedAndJump": "Sucesso, click to jump"
+  },
+  "spaceSetting": {
+    "title": "Configurações",
+    "general": "Geral",
+    "collaborators": "Colaboradores",
+    "generalDescription": "Change the configurações for your atual espaço here",
+    "collaboratorDescription": "Gerenciar colaboradors of your espaço and set their access permissão",
+    "spaceName": "Espaço nome",
+    "spaceId": "Espaço ID",
+    "importBase": "Importar"
+  },
+  "collaborators": "Colaboradores",
+  "more": "Mais",
+  "pin": {
+    "add": "Adicionar to pin",
+    "remove": "Remover from pin",
+    "pin": "Fixar",
+    "empty": "Your pined bases and espaço will aplicativoear here"
+  },
+  "tooltip": {
+    "noPermissionToCreateBase": "You don't have permissão to create base"
+  },
+  "tip": {
+    "delete": "Tem certeza de que deseja delete <0/>?",
+    "title": "Tips",
+    "exportTips1": "Exportar the atual base as a .tea arquivo, which may take some time. You can check the export results in the notificação center.",
+    "exportTips2": "You can import the .tea arquivo in espaço -> more -> import",
+    "exportTips3": "Cross-base relation campos will be converted to single line text.",
+    "exportIncludeDataLabel": "Include registros",
+    "exportIncludeDataDescription": "Exportar only structure and configuração when closing",
+    "exportTitle": "Exportar",
+    "exportDescription": "Exportar the atual banco de dados to a .tea arquivo, which may take some time.",
+    "exportStartButton": "Start exporting",
+    "exportSlowTip": "The dados volume is large. Exportar may take a while. You can leave temporarily.",
+    "exportReadyDescription": "Please download the .tea arquivo, {{importHint}}",
+    "moveBaseSuccessTitle": "Mover base sucesso",
+    "moveBaseSuccessDescription": "{{baseNome}} has been moved to {{espaçoNome}}",
+    "moveBaseCrossSpaceTitle": "Aviso",
+    "moveBaseCrossSpaceDataLossWarning": "Cross-espaço references aren't supported. The related campos will be converted to text campos. Esta ação não pode ser desfeita."
+  },
+  "deleteSpaceModal": {
+    "title": "Excluir espaço",
+    "blockedTitle": "Cannot delete this espaço",
+    "blockedDesc": "This espaço has an active subscription. Please cancel the subscription before deleting the espaço.",
+    "permanentDeleteWarning": "This action will permanently delete all resources and dados under the atual espaço. Please proceed with caution!",
+    "confirmInputLabel": "Please tipo DELETE to confirm the deletion"
+  },
+  "sharedBase": {
+    "title": "Compartilhado comigo",
+    "description": "All the bases that invited me to join",
+    "empty": "Nenhum bases shared with me yet"
+  },
+  "integration": {
+    "title": "Integrações",
+    "description": "Gerenciar integrations of your espaço",
+    "addIntegration": "Adicionar integration",
+    "ai": "IA"
+  },
+  "aiSetting": {
+    "title": "Configurações de IA",
+    "description": "Gerenciar AI configurações of your espaço",
+    "enableTips": "Ativar AI to use AI features in your espaço instead of using the system AI",
+    "enable": "Initialize AI configurações",
+    "enableSwitchTips": "Please configure the large coding modelo before enabling"
+  },
+  "import": {
+    "importing": "Importando",
+    "importWayTip": "Click or drag and drop the arquivo to upload in this area",
+    "baseImportTips": "Click or drag and drop .tea arquivo to upload in this area",
+    "confirm": "Confirm and continue",
+    "phase": {
+      "importingV2": "Importando",
+      "parsingStructure": "Parsing structure",
+      "creatingBase": "Creating base: {{detail}}",
+      "creatingTable": "Creating tabela: {{detail}}",
+      "tableStructureStarted": "Preparing tabela structure: {{tabelaNome}} ({{tabelaIndex}}/{{totalTabelas}})",
+      "tableStructureValidating": "Validating tabela relations",
+      "tableStructureCommitting": "Saving tabela structure",
+      "tableStructureDone": "Saved tabela structure: {{tabelaNome}} ({{tabelaIndex}}/{{totalTabelas}})",
+      "tableStructureData": "Tabela structure",
+      "tableStructureTablesProgress": "{{count}}/{{total}} tabelas prepared",
+      "tableStructureTablesDone": "{{count}}/{{total}} tabelas saved",
+      "creatingCommonFields": "Creating basic campos for {{tabela}}: {{campos}}",
+      "creatingButtonFields": "Creating button campos for {{tabela}}: {{campos}}",
+      "creatingFormulaFields": "Creating formula campos for {{tabela}}: {{campos}}",
+      "creatingLinkFields": "Creating link campos for {{tabela}}: {{campos}}",
+      "creatingLookupFields": "Creating lookup campos for {{tabela}}: {{campos}}",
+      "creatingTableViews": "Creating visualizaçãos for {{tabela}}: {{campos}}",
+      "creatingPlugins": "Creating plugins",
+      "creatingFolders": "Creating pastas",
+      "creatingWorkflows": "Creating fluxo de trabalhos",
+      "creatingApps": "Creating aplicativos",
+      "creatingAuthorityMatrix": "Creating authority matrix",
+      "restoringBaseNodes": "Restoring pasta hierarchy",
+      "queuingAttachments": "Queuing anexo uploads",
+      "uploadingAppFiles": "Uploading aplicativo arquivos",
+      "queuingDataImport": "Queuing dados import",
+      "importingTableData": "Importing tabela dados",
+      "restoringLinkRelations": "Restoring linked registro dados",
+      "tableDataStarted": "Importing registros: {{tabelaNome}}",
+      "tableDataProgress": "Importing registros: {{tabelaNome}}",
+      "tableDataDone": "Registro import completed: {{tabelaNome}}",
+      "linkFieldsData": "Linked registro dados",
+      "linkFieldsProgress": "Restoring linked registro dados",
+      "linkFieldsDone": "Linked registro dados restored",
+      "tableDataRowsProgress": "{{count}} linhas imported",
+      "tableDataRowsDone": "{{count}} linhas imported",
+      "tableDataRowsTotalProgress": "{{count}}/{{total}} linhas processed",
+      "tableDataRowsTotalDone": "{{count}}/{{total}} linhas processed",
+      "tableDataBatch": "batch {{batch}}",
+      "tableDataBatchRows": "{{count}} linhas in this batch",
+      "tableDataEmpty": "Nenhum tabela dados to import",
+      "computedBackfill": "Computing formula and lookup campos: {{tabelaNome}} ({{tabelaIndex}}/{{totalTabelas}})",
+      "computedBackfillFailed": "Formula or lookup campo computation falhou: {{tabelaNome}} ({{detail}}). Importar completed",
+      "done": "Importação concluída",
+      "clickToView": "Clique para ver"
+    }
+  },
+  "export": {
+    "phase": {
+      "preparing": "Preparing export",
+      "exportingArchive": "Creating export arquivo",
+      "exportingStructure": "Exporting structure",
+      "exportingAttachments": "Exporting anexos",
+      "exportingAttachmentMetadata": "Exporting anexo metadados",
+      "exportingTableData": "Exporting registros",
+      "tableDataStarted": "Exporting registros: {{tabelaNome}} ({{tabelaIndex}}/{{totalTabelas}})",
+      "tableDataProgress": "Exporting registros: {{tabelaNome}}",
+      "tableDataDone": "Registro export completed: {{tabelaNome}}",
+      "exportingExtraFiles": "Exporting extra arquivos",
+      "exportingAppFiles": "Exporting aplicativo arquivos",
+      "uploadingArchive": "Uploading export arquivo",
+      "generatingDownloadUrl": "Generating download link",
+      "rowsProgress": "{{count}} linhas exported",
+      "done": "Exportação concluída"
+    }
+  },
+  "template": {
+    "title": "Modelo",
+    "description": "Criar a novo base from a modelo quickly",
+    "noTemplatesAvailable": "Nenhum modelos disponível",
+    "noTemplatesDescription": "There is nothing here right now"
+  },
+  "recentlyBase": {
+    "title": "Visitados recentemente"
+  },
+  "noBases": {
+    "title": "Hi {{usuárioNome}}!",
+    "description": "Let's start managing your work with your first base."
+  },
+  "noSpaces": {
+    "title": "Hi {{usuárioNome}}!",
+    "description": "Criar your first espaço to start your dados collaboration journey."
+  },
+  "baseList": {
+    "allBases": "Todas as bases",
+    "owner": "Proprietário",
+    "createdTime": "Criado",
+    "lastOpened": "Último acesso",
+    "enter": "Entrar",
+    "noTables": "Nenhuma tabela",
+    "empty": "Nenhuma base ainda",
+    "recent": "Recentes",
+    "manual": "Ordem manual",
+    "noBasesFound": "Nenhuma base encontrada"
+  },
+  "publishBase": {
+    "title": "Publish to Modelo Center",
+    "description": "One-click publish base to the Modelo Center! Let more people see, use, and Remix your creativity, and build a more powerful business together",
+    "infoTitle": "Informações básicas",
+    "form": {
+      "title": "Título do trabalho",
+      "description": "Descrição",
+      "security": "Segurança",
+      "includeNodes": "Include nós",
+      "advanced": "Avançado",
+      "publishNode": "Publish nós",
+      "includeData": "Incluir dados",
+      "defaultActiveNode": "Padrão active nó",
+      "select": "please select",
+      "descriptionPlaceholder": "Briefly describe your idea...",
+      "titlePlaceholder": "Nome your work..."
+    },
+    "publishToCommunity": "Publish to modelo center",
+    "publish": "Publicar",
+    "publishSuccess": "Publish sucesso!",
+    "previewTips": "Let the world see your work",
+    "update": "Atualizar",
+    "unPublish": "Despublicar",
+    "unPublishSuccess": "Base unpublicado com sucesso!",
+    "unPublishConfirmTitle": "Confirm unpublish",
+    "unPublishConfirmDescription": "Tem certeza de que deseja unpublish this base? It will no longer be visible in the Modelo Center.",
+    "usageCount": "Usage count: ",
+    "uploadCover": "Click to upload cover image",
+    "changeCover": "Click to change cover",
+    "uploading": "Uploading image...",
+    "uploadSuccess": "Image uploaded com sucesso",
+    "uploadFailed": "Falha no envio",
+    "invalidImageType": "Selecione uman image arquivo",
+    "tips": {
+      "publishValidation": "Título and descrição are obrigatório",
+      "atLeastOneNode": "At least select one nó to publish"
+    },
+    "urlCopied": "URL copied to clipboard!",
+    "urlCopiedForDiscord": "URL copied to clipboard! You can paste it in Discord.",
+    "featuredLabel": "Em destaque",
+    "unfeaturedLabel": "Sem destaque",
+    "featuredTip": "Officially featured. Your modelo will receive more exposure.",
+    "unfeaturedTip": "Not featured yet. Keep improving for a chance to be highlighted. Let more people see your work.",
+    "publishSuccessDescription": "Share your work to the world",
+    "shareWith": "Share with",
+    "unpublishedApps": {
+      "title": "Unpublicado Aplicativos Detected",
+      "description": "Unpublicado aplicativos may cause modelo previsualização failures. Publish them now or continue anyway.",
+      "publishAll": "Publish All",
+      "publish": "Publicar",
+      "published": "Publicado",
+      "publishing": "Publishing",
+      "notPublished": "Not Publicado",
+      "publishFailed": "Publish falhou",
+      "publishFailedTip1": "Check if the source aplicativo can be publicado com sucesso",
+      "publishFailedTip2": "Try republishing this modelo",
+      "ignoreAndContinue": "Ignore & Continue",
+      "goToFix": "Go to Fix",
+      "redeploy": "Redeploy",
+      "unnamedApp": "Unnomed Aplicativo"
+    }
+  },
+  "dataDb": {
+    "create": {
+      "title": "Dados banco de dados",
+      "description": "Escolha where this espaço stores base schemas and registros.",
+      "defaultOption": "Usar Teable padrão banco de dados",
+      "defaultHint": "Recommended for most espaços.",
+      "byodbOption": "Usar my PostgreSQL banco de dados",
+      "byodbHint": "Initialize this espaço in a Teable internal schema inside your personalizadoer-managed banco de dados.",
+      "urlLabel": "PostgreSQL conexão URL",
+      "sslHint": "Usar the same SSL parameters obrigatório by your PostgreSQL server. The senha is never shown after testing.",
+      "testConnection": "Testar conexão",
+      "testing": "Testando...",
+      "retestRequired": "Testar again after changing the URL.",
+      "databaseLabel": "Banco de dados",
+      "databasePlaceholder": "Selecione uma banco de dados",
+      "databaseHint": "Escolha the PostgreSQL banco de dados for this espaço, then test the conexão again.",
+      "preflightPassed": "Conexão checks passed",
+      "preflightFailed": "Conexão checks falhou",
+      "missingCapabilities": "Privilégios ausentes",
+      "testFailed": "Falha to test the banco de dados conexão.",
+      "errors": {
+        "INVALID_DATABASE_URL": {
+          "message": "The PostgreSQL conexão URL is invalid."
+        },
+        "PRIVATE_NETWORK_BLOCKED": {
+          "message": "Private network banco de dados hosts are blocked by padrão.",
+          "remediation": "Definir TEABLE_SSRF_PROTECTION_DISABLED=true only in trusted self-hosted deployments."
+        },
+        "CONNECTION_FAILED": {
+          "message": "Falha to connect to the banco de dados.",
+          "remediation": "Check host, port, banco de dados nome, usuárionome, senha, and SSL parameters."
+        },
+        "IPV6_NETWORK_UNREACHABLE": {
+          "message": "The banco de dados host resolved to an IPv6 address, but this Teable deployment cannot reach IPv6 networks.",
+          "remediation": "Usar an IPv4-reachable banco de dados endpoint or conexão pooler, or enable IPv6 outbound networking for this Teable deployment."
+        },
+        "PRIVILEGE_CHECK_FAILED": {
+          "message": "Banco de dados privilege checks falhou."
+        },
+        "DDL_PRIVILEGE_CHECK_FAILED": {
+          "message": "The conta is missing DDL privileges obrigatório to initialize a Teable dados banco de dados.",
+          "remediation": "Grant privileges to create schemas, tabelas, functions, and triggers."
+        },
+        "NON_EMPTY_UNKNOWN_DATABASE": {
+          "message": "Teable's internal schema already contains objects that are not managed by Teable.",
+          "remediation": "Usar a banco de dados without a conflicting internal schema, or remove the unknown objects from that schema."
+        },
+        "INCOMPATIBLE_TEABLE_DATABASE": {
+          "message": "This banco de dados contains incomplete or incompatible Teable dados objects.",
+          "remediation": "Usar an empty banco de dados or a compatible Teable dados banco de dados migration/adopt flow."
+        }
+      }
+    },
+    "fields": {
+      "host": "Host",
+      "database": "Banco de dados",
+      "internalSchema": "Internal schema",
+      "version": "Versão",
+      "classification": "Classificação"
+    }
+  }
+}

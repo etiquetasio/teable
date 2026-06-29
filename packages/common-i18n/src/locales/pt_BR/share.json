@@ -1,0 +1,21 @@
+{
+  "auth": {
+    "title": "Digite sua senha para visualizar esta página",
+    "submit": "Enviar",
+    "password": "Senha",
+    "passwordTooShort": "A senha deve ter pelo menos 3 caracteres"
+  },
+  "form": {
+    "requireLoginTip": "Este formulário exige login antes do envio",
+    "login": "Entrar"
+  },
+  "toolbar": {
+    "filterLinkSelectPlaceholder": "Selecionar..."
+  },
+  "view": {
+    "signInToEdit": "<a>Entrar</a> para editar",
+    "login": "Entrar"
+  },
+  "openOnNewPage": "Abrir em nova página",
+  "errorTips": "A origem do compartilhamento habilitou uma matriz de autoridade; a visualização não é permitida"
+}

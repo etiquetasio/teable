@@ -1,0 +1,72 @@
+{
+  "add": "Novos aplicativos OAuth",
+  "title": {
+    "add": "Novos aplicativos OAuth",
+    "edit": "Editar aplicativos OAuth",
+    "description": "Os aplicativos Teable podem agir em seu próprio nome, executando operações diretamente pela API, sem se passar por um usuário. Consulte nossa <a>documentação de ajuda</a> para mais informações."
+  },
+  "form": {
+    "name": {
+      "label": "Nome do aplicativo OAuth",
+      "description": "O nome do seu aplicativo OAuth."
+    },
+    "description": {
+      "label": "Descrição",
+      "description": "Uma breve descrição do seu aplicativo OAuth."
+    },
+    "homePageUrl": {
+      "label": "URL da página inicial",
+      "description": "A URL completa do site do seu aplicativo OAuth."
+    },
+    "logo": {
+      "label": "Logo",
+      "description": "Uma imagem quadrada é recomendada.",
+      "placeholder": "Arraste e solte seu logo aqui ou clique para enviar",
+      "button": "Enviar um logo",
+      "clear": "Limpar",
+      "lengthError": "Apenas um arquivo é permitido.",
+      "typeError": "Apenas arquivo de imagem é permitido."
+    },
+    "callbackUrl": {
+      "label": "URL de callback",
+      "description": "A URL completa para redirecionar após um usuário autorizar sua integração.",
+      "add": "Adicionar URL de callback"
+    },
+    "scopes": {
+      "label": "Escopos",
+      "description": "As permissões necessárias para seu aplicativo OAuth."
+    },
+    "secret": {
+      "label": "Segredos do cliente",
+      "add": "Gerar um novo segredo do cliente",
+      "newDescription": "Copie agora seu novo segredo do cliente. Você não poderá vê-lo novamente.",
+      "empty": "Você precisa de um segredo do cliente para autenticar o aplicativo na API.",
+      "lastUsed": "Último uso em {{date}}",
+      "tag": "Segredo do cliente",
+      "neverUsed": "Nunca usado"
+    },
+    "clientId": {
+      "label": "ID do cliente: "
+    }
+  },
+  "formType": {
+    "basic": "Informações básicas",
+    "scopes": "Escopos",
+    "identify": "Identificação e autorização de usuários",
+    "clientInfo": "Informações do cliente"
+  },
+  "decision": {
+    "title": "{{name}} está solicitando acesso à sua conta",
+    "scopes": "Este aplicativo poderá obter os seguintes escopos:",
+    "redirectDescription": "A autorização redirecionará para",
+    "authorize": "Autorizar"
+  },
+  "help": {
+    "link": "https://help.teable.ai/en/api-doc/oauth",
+    "title": "Saiba mais"
+  },
+  "deleteConfirm": {
+    "title": "Excluir aplicativo OAuth",
+    "description": "Tem certeza de que deseja excluir o aplicativo OAuth {{name}}? Esta ação não pode ser desfeita."
+  }
+}

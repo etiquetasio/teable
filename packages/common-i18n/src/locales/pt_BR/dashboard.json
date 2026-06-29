@@ -1,0 +1,18 @@
+{
+  "empty": {
+    "title": "Nenhum painel ainda",
+    "description": "Os painéis ajudam você a visualizar e gerenciar seus dados com mais eficiência.",
+    "create": "Criar painel"
+  },
+  "addPlugin": "Adicionar um plugin",
+  "createDashboard": {
+    "button": "Criar painel",
+    "title": "Criar novo painel",
+    "placeholder": "Digite o nome do painel"
+  },
+  "findDashboard": "Encontrar um painel...",
+  "deprecation": {
+    "title": "O recurso de nó de painel será descontinuado",
+    "description": "Para oferecer uma experiência mais inteligente e eficiente, descontinuaremos o suporte ao recurso de nó de painel. Você pode criar novos painéis facilmente por meio da IA no aplicativo gerado por IA, para uma experiência mais fluida."
+  }
+}

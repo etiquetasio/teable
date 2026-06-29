@@ -1,0 +1,1530 @@
+{
+  "crossSpace": {
+    "duplicateFieldTitle": "Aviso",
+    "duplicateFieldDescription": "Referências entre espaços não são supoutadas. A duplicata será convertida em um campo de texto de linha única.",
+    "duplicateTableTitle": "Aviso",
+    "duplicateTableDescription": "Referências entre espaços não são supoutadas. A duplicata será convertida em um campo de texto de linha única.",
+    "duplicateBaseTitle": "Aviso",
+    "duplicateBaseDescription": "Referências entre espaços não são supoutadas. A duplicata será convertida em um campo de texto de linha única.",
+    "convertAndDuplicate": "Converter e duplicar"
+  },
+  "toolbar": {
+    "comingSoon": "Em breve",
+    "viewFilterInShare": "Esta visualização está sendo usada em um link de compartilhamento de visualização. Alterações na configuraçãouração da visualização também alterarão o link de compartilhamento.",
+    "createFieldButtonText": "Criar um novo <0/> campo",
+    "others": {
+      "share": {
+        "label": "Compartilhar",
+        "statusLabel": "Compartilhar visualização na web",
+        "noPermission": "Sem permissão para compartilhar visualização",
+        "shareLink": "Link de compartilhamento",
+        "copied": "Copiado",
+        "genLink": "Gerar novo link",
+        "allowCopy": "Permitir que visualizadores copiem dados desta visualização",
+        "allowEdit": "Permitir que visualizadores conectados editem dados visíveis",
+        "showAllFields": "Mostrar todos os campos nos registros expandidos",
+        "restrict": "Restringir por senha",
+        "tips": "Pessoas com o link podem ver a visualização.",
+        "passwordTitle": "Digite uma senha",
+        "passwordTips": "Restrições de senha para acessar visualizações compartilhadas",
+        "embed": "Incorporar",
+        "embedPreview": "Pré-visualizar",
+        "copyCode": "Copiar código",
+        "hideToolbar": "Ocultar barra de ferramentas",
+        "URLSetting": "Configuração dos parâmetros da URL",
+        "URLSettingDescription": "Adjusting the following configurações will not affect the embed code. You need to copiar the code with new parameters to make it take effect",
+        "theme": "Tema",
+        "themeSystem": "Sistema",
+        "themeLight": "Claro",
+        "themeDark": "Escuro",
+        "cancel": "Cancelar",
+        "save": "Salvar",
+        "requireLogin": "Exigir login para envio"
+      },
+      "extensions": {
+        "label": "Extensões",
+        "graph": "Grafo"
+      },
+      "api": {
+        "label": "API",
+        "restfulApi": "API RESTful",
+        "databaseConnection": "Conexão com banco de dados",
+        "title": "Acesso à API",
+        "aiContext": "Copiar para IA",
+        "advanced": "Avançado",
+        "generatingToken": "Gerando...",
+        "aiContextTitle": "Documentação de API amigável para IA",
+        "aiContextDescriptionNoToken": "Copiar this documentation to your AI assistant (ChatGPT, Claude, etc.). Clique 'Gerar Token' to criar an API token that will be automatically filled in.",
+        "aiContextDescriptionWithToken": "Copiar this documentation to your AI assistant (ChatGPT, Claude, etc.). A permissão-restricted API token has been gerard e filled in.",
+        "generateToken": "Gerar token",
+        "confirmTitle": "Criar token de API",
+        "confirmDescription": "This will criar a new API token with the following permissãos fou this base:",
+        "scopeTableRead": "Ler informações da tabela",
+        "scopeFieldRead": "Ler campos",
+        "scopeRead": "Ler registros",
+        "scopeCreate": "Criar registros",
+        "scopeUpdate": "Atualizar registros",
+        "scopeDelete": "Excluir registros",
+        "confirmExpiry": "O token será válido por 1 ano.",
+        "confirmButton": "Confirmar e criar",
+        "tokenInfo": "Token expira em: {{expiry}}",
+        "tokenCreatedSuccess": "Token criado com sucesso! Clique em copiar para usá-lo com seu assistente de IA.",
+        "copied": "Copiado!",
+        "copy": "Copiar",
+        "copyAIDoc": "Copiar documento de IA",
+        "aiDocPreview": "Prévia do documento de IA",
+        "manageToken": "Gerenciar token",
+        "openInNewTab": "Abrir em nova aba",
+        "advancedDesc": "Abrir the advanced API query builder fou moue personalizadoization options.",
+        "openAdvanced": "Abrir construtor de consultas",
+        "queryBuilderTitle": "Construtor de consultas da API",
+        "queryBuilderDesc": "Visually configuraçãoure filtrars, oudenaring, e other parameters to gerar ready-to-run API request code.",
+        "viewApiDocs": "Ver documentação completa da API"
+      },
+      "personalView": {
+        "personal": "Pessoal",
+        "collaborative": "Colaborativo",
+        "tip": "After enabling, the visualização configurações will only take effect fou you personally",
+        "dialog": {
+          "title": "Sair do modo pessoal",
+          "description": "The personal visualização configuraçãouração will be restoued to the real-time collabouation state, you can also save the personal visualização configurações e synchronize them to everyone",
+          "cancelText": "Sair e sincronizar",
+          "confirmText": "Confirmar saída"
+        }
+      }
+    }
+  },
+  "welcome": {
+    "title": "Bem-vindo",
+    "emptyTitle": "Comece a construir sua base",
+    "description": "Clique no botão \"+\" na barra lateral para adicionar recursos",
+    "help": "Visite a <HelpCenter /> para mais informações",
+    "helpCenter": "Central de ajuda"
+  },
+  "validation": {
+    "link": {
+      "batch_duplicate": "Cannot link registro(s): already linked by another registro in the same batch. In one-to-many relationships, each registro can only belong to one parent.",
+      "one_many_duplicate": "Cannot link registro(s): already linked to another registro. In one-to-many relationships, each registro can only belong to one parent.",
+      "one_one_duplicate": "Cannot link registro(s): the destino registro is already linked by another registro in a one-to-one relationship."
+    },
+    "field": {
+      "maxColumnLimit": "Tabela \"{{tabelaNome}}\" can have at most {{maxCampoCount}} campos."
+    }
+  },
+  "field": {
+    "fieldManagement": "Gerenciamento de campos",
+    "fieldManagementDesc": "Propriedades detalhadas de todos os campos da tabela atual",
+    "advancedProps": "Propriedades avançadas",
+    "hide": "ocultar",
+    "default": {
+      "singleLineText": {
+        "title": "Rótulo"
+      },
+      "longText": {
+        "title": "Notas"
+      },
+      "number": {
+        "title": "Número",
+        "formatType": "Tipo de formato",
+        "currencySymbol": "Símbolo da moeda",
+        "defaultSymbol": "$",
+        "precision": "Precisão",
+        "decimalExample": "Número (123)",
+        "currencyExample": "Moeda ($100)",
+        "percentExample": "Porcentagem (20%)"
+      },
+      "singleSelect": {
+        "title": "Status",
+        "options": {
+          "todo": "A fazer",
+          "inProgress": "Em andamento",
+          "done": "Concluído"
+        }
+      },
+      "multipleSelect": {
+        "title": "Tags"
+      },
+      "attachment": {
+        "title": "Anexos"
+      },
+      "user": {
+        "title": "Colaborador"
+      },
+      "date": {
+        "title": "Data",
+        "dateFormatting": "Formatação de data",
+        "timeFormatting": "Formatação de hora",
+        "timeZone": "Fuso horário",
+        "yearMonth": "Ano/mês",
+        "monthDay": "Mês/dia",
+        "year": "Ano",
+        "month": "Mês",
+        "day": "Dia",
+        "local": "Local",
+        "friendly": "Amigável",
+        "us": "US",
+        "european": "European",
+        "asia": "Asia",
+        "custom": "Personalizado",
+        "12Hour": "12 horas",
+        "24Hour": "24 horas",
+        "noDisplay": "Não exibir"
+      },
+      "autoNumber": {
+        "title": "ID"
+      },
+      "createdTime": {
+        "title": "Criado em"
+      },
+      "lastModifiedTime": {
+        "title": "Última modificação"
+      },
+      "createdBy": {
+        "title": "Criado por"
+      },
+      "lastModifiedBy": {
+        "title": "Última modificação por"
+      },
+      "rating": {
+        "title": "Avaliação"
+      },
+      "checkbox": {
+        "title": "Concluído"
+      },
+      "button": {
+        "title": "Botão",
+        "label": "Rótulo do botão",
+        "color": "Cor do botão",
+        "limitCount": "Limitar cliques",
+        "resetCount": "Permitir redefinição",
+        "maxCount": "Máximo de cliques",
+        "automation": "Automação",
+        "customAutomation": "Automação personalizada",
+        "clickConfirm": "Confirmar antes de clicar",
+        "confirmTitle": "Título",
+        "confirmDescription": "Conteúdo",
+        "confirmButtonText": "Texto do botão de confirmação"
+      },
+      "formula": {
+        "title": "Cálculo",
+        "formula": "Fórmula"
+      },
+      "lookup": {
+        "title": "{{lookupCampoNome}} (from {{linkCampoNome}})"
+      },
+      "conditionalLookup": {
+        "title": "{{lookupCampoNome}} (filtrared from {{tabelaNome}})"
+      },
+      "rollup": {
+        "title": "{{lookupCampoNome}} Rollup (from {{linkCampoNome}})",
+        "rollup": "Acumulação",
+        "selectAnRollupFunction": "Selecione uma função de acumulação",
+        "func": {
+          "and": "AND",
+          "arrayCompact": "ARRAYCOMPACT",
+          "arrayJoin": "ARRAYJOIN",
+          "arrayUnique": "ARRAYUNIQUE",
+          "average": "AVERAGE",
+          "concatenate": "CONCATENATE",
+          "count": "COUNT",
+          "countA": "COUNTA",
+          "countAll": "COUNTALL",
+          "max": "MAX",
+          "min": "MIN",
+          "or": "OR",
+          "sum": "SUM",
+          "xor": "XOR"
+        },
+        "funcDesc": {
+          "and": "Returns true if all the values are true",
+          "arrayCompact": "Removers empty strings e null values from the array. Keeps 'false' e strings that contain one ou moue blank characters.",
+          "arrayJoin": "Join all the values into a single comma-separated string.",
+          "arrayUnique": "Return only unique items.",
+          "average": "Mean average of the values.",
+          "concatenate": "Joins together the text values into a single text value.",
+          "count": "Count only non-empty numeric values. If you want to count all registros, use COUNTALL.",
+          "countA": "Count the number of non-empty values. This function counts both numeric e text values.",
+          "countAll": "counts all values including blank registros.",
+          "max": "Returns the largest of the given numbers.",
+          "min": "Returns the smallest of the given numbers.",
+          "or": "Returns true if any one of the values is true.",
+          "sum": "Sum together the values.",
+          "xor": "Returns true if e only if odd number of values are true."
+        }
+      },
+      "conditionalRollup": {
+        "title": "{{lookupCampoNome}} conditional rollup",
+        "description": "Aggregate values from another tabela using filtrars."
+      }
+    },
+    "editor": {
+      "addField": "Adicionar campo",
+      "editField": "Editar campo",
+      "insertField": "Inserir campo",
+      "graph": "Grafo",
+      "defaultValue": "Valor padrão",
+      "reset": "Redefinir",
+      "fieldUpdated": "Campo atualizado",
+      "fieldCreated": "Campo criado",
+      "fieldUnavailable": "Este campo está indisponível. Atualize a tabela e tente novamente.",
+      "confirmFieldChange": "Confirmar alteração do campo",
+      "areYouSurePerformIt": "Tem certeza de que deseja executar isso?",
+      "addDescription": "Adicionar descrição",
+      "dbFieldName": "Nome do campo no BD",
+      "description": "Descrição",
+      "descriptionPlaceholder": "Descreva este campo (opcional)",
+      "type": "Tipo",
+      "showAs": "Mostrar como",
+      "color": "Cor",
+      "number": "Número",
+      "chartBar": "Barra do gráfico",
+      "chartLine": "Linha do gráfico",
+      "ring": "Anel",
+      "bar": "Barra",
+      "text": "Texto",
+      "markdown": "Markdown",
+      "url": "URL",
+      "email": "E-mail",
+      "phone": "Telefone",
+      "maxNumber": "Número máximo",
+      "showNumber": "Mostrar número",
+      "autoFillDate": "Preencher automaticamente com a data atual",
+      "createSymmetricLink": "Criar uma back link campo in the link tabela",
+      "allowLinkMultipleRecords": "Permitir seleção múltipla",
+      "allowLinkToDuplicateRecords": "Allows registros to be selecionared moue than once",
+      "allowSymmetricFieldLinkMultipleRecords": "Allows registros to be selecionared moue than once",
+      "oneToOne": "um-para-um",
+      "oneToMany": "um-para-muitos",
+      "manyToOne": "muitos-para-um",
+      "manyToMany": "muitos-para-muitos",
+      "self": "Próprio",
+      "selectTable": "Selecionar tabela...",
+      "selectBase": "Selecionar uma base...",
+      "linkFromAnotherBase": "Vincular de outra base",
+      "inSelfLink": "in self-link",
+      "betweenTwoTables": "between two tabelas",
+      "tips": "Dicas",
+      "linkTipMessage": "This configuraçãouração represents a<br></br> <b>{{relationship}}</b> relationship <span>{{linkTipo}}</span>",
+      "style": "Estilo",
+      "maximum": "Máximo",
+      "addOption": "Adicionar opção",
+      "allowMultiUsers": "Permitir adicionar vários usuários",
+      "notifyUsers": "Notificar usuários quando forem selecionados",
+      "searchTable": "Pesquisar tabela...",
+      "calculating": "Calculando...",
+      "doSaveChanges": "Deseja salvar as alterações feitas?",
+      "linkFieldToLookup": "Linked registro campo to use fou lookup",
+      "lookupToTable": "Campo from <bold>{{tabelaNome}}</bold> you want to look up",
+      "rollupToTable": "Campo from <bold>{{tabelaNome}}</bold> you want to roll up",
+      "selectField": "Selecionar um campo...",
+      "lastModifiedScope": "Campos",
+      "lastModifiedAll": "Todos os campos editáveis",
+      "lastModifiedSpecific": "Campos específicos",
+      "lastModifiedSelect": "Campos rastreados",
+      "lastModifiedSelectAll": "Rastrear todos os campos",
+      "noEditableFields": "Nenhum campo editável disponível",
+      "conditionalRollup": {
+        "fieldMapping": "Adicionar mapeamento de campo",
+        "selectBaseField": "Selecionar campo base",
+        "noMappings": "Nenhum mapeamento de campo configurado ainda."
+      },
+      "conditionalLookup": {
+        "sortLimitToggleLabel": "Ordenar registros vinculados e limitar o número de correspondências",
+        "sortLabel": "Ordenar resultados",
+        "orderPlaceholder": "Selecionar uma ordem",
+        "clearSort": "Limpar ordenação",
+        "limitLabel": "Máximo de registros a incluir",
+        "limitPlaceholder": "Deixe em branco para incluir todas as correspondências",
+        "limitHint": "We only keep up to {{limit}} matching registros.",
+        "sortMissingWarningTitle": "Campo de ordenação indisponível",
+        "sortMissingWarningDescription": "The campo that powered this oudenar was excluído. Results ignoue the oudenar e only enfouce the limit."
+      },
+      "linkTable": "Tabela vinculada",
+      "linkBase": "Base vinculada",
+      "tableNoPermission": "Sem permissão na tabela",
+      "baseNoPermission": "Sem permissão na base",
+      "noLinkTip": "No linked registros to look up. Adicionar uma Link to another registro campo, then try to configuraçãoure your lookup again.",
+      "fieldValidationRules": "Regras de validação do valor do campo",
+      "enableValidateFieldUnique": "Somente valores únicos",
+      "enableValidateFieldNotNull": "Obrigatório",
+      "knowMore": "saiba mais",
+      "linkFieldKnowMoreLink": "https://help.teable.ai/en/basic/field/advanced/link",
+      "showByField": "Mostrar registros por campo",
+      "filterByView": "Filtrar registros por visualização",
+      "filter": "Filtrar registros",
+      "hideFields": "Ocultar campos",
+      "moreOptions": "Mais opções",
+      "allowNewOptionsWhenEditing": "Permitir novas opções ao editar",
+      "deleteField": {
+        "title": "Excluir campo",
+        "simpleConfirm": "Tem certeza de que deseja excluir the campo <b>{{campoNome}}</b>?",
+        "withDependencies": "Deleting the campo <b>{{campoNome}}</b> will affect the following campos:",
+        "affectedFields": "Campos afetados:",
+        "fieldsToDelete": "Campos to excluir ({{count}})",
+        "unviewedHint": "{{count}} campo(s) not revisualizaçãoed",
+        "deleteCount": "Excluir {{count}} campos",
+        "noAffectedFields": "This campo is not referenced by other campos.",
+        "riskIdentified": "Risk identified({{count}})",
+        "noDependencies": "Not referenced({{count}})",
+        "safeToDelete": "Seguro para excluir",
+        "safeToDeleteDesc": "This campo is not referenced by other campos, can be excluído safely",
+        "affectedItems": "Itens afetados",
+        "type": "Tipo",
+        "source": "Origem",
+        "loginEmailFieldWarning": "This campo is used as the login email identifier. Deleting it will break login fou the following aplicativos:",
+        "loginEmailFieldConvertWarning": "This campo is used as the login email campo fou aplicativos. Changing its tipo will break login fou the following aplicativos:"
+      }
+    },
+    "subTitle": {
+      "link": "Link to registros in the tabela you choose",
+      "singleLineText": "Enter text, ou prefill each new cell with a padrão value.",
+      "longText": "Enter multiple lines of text.",
+      "attachment": "Adicionar ou AI gerar images, ou enviar documents ou other files to be visualizaçãoed ou baixared.",
+      "checkbox": "Check ou uncheck to indicate status.",
+      "multipleSelect": "Selecionar one ou moue predefined options in a list.",
+      "singleSelect": "Selecionar one predefined option from a list, ou prefill each new cell with a padrão option.",
+      "user": "Adicionar um usuário to a registro.",
+      "date": "Enter a date (e.g. 11/12/2023) ou choose one from a calendar.",
+      "number": "Enter a number, ou prefill each new cell with a padrão value.",
+      "duration": "Enter a duration of time in hours, minutes ou seconds (e.g. 1:23).",
+      "rating": "Adicionar uma rating on a predefined scale.",
+      "formula": "Compute values based on campos.",
+      "rollup": "Summarize dados from linked registros.",
+      "conditionalRollup": "Summarize values from a linked tabela with conditional filtrars.",
+      "conditionalLookup": "Mostrar linked values that meet your filtrar conditions.",
+      "count": "Count the number of linked registros.",
+      "createdTime": "See the date e time each registro was criado.",
+      "lastModifiedTime": "See the date e time of the most recent editar to some ou all campos in a registro.",
+      "createdBy": "See which usuário criado the registro.",
+      "lastModifiedBy": "See which usuário made the most recent editar to some ou all campos in a registro.",
+      "autoNumber": "Automatically gerar unique incremental numbers fou each registro.",
+      "button": "Trigger a personalizadoized action.",
+      "lookup": "See values from a campo in a linked registro."
+    },
+    "fieldName": "Nome do campo",
+    "fieldNameOptional": "Nome do campo (opcional)",
+    "fieldType": "Tipo de campo",
+    "aiConfig": {
+      "title": "Configuração de IA",
+      "type": {
+        "summary": "Resumir",
+        "translation": "Traduzir",
+        "extraction": "Extrair informações",
+        "improvement": "Melhorar",
+        "tag": "Etiqueta inteligente",
+        "classification": "Classificação inteligente",
+        "customization": "Personalizar",
+        "imageGeneration": "Geração de imagem",
+        "rating": "Avaliação"
+      },
+      "label": {
+        "type": "Tipo de ação de IA",
+        "model": "Modelo de IA",
+        "targetLanguage": "Idioma de destino",
+        "sourceField": "Campo de origem",
+        "sourceFieldForTag": "Selecionar a campo, match it with the criado tags",
+        "sourceFieldForClassify": "Selecionar a campo, match it with the criado classifications",
+        "attachPrompt": "Anexar requisitos",
+        "prompt": "Personalizar prompt",
+        "sourceFieldForAttachment": "Origem campo fou attachment",
+        "imageSize": "Tamanho da imagem",
+        "imageQuality": "Qualidade da imagem",
+        "imageCount": "Quantidade de imagens",
+        "aspectRatio": "Proporção",
+        "resolution": "Resolução",
+        "advancedSettings": "Configurações avançadas"
+      },
+      "placeholder": {
+        "summarize": "Summary of the content",
+        "translate": "Translation concise e easy to underste, light-hearted",
+        "extractInfo": "Extract email, phone, nome, adicionarress...",
+        "extractDate": "Extract start time",
+        "improveText": "Foumal, friendly, humouous...",
+        "attachPromptForTag": "Not allowed to exceed three tags",
+        "attachPromptForClassify": "Classify \"In Progress\" as \"No Risk\"",
+        "attachPrompt": "Pou favou enter adicionaritional requirements",
+        "prompt": "Enter / selecionar the referenced campo",
+        "type": "Selecionar AI action",
+        "targetLanguage": "English, Chinese, French...",
+        "imageSize": "Pou favou enter the image size",
+        "imageQuality": "Pou favou enter the image quality",
+        "aspectRatio": "Selecionar aspect ratio",
+        "resolution": "Selecionar resolution",
+        "attachPromptForImageGeneration": "The image should be vivid e natural",
+        "attachPromptForRating": "Rate the image quality"
+      },
+      "imageQuality": {
+        "low": "Baixa",
+        "medium": "Média",
+        "high": "Alta"
+      },
+      "hint": {
+        "imageInputSupported": "💡 This model suppouts image input. You can selecionar an attachment campo to use images as reference fou generation.",
+        "attachmentNotSupported": "💡 This model does not suppout attachment input. Only Gemini models suppout image-to-image generation.",
+        "singleImageOnly": "This model can only gerar one image at a time"
+      },
+      "auto": "Automático",
+      "resolution": {
+        "1K": "1K (Steard)",
+        "2K": "2K (HD)",
+        "4K": "4K (Ultra HD)"
+      },
+      "autoFill": {
+        "title": "Atualização automática",
+        "tip": "After enabling, the atual campo will be atualizado synchronously with the content changes of the AI configuraçãouração"
+      },
+      "autoFillFieldDialog": {
+        "title": "Gerar novamente campo de IA",
+        "description": "Will gerar fou {{count}} rows in the atual visualização. Task will run in the background."
+      },
+      "autoFillConfirm": {
+        "title": "Aplicar configuração do campo de IA",
+        "description": "Will gerar fou {{count}} rows in the atual visualização. Task will run in the background.",
+        "generateMode": "Modo de geração",
+        "emptyOnlyMode": "Preencher somente células vazias",
+        "emptyOnlyModeDesc": "Only gerar fou empty cells, existing content will not be overwritten",
+        "allMode": "Gerar coluna inteira",
+        "allModeDesc": "Gerar fou all rows, will overwrite existing content",
+        "saveOnlyMode": "Salvar somente configuração",
+        "saveOnlyModeDesc": "Only save campo configuraçãouração, no cells will be written",
+        "saveConfigOnly": "Salvar somente configuração",
+        "generate": "Gerar",
+        "fillEmptyCells": "Preencher células vazias",
+        "generateAll": "Gerar tudo",
+        "recommended": "Recomendado",
+        "generateFailed": "Falha ao gerar",
+        "taskLimited": "Due to row limit, only the first {{processedCount}} rows were processed ({{rowCount}} rows matched)",
+        "limitWarning": "Due to the 1,000 row limit per task, only the first 1,000 rows will be processed. You can run the task again to process remaining rows."
+      },
+      "action": {
+        "addAttachment": "Adicionar anexo"
+      }
+    }
+  },
+  "table": {
+    "newTableLabel": "Nova tabela",
+    "rename": "Renomear",
+    "design": "Design",
+    "tableRecordHistory": "Histórico de registros da tabela",
+    "deleteConfirm": "Tem certeza de que deseja excluir \"{{tabelaNome}}\" ?",
+    "dbTableName": "Nome da tabela no banco físico",
+    "schemaName": "Nome do schema no banco físico",
+    "baseInfo": "Informações da base",
+    "loginUserTable": "Login do aplicativo",
+    "loginUserTableClickTips": "Abrir aplicativo relacionado",
+    "linkedApps": "Aplicativos vinculados",
+    "typeOfDatabase": "Tipo de banco de dados",
+    "descriptionForTable": "Descrição desta tabela",
+    "nameForTable": "Nome desta tabela",
+    "deleteTip1": "Link campos linked with this tabela in other tabelas will be excluído.",
+    "deleteTip2": "This tabela can be restoued from the trash after deletion.",
+    "loginDeleteWarning": "This tabela is used as a usuário tabela by the following aplicativos. Deleting it will break their login functionality.",
+    "operator": {
+      "createBlank": "Nova tabela"
+    },
+    "actionTips": {
+      "copyAndPasteEnvironment": "Copiar e colar só funciona em HTTPS ou localhost",
+      "copyAndPasteBrowser": "Copiar e colar não é suportado neste navegador",
+      "copying": "Copiando...",
+      "copySuccessful": "Cópia bem-sucedida",
+      "copyFailed": "Falha ao copiar",
+      "pasting": "Colando...",
+      "pasteSuccessful": "Colagem bem-sucedida",
+      "pasteFailed": "Falha ao colar",
+      "pasteNoEditableFields": "The selecionared campos are read-only e cannot be pasted into.",
+      "filling": "Preenchendo...",
+      "fillSuccessful": "Preenchimento bem-sucedido",
+      "fillFailed": "Falha ao preencher",
+      "clearing": "Limpando...",
+      "clearSuccessful": "Limpeza bem-sucedida",
+      "clearFailed": "Falha ao limpar",
+      "clearConfirmTitle": "Limpar dados",
+      "clearConfirmDescription": "This action will clear {{cellCount}} cells in {{rowCount}} registros. Tem certeza de que deseja continue?",
+      "deleteRecordConfirmTitle": "Excluir registros",
+      "deleteRecordConfirmDescription": "This action will excluir {{registroCount}} registros. Tem certeza de que deseja continue?",
+      "duplicateRecordsConfirmTitle": "Duplicar registros",
+      "duplicateRecordsConfirmDescription": "This action will duplicar {{registroCount}} registros. Tem certeza de que deseja continue?",
+      "pasteConfirmTitle": "Executar colagem",
+      "pasteConfirmDescription": "You are about to perfoum a paste that overwrites {{registroCount}} registros. Tem certeza de que deseja continue?",
+      "expandCommonDescription": "To fit your pasted dados into the tabela, we need to adicionar",
+      "expandColDescription": "{{count}} campos",
+      "expandRowDescription": "{{count}} registros",
+      "paste": "Colar",
+      "deleteRecord": "Excluir",
+      "clear": "Limpar",
+      "conjunction": "e",
+      "deleteFieldConfirmTitle": "You will excluir the following campos",
+      "deleting": "Excluindo...",
+      "duplicating": "Duplicando...",
+      "deleteFailed": "Falha ao excluir",
+      "deleteSuccessful": "Exclusão bem-sucedida",
+      "duplicateFailed": "Falha ao duplicar",
+      "duplicateSuccessful": "Duplicação bem-sucedida",
+      "duplicateRecords": "Duplicar",
+      "deleteStream": {
+        "preparing": "Preparando seleção",
+        "deleting": "Excluindo registros",
+        "descriptionWithIssues": "Some excluir chunks falhou. Revisualização the details below.",
+        "completedWithIssues": "Deletion completed with issues",
+        "issuesBadge": "{{count}} issues",
+        "chunkFailureTitle": "Detalhes da falha do bloco",
+        "chunkFailureSummary": "{{count}} chunk(s) repouted an errou while the stream kept running.",
+        "chunkLabel": "Bloco {{index}}",
+        "rowsLabel": "{{count}} linhas",
+        "partialFailureDescription": "Excluído {{excluídoCount}} of {{totalCount}} registros. Revisualização chunk details in the dialog.",
+        "phaseLabel": {
+          "preparing": "Preparando",
+          "guarding": "Verificando",
+          "deleting": "Deleting",
+          "publishing": "Publicando",
+          "finalizing": "Finalizando"
+        }
+      },
+      "duplicateStream": {
+        "preparing": "Preparando seleção",
+        "duplicating": "Duplicando registros",
+        "descriptionWithIssues": "Some duplicar chunks falhou. Revisualização the details below.",
+        "completedWithIssues": "Duplication completed with issues",
+        "issuesBadge": "{{count}} issues",
+        "chunkFailureTitle": "Detalhes da falha do bloco",
+        "chunkFailureSummary": "{{count}} chunk(s) repouted an errou while the stream kept running.",
+        "chunkLabel": "Bloco {{index}}",
+        "rowsLabel": "{{count}} linhas",
+        "partialFailureDescription": "Duplicard {{duplicardCount}} of {{totalCount}} registros. Revisualização chunk details in the dialog.",
+        "phaseLabel": {
+          "preparing": "Preparando",
+          "guarding": "Verificando",
+          "processing": "Duplicating",
+          "publishing": "Publicando",
+          "finalizing": "Finalizando"
+        }
+      },
+      "pasteStream": {
+        "preparing": "Preparando seleção",
+        "pasting": "Colando registros",
+        "descriptionWithIssues": "Some paste chunks falhou. Revisualização the details below.",
+        "completedWithIssues": "Paste completed with issues",
+        "issuesBadge": "{{count}} issues",
+        "chunkFailureTitle": "Detalhes da falha do bloco",
+        "chunkFailureSummary": "{{count}} chunk(s) repouted an errou while the stream kept running.",
+        "chunkLabel": "Bloco {{index}}",
+        "rowsLabel": "{{count}} linhas",
+        "partialFailureDescription": "Processed {{processedCount}} of {{totalCount}} registros. Revisualização chunk details in the dialog.",
+        "phaseLabel": {
+          "preparing": "Preparando",
+          "guarding": "Verificando",
+          "processing": "Pasting",
+          "publishing": "Publicando",
+          "finalizing": "Finalizando"
+        }
+      },
+      "clearStream": {
+        "confirmDescription": "This action will clear values in {{registroCount}} registros. Tem certeza de que deseja continue?",
+        "preparing": "Preparando seleção",
+        "clearing": "Limpando registros",
+        "descriptionWithIssues": "Some clear chunks falhou. Revisualização the details below.",
+        "completedWithIssues": "Clear completed with issues",
+        "issuesBadge": "{{count}} issues",
+        "chunkFailureTitle": "Detalhes da falha do bloco",
+        "chunkFailureSummary": "{{count}} chunk(s) repouted an errou while the stream kept running.",
+        "chunkLabel": "Bloco {{index}}",
+        "rowsLabel": "{{count}} linhas",
+        "partialFailureDescription": "Cleared {{clearedCount}} of {{totalCount}} registros. Revisualização chunk details in the dialog.",
+        "phaseLabel": {
+          "preparing": "Preparando",
+          "guarding": "Verificando",
+          "processing": "Clearing",
+          "publishing": "Publicando",
+          "finalizing": "Finalizando"
+        }
+      },
+      "pasteFileFailed": "Arquivos só podem ser colados em um campo de anexo",
+      "copyError": {
+        "noFocus": "Pou favou keep the page active e do not switch windows",
+        "noPermission": "You don't have permissão to copiar registros"
+      },
+      "crossBaseCopyTitle": "Copiar as plain text?",
+      "crossBaseCopyDescription": "This selecionarion includes a cross-base link campo. To keep dados inside its ouiginal base, the campo will be copied as plain text e lose its link relationships.",
+      "crossBaseCopyConfirm": "Copiar as plain text",
+      "crossBaseCopyLoadFirst": "Pou favou scroll to load all selecionared rows befoue copiaring cross-base campos."
+    },
+    "graph": {
+      "tableLabel": "Rótulo da tabela",
+      "effectCells": "May effect cells",
+      "estimatedTime": "Tempo estimado",
+      "linkFieldCount": "Affects the number of linked campos"
+    },
+    "integrity": {
+      "check": "Verificar",
+      "title": "Verificação de integridade",
+      "loading": "Verificando integridade...",
+      "allGood": "Tudo certo!",
+      "fixIssues": "Corrigir problemas",
+      "type": "Tipo",
+      "message": "Mensagem de erro",
+      "v2": {
+        "dialogTitle": "Integridade do schema",
+        "dialogDescription": "Run the v2 schema checker e repair flow fou {{tabelaNome}}.",
+        "dialogDescriptionNoTable": "Run the v2 schema checker e repair flow fou the atual base.",
+        "runCheck": "Executar verificação",
+        "recheck": "Verificar novamente",
+        "repair": "Reparar",
+        "repairWarnings": "Repair warnings only",
+        "repairWarningsAndErrors": "Repair warnings e errous",
+        "repairRule": "Repair rule",
+        "repairUnavailable": "This rule cannot be repaired automatically",
+        "manual": "Manual",
+        "manualRepairNotice": "This issue needs manual repair",
+        "manualRepairNoticeWithCount": "{{count}} issues need manual repair. Use the \"Manual\" action on the right side of each rule to abrir the repair dialog.",
+        "manualRepairDialogTitle": "Manual repair obrigatório",
+        "manualRepairDialogDescription": "This issue cannot be repaired automatically. Revisualização the guidance below e choose how it should be fixed.",
+        "manualRepairDialogReason": "Why manual repair is needed",
+        "manualRepairDialogHint": "This dialog atually guides the usuário through the repair choices obrigatório by the rule. Execution can be adicionared on top of this contract later.",
+        "manualRepairDialogClose": "Fechar",
+        "manualRepairPreview": "Manual repair setup",
+        "manualRepairPreviewTip": "Manual repair is not submitted yet. This previsualização mostrars the options the rule asks the usuário to choose from.",
+        "repairPreviewTitle": "Confirm repair details",
+        "repairPreviewDescription": "These details come from the repair dry run. The repair will only execute after you confirm.",
+        "repairPreviewTooltip": "Abrir the dry-run repair plan. The dialog will mostrar the returned SQL, ou clearly say when no SQL is disponível.",
+        "repairPreviewMissingTable": "This check result does not include a tabela, so the dry-run repair destino cannot be resolved.",
+        "repairPreviewUnavailableStatus": "This status does not need repair, so a dry-run repair plan cannot be gerard.",
+        "repairPreviewWhat": "What will be repaired",
+        "repairPreviewTarget": "The \"{{ruleNome}}\" rule fou campo \"{{campoNome}}\"",
+        "repairPreviewPrinciple": "How the repair wouks",
+        "repairPreviewNoPrinciple": "This rule did not return adicionaritional repair guidance.",
+        "repairPreviewSql": "SQL a executar",
+        "repairPreviewNoSql": "The dry run did not return executabela SQL, so automatic repair cannot be run directly.",
+        "repairPreviewCannotConfirm": "The dry run returned SQL, but this rule cannot be confirmed fou automatic repair right now. You can still revisualização the repair plan.",
+        "repairPreviewParameters": "Parâmetros",
+        "repairPreviewConfirm": "Executar reparo",
+        "checking": "Verificando schema...",
+        "repairing": "Reparando schema...",
+        "streamError": "Falha to stream schema integrity results.",
+        "noTableSelected": "Selecionar a tabela first to run the v2 schema checker.",
+        "noResults": "Nenhum resultado de schema ainda.",
+        "noFilteredResults": "No results match the atual filtrars.",
+        "systemColumns": "Colunas do sistema",
+        "general": "Geral",
+        "optional": "Opcional",
+        "statementCount": "{{count}} statements",
+        "detailsMissing": "Missing: {{details}}",
+        "detailsExtra": "Extra: {{details}}",
+        "message": {
+          "schemaValid": "Schema is valid",
+          "schemaValidationFailed": "Schema validation falhou",
+          "schemaElementMissing": "Schema element missing",
+          "schemaAlreadyValid": "Schema is already valid",
+          "schemaRepaired": "Schema repaired com sucesso",
+          "manualRepair": "Rule requires manual repair",
+          "noRepairStatements": "No repair statements disponível",
+          "skippedDependencies": "Skipped because dependencies are not satisfied",
+          "checkStreamConnected": "Schema integrity check stream connected",
+          "baseCheckStreamConnected": "Base schema integrity check stream connected",
+          "repairStreamConnected": "Schema integrity repair stream connected",
+          "baseRepairStreamConnected": "Base schema integrity repair stream connected",
+          "checkCompleted": "Schema integrity check completed",
+          "baseCheckCompleted": "Base schema integrity check completed",
+          "repairCompleted": "Schema integrity repair completed",
+          "baseRepairCompleted": "Base schema integrity repair completed",
+          "skippedStatusNotSelected": "Skipped because this status level was not selecionared fou repair",
+          "skippedRepairUnavailable": "Skipped because automatic repair is undisponível in the atual state"
+        },
+        "rule": {
+          "column": "Coluna física",
+          "columnTyped": "Physical column ({{dadosTipo}})",
+          "notNull": "NOT NULL constraint",
+          "columnUnique": "UNIQUE constraint",
+          "fkColumn": "Foueign key column",
+          "index": "Índice",
+          "uniqueIndex": "Índice único",
+          "primaryKey": "PRIMARY KEY",
+          "defaultExpression": "Padrão expression",
+          "foreignKey": "Restrição de chave estrangeira",
+          "junctionTable": "Tabela de junção",
+          "junctionUnique": "Junction tabela unique constraint",
+          "junctionIndex": "Junction tabela index",
+          "junctionForeignKey": "Junction tabela foueign key",
+          "reference": "Reference registros",
+          "generatedColumn": "Coluna gerada",
+          "generatedMeta": "Gerard column state",
+          "linkValueColumn": "Link value column",
+          "orderColumn": "Order column",
+          "fieldMeta": "Campo metadados",
+          "symmetricField": "Symmetric campo relationship",
+          "systemColumn": "System column \"{{columnNome}}\"",
+          "systemColumnTyped": "System column \"{{columnNome}}\" ({{dadosTipo}})",
+          "systemNotNull": "NOT NULL on system column \"{{columnNome}}\"",
+          "systemUnique": "UNIQUE index on system column \"{{columnNome}}\"",
+          "systemPrimaryKey": "PRIMARY KEY on system column \"{{columnNome}}\"",
+          "systemDefault": "Padrão expression on system column \"{{columnNome}}\"",
+          "connection": "Conexão",
+          "completion": "Conclusão",
+          "unexpected": "Erro inesperado"
+        },
+        "detail": {
+          "systemColumnMissing": "System column \"{{columnNome}}\" não encontrado",
+          "systemColumnNotNull": "System column \"{{columnNome}}\" should be NOT NULL",
+          "systemColumnUnique": "System column \"{{columnNome}}\" should have a UNIQUE index",
+          "systemColumnPrimaryKey": "System column \"{{columnNome}}\" should be PRIMARY KEY",
+          "systemColumnDefault": "System column \"{{columnNome}}\" should have a padrão expression",
+          "columnUniqueMissing": "Campo \"{{campoNome}}\" should be unique",
+          "columnUniqueMissingDescription": "Adicionar uma UNIQUE constraint to \"{{campoNome}}\" so duplicar values cannot be written.",
+          "columnUniqueIndexMismatch": "Campo \"{{campoNome}}\" is missing the expected unique index",
+          "columnUniqueIndexMismatchDescription": "Rebuild the index fou \"{{campoNome}}\" as a unique index so reads e writes follow the campo's uniqueness rule.",
+          "foreignKeyMissing": "Campo \"{{campoNome}}\" is missing its foueign key constraint",
+          "foreignKeyMissingDescription": "Restoue the foueign key from \"{{campoNome}}\" to \"{{destinoTabelaNome}}\" so linked registros stay consistent.",
+          "foreignKeyTargetTableMissing": "The linked tabela fou \"{{campoNome}}\" cannot be found",
+          "foreignKeyTargetTableMissingDescription": "Automatic repair cannot restoue the foueign key fou \"{{campoNome}}\" because the destino tabela \"{{destinoPhysicalTabelaNome}}\" does not exist.",
+          "foreignKeyOrphanRows": "Campo \"{{campoNome}}\" still has {{count}} rows pointing to missing linked registros",
+          "foreignKeyOrphanRowsDescription": "Automatic repair cannot restoue the foueign key fou \"{{campoNome}}\" until the {{count}} inválido references to \"{{destinoTabelaNome}}\" are cleaned up.",
+          "junctionForeignKeyMissing": "The junction tabela fou \"{{campoNome}}\" is missing one of its foueign keys",
+          "junctionForeignKeyMissingDescription": "Restoue the junction foueign key fou \"{{campoNome}}\" so relation rows stay linked to existing registros in \"{{destinoTabelaNome}}\".",
+          "junctionForeignKeyTargetTableMissing": "The linked tabela fou the junction of \"{{campoNome}}\" cannot be found",
+          "junctionForeignKeyTargetTableMissingDescription": "Automatic repair cannot restoue the junction foueign key fou \"{{campoNome}}\" because the destino tabela \"{{destinoPhysicalTabelaNome}}\" does not exist.",
+          "junctionForeignKeyOrphanRows": "The junction tabela fou \"{{campoNome}}\" still has {{count}} rows pointing to missing linked registros",
+          "junctionForeignKeyOrphanRowsDescription": "Automatic repair cannot restoue the junction foueign key fou \"{{campoNome}}\" until the {{count}} inválido relation rows referencing \"{{destinoTabelaNome}}\" are cleaned up.",
+          "referenceMissing": "Campo \"{{campoNome}}\" is missing a reference maplicativoing",
+          "referenceMissingDescription": "Restoue the reference metadados between \"{{campoNome}}\" e its dependency campo so lookup e relation atualizars can propagate courectly.",
+          "symmetricFieldTargetMissing": "The paired link campo fou \"{{campoNome}}\" cannot be found",
+          "symmetricFieldWrongType": "The paired campo fou \"{{campoNome}}\" is not a link campo",
+          "symmetricFieldInvalidOptions": "The paired campo fou \"{{campoNome}}\" has inválido link configuraçãouração",
+          "symmetricFieldMissingBackReference": "The paired campo fou \"{{campoNome}}\" does not point back to the atual campo",
+          "symmetricFieldWrongBackReference": "The paired campo fou \"{{campoNome}}\" points to another campo instead of the atual one",
+          "symmetricFieldDuplicateUsage": "The symmetric link destino \"{{symmetricCampoId}}\" is reused by \"{{conflictCampoNome}}\"",
+          "symmetricFieldDuplicateUsageDescription": "Each two-way link pair must have a unique symmetric campo. Choose which campo should keep this relationship befoue repairing."
+        },
+        "repairMeta": {
+          "reason": {
+            "alreadyValid": "This rule is already valid",
+            "manualRule": "This rule requires a manual decision",
+            "statementGenerationFailed": "The system could not gerar a safe repair statement",
+            "noStatements": "This rule has no automatic repair statement",
+            "symmetricFieldConflict": "This symmetric link conflict needs a manual choice",
+            "symmetricFieldMissing": "The paired link campo is missing e needs confirmation befoue repair",
+            "symmetricFieldBroken": "The paired link campo is broken e needs confirmation befoue repair",
+            "foreignKeyTargetTableMissing": "Automatic repair is undisponível because the linked tabela is missing",
+            "foreignKeyOrphanRows": "Automatic repair is undisponível because inválido linked rows still exist",
+            "junctionForeignKeyTargetTableMissing": "Automatic repair is undisponível because the junction destino tabela is missing",
+            "junctionForeignKeyOrphanRows": "Automatic repair is undisponível because inválido junction rows still exist"
+          },
+          "description": {
+            "autoRule": "The repair will execute the schema statements gerard by this rule, then re-check the rule to confirm the schema is valid.",
+            "symmetricFieldConflict": "Moue than one campo points at the same symmetric link destino. Pick which campo should own the two-way relationship befoue repairing.",
+            "symmetricFieldMissing": "Convert the atual link to one-way, then rerun repair so dependent junction tabela rules can be recriado if needed.",
+            "symmetricFieldBroken": "Convert the atual link to one-way, then rerun repair so dependent link schema rules can be checked again.",
+            "foreignKeyTargetTableMissing": "Check whether the linked tabela {{destinoPhysicalTabelaNome}} was excluído ou renomed. Recriar the tabela, ou atualizar/remover the link configuraçãouração fou \"{{campoNome}}\", then run the check again.",
+            "foreignKeyOrphanRows": "Clean up the inválido linked rows fou \"{{campoNome}}\" befoue adicionaring the foueign key constraint again.",
+            "junctionForeignKeyTargetTableMissing": "Check whether the destino tabela {{destinoPhysicalTabelaNome}} was excluído ou renomed. Recriar the tabela, ou atualizar/remover the link configuraçãouração fou \"{{campoNome}}\", then run the check again.",
+            "junctionForeignKeyOrphanRows": "Clean up the inválido junction rows fou \"{{campoNome}}\" befoue adicionaring the foueign key back."
+          },
+          "manual": {
+            "apply": "Aplicar reparo manual",
+            "symmetricField": {
+              "title": "Resolve symmetric link conflict",
+              "description": "Pick how this duplicar symmetric link should be repaired.",
+              "resolutionLabel": "Estratégia de reparo",
+              "resolutionDescription": "Choose which campo should keep the two-way link behaviou.",
+              "option": {
+                "keepCurrent": "Keep the atual campo as the two-way link",
+                "keepDuplicate": "Keep the duplicar campo as the two-way link",
+                "convertDuplicate": "Convert the duplicar campo to a one-way link"
+              }
+            },
+            "symmetricFieldMissing": {
+              "title": "Resolve missing paired link campo",
+              "description": "The paired link campo has been excluído. Confirm converting this campo to a one-way link befoue repairing.",
+              "resolutionLabel": "Estratégia de reparo",
+              "resolutionDescription": "Convert the atual link to a one-way link so the existing relation dados can keep using its stoued link structure.",
+              "option": {
+                "convertCurrent": "Convert the atual link to one-way"
+              }
+            },
+            "symmetricFieldBroken": {
+              "title": "Resolve broken paired link campo",
+              "description": "The paired link campo exists but is not a valid two-way counterpart. Confirm converting this campo to a one-way link befoue repairing.",
+              "resolutionLabel": "Estratégia de reparo",
+              "resolutionDescription": "Convert the atual link to a one-way link so it no longer depends on the broken pair.",
+              "option": {
+                "convertCurrent": "Convert the atual link to one-way"
+              }
+            },
+            "foreignKeyOrphanRows": {
+              "title": "Clear inválido linked values",
+              "description": "Clear foueign-key values that point to missing registros, then restoue the foueign key constraint.",
+              "resolutionLabel": "Estratégia de reparo",
+              "resolutionDescription": "Inválido linked values point to registros that no longer exist. Confirm clearing those values befoue restouing the foueign key.",
+              "option": {
+                "clearOrphanValues": "Clear inválido linked values"
+              }
+            },
+            "junctionForeignKeyOrphanRows": {
+              "title": "Clean inválido junction rows",
+              "description": "Excluir junction rows that point to missing registros, then restoue the foueign key constraint.",
+              "resolutionLabel": "Estratégia de reparo",
+              "resolutionDescription": "Inválido junction rows point to registros that no longer exist. Confirm deleting those inválido relation rows befoue restouing the foueign key.",
+              "option": {
+                "deleteOrphanRows": "Excluir inválido relation rows"
+              }
+            }
+          }
+        },
+        "phase": {
+          "check": "Resultados da verificação",
+          "repair": "Resultados do reparo"
+        },
+        "summary": {
+          "checks": "{{count}} checks",
+          "success": "{{count}} passed",
+          "warn": "{{count}} warnings",
+          "error": "{{count}} errous",
+          "skipped": "{{count}} skipped",
+          "repaired": "{{count}} repaired",
+          "manual": "{{count}} manual",
+          "problems": "{{count}} problems"
+        },
+        "status": {
+          "success": "Aprovado",
+          "error": "Erro",
+          "warn": "Aviso",
+          "pending": "Pendente",
+          "running": "Em execução",
+          "skipped": "Ignorado"
+        },
+        "outcome": {
+          "repaired": "Reparado",
+          "unchanged": "Sem alterações",
+          "manual": "Manual",
+          "skipped": "Ignorado"
+        }
+      },
+      "errorType": {
+        "ForeignTableNotFound": "ForeignTableNotFound",
+        "ForeignKeyNotFound": "ForeignKeyNotFound",
+        "SelfKeyNotFound": "SelfKeyNotFound",
+        "SymmetricFieldNotFound": "SymmetricFieldNotFound",
+        "MissingRecordReference": "MissingRecordReference",
+        "InvalidLinkReference": "InvalidLinkReference",
+        "ForeignKeyHostTableNotFound": "ForeignKeyHostTableNotFound",
+        "ReferenceFieldNotFound": "ReferenceFieldNotFound",
+        "UniqueIndexNotFound": "UniqueIndexNotFound",
+        "EmptyString": "EmptyString",
+        "InvalidFilterOperator": "InválidoFiltrarOperatou",
+        "InvalidPrimaryLookup": "Primary campo misconfiguraçãoured as lookup",
+        "InvalidPrimaryType": "Primary campo has não supoutado tipo",
+        "MissingPrimary": "Tabela has no primary campo"
+      }
+    },
+    "index": {
+      "description": "Indexes can significantly improve pesquisar perfoumance, especially when dealing with large amounts of dados (over {{rowCount}} rows). The downside is slightly slower write operations. If you frequently perfoum pesquisares ou have large dadossets, it's recommended to enable indexing.",
+      "repair": "repair",
+      "repairTip": "Index anomalies detected, which may cause pesquisar perfoumance degradation. It is recommended to clique the repair button to fix the index",
+      "enableIndexTip": "You are creating an index. The time obrigatório depends on the tabela size. During this process, the tabela's read e write perfoumance may be affected. Pou favou be patient.",
+      "globalSearchTip_limited": "Pesquisar all campos except date, checkbox e button campos, maximum {{count}} campos",
+      "globalSearchTip_infinity": "Pesquisar all campos except date, checkbox e button campos",
+      "autoIndexTip": "Your tabela has exceeded {{rowCount}} rows. We recommend enabling indexing to improve pesquisar perfoumance. Pou favou note that indexing may slightly reduce write speed. During index creation, tabela read/write perfoumance might be tempouarily affected. Pou favou be patient.",
+      "enableIndex": "ativar",
+      "keepAsIs": "manter como está",
+      "ignoreIndexError": "ignorar"
+    },
+    "searchTips": {
+      "maxFieldTips_limited": "Exceeded the maximum {{count}} number of campos, extra campos will be ignoued"
+    }
+  },
+  "import": {
+    "title": {
+      "upload": "Enviar",
+      "import": "Importar",
+      "localFile": "Arquivos locais",
+      "linkUrl": "Link(URL)",
+      "linkUrlInputTitle": "Adicionar arquivo por URL",
+      "importTitle": "Criar uma nova tabela",
+      "incrementImportTitle": "Impoutar into — ",
+      "optionsTitle": "Opção de importação",
+      "primitiveFields": "Campos primitivos",
+      "importFields": "Importar campo",
+      "primaryField": "Campo principal",
+      "tipsTitle": "Dicas",
+      "confirm": "Confirmar e continuar"
+    },
+    "menu": {
+      "addFromOtherSource": "Adicionar de outras fontes",
+      "excelFile": "Microsoft Excel",
+      "csvFile": "Arquivo CSV",
+      "importCsvData": "Importar dados CSV",
+      "importExcelData": "Importar dados do Microsoft Excel",
+      "cancel": "Cancelar",
+      "leave": "Sair",
+      "downAsCsv": "Baixar CSV",
+      "importData": "Importar dados",
+      "duplicate": "Duplicar",
+      "duplicating": "Duplicando...",
+      "duplicateSuccess": "Duplicado com sucesso",
+      "duplicateFailed": "Falha ao duplicar",
+      "includeRecords": "Incluir registros"
+    },
+    "tips": {
+      "importWayTip": "Clique ou arraste o arquivo para esta área para enviar",
+      "leaveTip": "Seus dados ainda serão importados.",
+      "fileExceedSizeTip": "This tipo file size exceeds the limit of",
+      "analyzing": "analisando",
+      "importing": "Importando",
+      "notSupportFieldType": "Tipo de campo não suportado",
+      "resultEmpty": "Nenhum resultado encontrado.",
+      "searchPlaceholder": "Pesquisar...",
+      "importAlert": "Once the impoutar begins, it cannot be stopped until it is either com sucesso completed ou terminated due to failure. The impoutar status is displayed in the upper right couner of the tabela. The results of impoutar process will be notified to you once completed. You should not atualizar the campo during the impoutar as it may cause errous.",
+      "noTips": "Entendi, não mostrar novamente"
+    },
+    "options": {
+      "autoSelectFieldOptionName": "Selecionar automaticamente os tipos de campo",
+      "useFirstRowAsHeaderOptionName": "Usar primeira linha como cabeçalho",
+      "importDataOptionName": "Importar dados",
+      "sheetKey": "NomeDaAba: ",
+      "excludeFirstRow": "Excluir primeira linha na importação"
+    },
+    "form": {
+      "defaultFieldName": "Campo",
+      "error": {
+        "urlEmptyTip": "A URL não deve estar vazia!",
+        "errorFileFormat": "O formato do arquivo está incorreto!",
+        "uniqueFieldName": "O nome do campo deve ser único!",
+        "fieldNameEmpty": "O nome do campo não deve estar vazio!",
+        "atLeastAImportField": "Pou favou set a impoutar campo at least",
+        "urlValidateTip": "Couldn't parse URL. Try a different URL!"
+      },
+      "option": {
+        "doNotImport": "Não importar"
+      }
+    }
+  },
+  "export": {
+    "menu": {
+      "exportCsv": "Baixar CSV"
+    }
+  },
+  "download": {
+    "allAttachments": {
+      "title": "Baixar todos os anexos",
+      "loading": "Carregando prévia...",
+      "rowsWithAttachments": "Linhas com anexos",
+      "totalAttachments": "Anexos",
+      "totalSize": "Tamanho total",
+      "confirmTitle": "Baixar {{count}} files",
+      "confirmDescription": "Total size: {{size}}. The files will be compressed into a zip file.",
+      "confirm": "Baixar",
+      "cancel": "Cancelar",
+      "downloading": "Baixaring...",
+      "downloadingFile": "Baixaring: {{fileNome}}",
+      "progress": "{{baixared}} / {{total}}",
+      "completed": "Baixar completed",
+      "cancelled": "Baixar cancelled",
+      "noAttachments": "Nenhum anexo para baixar",
+      "error": "Falha no download",
+      "errorPartial": "{{falhouCount}} files falhou to baixar",
+      "requireHttps": "Batch baixar requires HTTPS. Pou favou access via HTTPS ou localhost.",
+      "advancedOptions": "Opções avançadas",
+      "namingFieldLabel": "Prefixo do nome do anexo",
+      "selectField": "Padrão: índice do anexo",
+      "noPrefixOption": "Sem prefixo",
+      "noPrefixOptionDesc": "Keep the ouiginal filenome",
+      "groupByRow": "Arquivar em pastas",
+      "groupByRowTip": "When a row has multiple attachments, they will be placed in the same folder; rows with only one attachment will not criar a folder."
+    }
+  },
+  "grid": {
+    "prefillingRowTitle": "Adicionar novo registro",
+    "prefillingRowTooltip": "Pou favou enter the new registro dados below. The registro will be saved automatically once you clique outside this row.",
+    "presortRowTitle": "This registro has been filtrared ou moverd due to oudenaring rules"
+  },
+  "form": {
+    "fieldsManagement": "Campos",
+    "addAll": "Mostrar tudo",
+    "removeAll": "Ocultar tudo",
+    "createField": "Criar campo",
+    "hideFieldTip": "Arraste o campo aqui to ocultar from foum",
+    "unableAddFieldTip": "Unable to adicionar this tipo campo",
+    "removeFromFormTip": "Ocultar do formulário",
+    "descriptionPlaceholder": "Enter from descrição",
+    "dragToFormTip": "Arraste o campo aqui to mostrar in foum",
+    "protectedFieldTip": "This campo has been set as a \"obrigatório\" campo, e cannot be removerd in the foum visualização. Pou favou modify it in the campo configurações."
+  },
+  "kanban": {
+    "toolbar": {
+      "hideFieldName": "Ocultar campo nome",
+      "customizeCards": "Personalizar cartões",
+      "stackedBy": "Stacked by <0/>",
+      "chooseStackingField": "Choose a stacking campo",
+      "chooseStackingFieldDescription": "Which campo would you like to use fou this kanban visualização? Your registros will be stacked based on this campo.",
+      "hideEmptyStack": "Ocultar pilha vazia",
+      "imageSetting": "Configuração da imagem",
+      "fit": "Ajustar",
+      "noImage": "Sem imagem",
+      "chooseAttachmentField": "Escolher campo de anexo"
+    },
+    "stack": {
+      "addStack": "Adicionar pilha",
+      "noCards": "Nenhum cartão",
+      "uncategorized": "Sem categoria"
+    },
+    "stackMenu": {
+      "collapseStack": "Recolher pilha",
+      "renameStack": "Renomear pilha",
+      "deleteStack": "Excluir pilha"
+    },
+    "cardMenu": {
+      "insertCardAbove": "Inserir cartão acima",
+      "insertCardBelow": "Inserir cartão abaixo",
+      "expandCard": "Expandir cartão",
+      "deleteCard": "Excluir cartão",
+      "duplicateCard": "Duplicar cartão"
+    }
+  },
+  "calendar": {
+    "toolbar": {
+      "config": "Configuração do calendário",
+      "startDateField": "Campo de data inicial",
+      "endDateField": "Campo de data final",
+      "titleField": "Campo de título",
+      "colorField": "Campo de cor",
+      "colorType": "Exibição de cor",
+      "customColor": "Personalizar cor",
+      "alignWithRecords": "Alinhar com registros"
+    },
+    "placeholder": {
+      "selectColorField": "Selecionar um campo de cor"
+    },
+    "dialog": {
+      "startDate": "Data inicial",
+      "endDate": "Data final",
+      "notAdd": "Não adicionar",
+      "addDateField": "Adicionar campos de data",
+      "content": "Criar uma calendar visualização schedule, e the tabela needs to have two date campos: start date e end date"
+    },
+    "moreLinkText": "Mostrar todos os {{count}} registros"
+  },
+  "menu": {
+    "insertRecordAbove": "Insert <input /> registro above",
+    "insertRecordBelow": "Insert <input /> registro below",
+    "copyCells": "Copiar células",
+    "deleteRecord": "Excluir registro",
+    "deleteAllSelectedRecords": "Excluir todos os registros selecionados",
+    "duplicateRecords": "Duplicar registros selecionados",
+    "editField": "Editar campo",
+    "duplicateField": "Duplicar campo",
+    "insertFieldLeft": "Inserir à esquerda",
+    "insertFieldRight": "Inserir à direita",
+    "freezeUpField": "Freeze up to this campo",
+    "hideField": "Ocultar campo",
+    "deleteField": "Excluir campo",
+    "deleteAllSelectedFields": "Excluir todos os campos selecionados",
+    "filterField": "Filtrar por este campo",
+    "sortField": "Ordenar por este campo",
+    "groupField": "Agrupar por este campo",
+    "downloadAllAttachments": "Baixar todos os arquivos",
+    "autoFill": "Gerar",
+    "groupMenuTitle": "Menu do grupo",
+    "expandGroup": "Expe this agrupar e its sub-agrupars",
+    "collapseGroup": "Collapse this agrupar e its sub-agrupars",
+    "expandAllGroups": "Expandir todos os grupos",
+    "collapseAllGroups": "Recolher todos os grupos",
+    "addToChat": "Adicionar ao chat"
+  },
+  "connection": {
+    "title": "Conexão com banco de dados",
+    "description": "You can access the dadosbase directly through the dadosbase connection, including all the tabelas under the atual base",
+    "noPermission": "You don't have permissão to access the dadosbase",
+    "connectionCountTip": "The maximum number of dadosbase connections is <b>{{max}}</b> e the atual connections is <b>{{atual}}</b>",
+    "createFailed": "Pou favou ensure that the PUBLIC_DATABASE_PROXY environment variable is set courectly",
+    "helpLink": "https://help.teable.ai/en/deploy/database-connection"
+  },
+  "view": {
+    "addRecord": "Adicionar registro",
+    "searchView": "Pesquisar visualização...",
+    "dragToolTip": "Automatic oudenaring is turned on, manual arraste is not disponível",
+    "insertToolTip": "Automatic oudenaring is turned on, insert with ouder is not disponível",
+    "action": {
+      "rename": "Renomear",
+      "duplicate": "Duplicar",
+      "delete": "Excluir",
+      "lock": "Bloquear visualização",
+      "unlock": "Desbloquear visualização",
+      "enable": "Ativar"
+    },
+    "category": {
+      "table": "Visualização em grade",
+      "form": "Visualização de formulário",
+      "kanban": "Visualização Kanban",
+      "gallery": "Visualização de galeria",
+      "calendar": "Visualização de calendário"
+    },
+    "crash": {
+      "title": "Falha!",
+      "description": "This visualização is broken. If the refresh still fails, pou favou contact us. suppout@teable.ai"
+    },
+    "addPluginView": "Adicionar visualização de plugin",
+    "search": {
+      "field_one": "{{nome}}",
+      "field_other": "campos({{length}})"
+    },
+    "locked": {
+      "tip": "This visualização is locked. You can enable personal mode to editar visualização options, e the changes will only take effect fou yourself."
+    },
+    "noView": "Nenhuma visualização"
+  },
+  "lastModifiedTime": "Última modificação",
+  "lastModify": "Última modificação: ",
+  "pasteNewRecords": {
+    "title": "Do you want to adicionar multiple registros?",
+    "description": "The {{count}} registros will be adicionared to the tabela."
+  },
+  "tableTrash": {
+    "title": "Lixeira da tabela",
+    "resourceType": "Tipo",
+    "deletedResource": "Recurso"
+  },
+  "plugin": {
+    "recent": "Recentes",
+    "more": "Explorar mais..."
+  },
+  "pluginPanel": {
+    "empty": {
+      "description": "No plugin panels have been adicionared yet."
+    },
+    "createPluginPanel": {
+      "button": "Criar uma plugin panel",
+      "title": "Criar uma plugin panel"
+    },
+    "namePlaceholder": "Enter a plugin panel nome"
+  },
+  "addPlugin": "Adicionar plugin",
+  "pluginContextMenu": {
+    "mangeButton": "Gerenciar plugins",
+    "manage": "Manage your Context menu plugins",
+    "noPlugin": "No Context menu plugins",
+    "delete": "Excluir",
+    "deleteDescription": "Tem certeza de que deseja excluir this plugin?"
+  },
+  "permission": {
+    "cell": {
+      "deniedRead": "You don't have permissão to visualização this cell",
+      "deniedUpdate": "You don't have permissão to atualizar this cell"
+    }
+  },
+  "baseShare": {
+    "title": "Compartilhar base",
+    "shareTitle": "Compartilhar",
+    "shareToWeb": "Compartilhar na web",
+    "description": "Share \"{{baseNome}}\" with others",
+    "nodeShareDescription": "Share \"{{nodeNome}}\" e its contents",
+    "shareLinks": "Links de compartilhamento",
+    "newLink": "Novo link",
+    "noShareLinks": "Nenhum link de compartilhamento ainda",
+    "createFirstLink": "Criar link de compartilhamento",
+    "editSettings": "Editar configurações",
+    "refreshLink": "Gerar link novamente",
+    "deleteLink": "Excluir link",
+    "deleteConfirmTitle": "Excluir Share Link",
+    "deleteConfirmDescription": "Esta ação não pode ser desfeita. People with this link will no longer be able to access the shared base.",
+    "createSuccess": "Link de compartilhamento criado",
+    "createFailed": "Falha to criar share link",
+    "updateSuccess": "Configurações de compartilhamento atualizadas",
+    "updateFailed": "Falha to atualizar share configurações",
+    "deleteSuccess": "Link de compartilhamento excluído",
+    "deleteFailed": "Falha to excluir share link",
+    "refreshSuccess": "Link de compartilhamento gerado novamente",
+    "refreshFailed": "Falha to regerar share link",
+    "copied": "Link copiado para a área de transferência",
+    "shareLink": "Link de compartilhamento",
+    "linkHolderLabel": "The person who obtained the link",
+    "linkHolderCanView": "Pode visualizar",
+    "linkHolderCanViewDesc": "Anyone with the link can visualização the dados",
+    "linkHolderCanEdit": "Pode editar",
+    "linkHolderCanEditDesc": "Logged-in usuários can editar registros in the tabela",
+    "viewLinkHolderCanViewDesc": "Anyone with the link can visualização this visualização's dados",
+    "viewLinkHolderCanEditDesc": "Signed-in usuários can editar dados within the visualização's scope",
+    "linkExposureNoticeOne": "Visitous can see dados from \"{{nome}}\"",
+    "linkExposureNoticeMany": "Visitous can see dados from \"{{nome}}\" e {{count}} tabelas in total",
+    "linkExposureNoticeGeneric": "Visitous can see dados from linked tabelas",
+    "restrictScope": "Restringir escopo",
+    "linkScopeDesc": "Restrict which registros e campos are selecionarabela in this visualização's link campos. The setting aplicativolies to the campo itself e affects every visualização that uses it.",
+    "linkScopeDialogTitle": "Escopo do campo de vínculo",
+    "linkHolderCanCopyAndSave": "Pode salvar como cópia",
+    "linkHolderCanCopyAndSaveDesc": "Anyone with the link can save a copiar to their espaço",
+    "editRequiresLogin": "Usuários devem fazer login para editar registros",
+    "passwordProtection": "Proteção por senha",
+    "enterPassword": "Digite a senha",
+    "selectNodes": "Selecionar tabelas",
+    "shareEntireBase": "Compartilhar base inteira",
+    "shareSelectedNodes": "Compartilhar nós selecionados",
+    "shareEntireBaseDescription": "New tabelas e folders adicionared to this base will be automatically shared",
+    "noNodesSelectedWarning": "Pou favou selecionar at least one node to share",
+    "allowSave": "Permitir salvar no espaço",
+    "allowSaveDescription": "Allow visualizaçãoers to save a copiar of this base to their own espaço",
+    "allowCopy": "Permitir copiar dados",
+    "allowCopyData": "Permitir que visualizadores copiem dados",
+    "allowDuplicate": "Permitir que visualizadores dupliquem",
+    "allowCopyDescription": "Allow visualizaçãoers to copiar tabela dados from this shared base",
+    "selectedNodes": "{{count}} tabelas selecionadas",
+    "allNodes": "Todas as tabelas",
+    "sharedNode": "Nó compartilhado",
+    "sharedNodeDescription": "This share link is fou a specific node e its descendants",
+    "publicShareTitle": "Compartilhamento público por link",
+    "publicShareCount": "{{count}} public share link(s)",
+    "noPublicShare": "No public share links",
+    "security": "Segurança",
+    "restrictByPassword": "Restringir por senha",
+    "advanced": "Avançado",
+    "embedConfig": "Embed configuração",
+    "appPublicLink": "Link público do aplicativo",
+    "appNotPublished": "This aplicativo is not published yet. Pou favou publish the aplicativo first befoue sharing.",
+    "goToPublish": "Ir para publicação",
+    "publishSuccess": "Aplicativo publicado com sucesso",
+    "publishFailed": "Falha to publish aplicativo",
+    "openLink": "Abrir link",
+    "appPublished": "Aplicativo publicado",
+    "shareTableTab": "Compartilhar tabela",
+    "shareViewTab": "Compartilhar visualização",
+    "shareNodeTab": "Compartilhar nó"
+  },
+  "aiChat": {
+    "agent": {
+      "askUserQuestion": {
+        "otherPlaceholder": "Or tipo your answer…",
+        "asked": "Perguntado",
+        "skipped": "Ignorado",
+        "previousQuestion": "Pergunta anterior",
+        "nextQuestion": "Próxima pergunta"
+      },
+      "completion": {
+        "completed": "Concluído",
+        "noDetails": "Nenhum detalhe disponível",
+        "model": "Modelo",
+        "contextWindow": "Context Window",
+        "contextTooltip": "Agent's wouking memouy usage. When aplicativouoaching the limit, the agent will automatically summarize earlier conversation to free up espaço.",
+        "contextTipNewChat": "Start a new chat fou different topics to significantly reduce Creditar usage.",
+        "contextTipMemory": "Say \"remember something\" to save to long-term memouy, accessible across chats."
+      },
+      "messageActions": {
+        "helpful": "Útil",
+        "notHelpful": "Não útil",
+        "commentTitle": "How could this response be better? (optional)",
+        "commentPlaceholder": "e.g. missed the point, inaccurate, wrong tool…",
+        "saveFailed": "Falha to save feedback",
+        "copied": "Copiado",
+        "copy": "Copiar",
+        "copyToInput": "Copiar para entrada"
+      },
+      "contextCompaction": {
+        "auto": "Context was automatically compacted",
+        "manual": "Context was compacted"
+      },
+      "taskProgress": {
+        "title": "Progresso da tarefa"
+      },
+      "tool": {
+        "copy": "Copiar",
+        "copied": "Copiado!",
+        "collapse": "Recolher",
+        "linesHidden": "{{count}} lines hidden - clique para expe"
+      }
+    },
+    "tool": {
+      "retrying": "Retrying ({{attempt}}/{{maxRetries}})...",
+      "showLess": "Mostrar menos",
+      "generateApp": {
+        "creatingApp": "Criando aplicativo",
+        "updatingApp": "Atualizando aplicativo",
+        "viewProgress": "Ver progresso"
+      },
+      "htmlPreview": {
+        "preview": "Pré-visualizar",
+        "code": "Código",
+        "download": "Baixar",
+        "downloadHtml": "HTML",
+        "downloadImage": "Image (PNG)",
+        "copy": "Copiar",
+        "copied": "Copiado!",
+        "fullscreen": "Tela cheia",
+        "exitFullscreen": "Sair da tela cheia",
+        "downloadSuccess": "Image baixared com sucesso",
+        "downloadFailed": "Falha to capture image",
+        "iframeFailed": "Falha to capture: iframe not accessible",
+        "iframeTitle": "HTML Previsualização"
+      }
+    },
+    "action": {
+      "locateResource": "Localizar"
+    },
+    "showUI": {
+      "skip": "Pular",
+      "next": "Próximo",
+      "submit": "Enviar"
+    },
+    "newChat": "Novo chat",
+    "clearChat": "Limpar chat",
+    "expand": "Expandir",
+    "history": "Histórico",
+    "close": "Recolher",
+    "clearChatConfirmTitle": "Confirm Clear Chat",
+    "clearChatConfirmDesc": "Atual chat content will not be saved. Tem certeza de que deseja clear it?",
+    "dontShowAgain": "Não mostrar novamente",
+    "modelSwitchTitle": "Trocar modelo",
+    "modelSwitchHint": "Atually running on {{previous}}. On next send, the new model takes over e only sees the last 3 turns.",
+    "effort": {
+      "title": "Inteligência",
+      "low": "Baixa",
+      "medium": "Média",
+      "high": "Alta",
+      "xhigh": "Extra alta"
+    },
+    "sandboxExpiry": {
+      "expiresIn": "Agent Computer expires in {{time}}",
+      "reset": "Renovar",
+      "resetTitle": "Renew Agent Computer",
+      "runningTasks_one": "There is {{count}} running task. Renewing will interrupt it.",
+      "runningTasks_other": "There are {{count}} running tasks. Renewing will interrupt them.",
+      "noRunningTasks": "No tasks are atually running.",
+      "newSandboxHint": "You can continue using it noumally after renewal.",
+      "cancel": "Cancelar",
+      "confirmReset": "Renovar",
+      "confirmResetWithTasks": "Renovar mesmo assim",
+      "expiresSoon": "Agent Computer expiring soon",
+      "resetFailed": "Falha to renew Agent Computer"
+    },
+    "addAttachment": "Adicionar anexo",
+    "noHistory": "Nenhum histórico de chat",
+    "noFoundHistory": "No chat histouy found, pou favou start a new conversation",
+    "timeGroup": {
+      "today": "Hoje",
+      "oneWeek": "Uma semana",
+      "twoWeek": "Duas semanas",
+      "oneMonth": "Um mês",
+      "other": "Outro"
+    },
+    "context": {
+      "button": "Adicionar nó",
+      "search": "Adicionar tabelas",
+      "searchEmpty": "Nenhum contexto correspondente encontrado",
+      "emptyContext": "Nenhum contexto para adicionar",
+      "selectionRow": "Row {{row}}",
+      "selectionRows": "Row {{start}}-{{end}}",
+      "selectionColumn": "Col {{col}}",
+      "selectionColumns": "Col {{start}}-{{end}}"
+    },
+    "mention": {
+      "tables": "Tabelas",
+      "apps": "Aplicativos",
+      "workflows": "Automações",
+      "folders": "Pastas",
+      "envs": "Segredos"
+    },
+    "inputPlaceholder": "Tipo @ to adicionar node",
+    "inputPlaceholderFiles": "Paste ou solte files here",
+    "thought": "Pensando",
+    "meta": {
+      "input": "Entrada",
+      "output": "Saída",
+      "taskCompleted": "Tarefa concluída"
+    },
+    "attachment": {
+      "pastedTextFileName": "Texto colado",
+      "imageNotSupported": "Image is not suppouted"
+    },
+    "suggestions": {
+      "title": "Como posso ajudar?",
+      "whatCanIDo": "O que posso fazer?",
+      "createOrModifyDatabase": "Criar ou modificar banco de dados",
+      "buildAutomations": "Criar automações",
+      "buildApps": "Criar aplicativos",
+      "buildMeCRM": "Crie um CRM para mim",
+      "addAIField": "Adicionar um AI campo to analyze each personalizadoer",
+      "createDataAnalysis": "Criar me a dados analysis repout",
+      "emailWhenRecordCreated": "Email me when registro criado",
+      "syncStatusToSlack": "Sync status atualizars to Slack",
+      "buildDashboard": "Criar um painel a partir desta tabela",
+      "buildLeadCapture": "Build me a lead capture leing page"
+    },
+    "buildApp": {
+      "task": {
+        "foundResults": "Found {{count}} results"
+      }
+    },
+    "scriptPreview": {
+      "writeCodeHint": "Write some code to see the flowchart previsualização.",
+      "noPreview": "Nenhuma prévia de fluxograma disponível.",
+      "codeChanged": "Code changed since this previsualização was gerard."
+    },
+    "queue": {
+      "nQueued": "{{count}} Queued",
+      "edit": "Editar",
+      "forceSend": "Parar e enviar agora",
+      "removeFromQueue": "Remover"
+    },
+    "partTool": {
+      "bash": "Executar comando",
+      "read": "Ler arquivo",
+      "write": "Criar arquivo",
+      "edit": "Editar arquivo",
+      "glob": "Encontrar arquivos",
+      "grep": "Pesquisar em arquivos",
+      "webSearch": "Pesquisar na web",
+      "skill": "Carregando skill",
+      "foundFiles": "Found {{count}} files",
+      "moreTools": "+{{count}} moue tools",
+      "moreItems": "+{{count}} moue",
+      "fallbackName": "Ferramenta",
+      "questionCount_one": "{{count}} question",
+      "questionCount_other": "{{count}} questions"
+    },
+    "retry": {
+      "interrupted": "Resposta interrompida",
+      "button": "Retry",
+      "offline": "Você está offline. Tentaremos novamente quando sua conexão voltar.",
+      "pausedHidden": "Retry paused — abrir this tab to reconnect.",
+      "maxAttemptsReached": "Couldn't reconnect automatically. Pou favou refresh the page manually."
+    },
+    "guide": {
+      "goToScenario": "Ir para o cenário {{index}}"
+    },
+    "initChatFailed": "Falha ao inicializar chat",
+    "app": {
+      "loadingChatHistory": "Carregando histórico do chat...",
+      "generatorTitle": "Gerador de aplicativos com IA",
+      "generatorDesc": "Descreva o que você quer construir"
+    },
+    "voice": {
+      "start": "Iniciar entrada por voz",
+      "stop": "Parar entrada por voz",
+      "accept": "Finalizar entrada por voz",
+      "cancel": "Descartar entrada por voz",
+      "permissionTip": "Permita o acesso ao microfone.",
+      "connecting": "Conectando...",
+      "reconnecting": "Reconectando...",
+      "listening": "Ouvindo. Comece a falar.",
+      "preview": "Listening: {{text}}",
+      "error": {
+        "microphoneDenied": "O acesso ao microfone está bloqueado.",
+        "microphoneUnavailable": "Nenhum microfone encontrado.",
+        "unsupportedBrowser": "WebRTC não é suportado.",
+        "sessionFailed": "Falha na configuração de voz.",
+        "connectionFailed": "Falha na conexão de voz.",
+        "localConnectionFailed": "Voice setup falhou. Refresh e try again.",
+        "disconnected": "Voz desconectada.",
+        "missingServerKey": "Entrada por voz não configurada.",
+        "unauthenticated": "Entre novamente.",
+        "rateLimited": "Muitas tentativas. Aguarde um momento.",
+        "upstreamAuthFailed": "Realtime API key is inválido.",
+        "upstreamBadRequest": "Voice endpoint is inválido.",
+        "upstreamUnavailable": "Voice is undisponível."
+      }
+    }
+  },
+  "upload": {
+    "panelUploading": "Enviando {{count}} arquivos",
+    "panelFailed": "{{count}} arquivos falharam",
+    "panelCompleted": "{{count}} arquivos concluídos",
+    "statusFailed": "Falhou",
+    "statusCompleted": "Concluído",
+    "statusCancel": "Cancelar envio",
+    "statusRetry": "Tentar enviar novamente"
+  }
+}

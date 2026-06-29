@@ -1,0 +1,72 @@
+{
+  "add": "Novos plugins",
+  "title": {
+    "add": "Novos plugins",
+    "edit": "Editar plugins"
+  },
+  "pluginUser": {
+    "name": "Usuário do plugin",
+    "description": "Usuário do plugin gerado automaticamente pelo sistema"
+  },
+  "secret": "Segredo",
+  "regenerateSecret": "Gerar novo segredo",
+  "form": {
+    "name": {
+      "label": "Nome",
+      "description": "Nome do plugin"
+    },
+    "description": {
+      "label": "Descrição",
+      "description": "Descrição do plugin"
+    },
+    "detailDesc": {
+      "label": "Descrição detalhada",
+      "description": "Descrição detalhada do plugin"
+    },
+    "logo": {
+      "label": "Logo",
+      "description": "Logo do plugin; você pode enviar uma imagem ou usar uma URL",
+      "upload": "Enviar",
+      "clear": "Limpar",
+      "placeholder": "Arraste e solte seu logo aqui ou clique para enviar",
+      "lengthError": "Apenas um arquivo é permitido.",
+      "typeError": "Apenas arquivo de imagem é permitido."
+    },
+    "helpUrl": {
+      "label": "URL de ajuda",
+      "description": "URL do documento de ajuda do plugin"
+    },
+    "positions": {
+      "label": "Posições",
+      "description": "Posições do plugin"
+    },
+    "i18n": {
+      "label": "I18n",
+      "description": "I18n do plugin, contém nome, descrição e descrição detalhada"
+    },
+    "url": {
+      "label": "URL",
+      "description": "URL do plugin"
+    },
+    "autoCreateMember": {
+      "label": "Criar membro automaticamente",
+      "description": "Criar membro automaticamente para o plugin"
+    },
+    "config": {
+      "label": "Configuração",
+      "description": "Configuração do plugin"
+    }
+  },
+  "markdown": {
+    "write": "Escrever",
+    "preview": "Pré-visualizar"
+  },
+  "status": {
+    "reviewing": "Em análise",
+    "published": "Publicado",
+    "developing": "Em desenvolvimento"
+  },
+  "button": {
+    "submitApproved": "Enviar aprovação"
+  }
+}

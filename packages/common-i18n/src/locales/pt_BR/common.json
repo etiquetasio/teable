@@ -1,0 +1,1510 @@
+{
+  "actions": {
+    "title": "Ações",
+    "add": "Adicionar",
+    "save": "Salvar",
+    "doNotSave": "Não salvar",
+    "submit": "Enviar",
+    "confirm": "Confirmar",
+    "continue": "Continuar",
+    "close": "Fechar",
+    "edit": "Editar",
+    "fill": "Preencher",
+    "update": "Atualizar",
+    "create": "Criar",
+    "delete": "Excluir",
+    "clear": "Limpar",
+    "cancel": "Cancelar",
+    "zoomIn": "Aumentar zoom",
+    "zoomOut": "Diminuir zoom",
+    "back": "Voltar",
+    "download": "Baixar",
+    "remove": "Remover",
+    "removeConfig": "Remover configuração",
+    "retry": "Tentar novamente",
+    "saveSucceed": "Salvo com sucesso!",
+    "submitSucceed": "Enviado com sucesso!",
+    "editSucceed": "Editado com sucesso!",
+    "updateSucceed": "Atualizado com sucesso!",
+    "deleteSucceed": "Excluído com sucesso!",
+    "resetSucceed": "Lixeira esvaziada com sucesso!",
+    "restoreSucceed": "Restaurado com sucesso!",
+    "loading": "Carregando...",
+    "refreshPage": "Atualizar página",
+    "yesDelete": "Sim, excluir",
+    "rename": "Renomear",
+    "duplicate": "Duplicar",
+    "export": "Exportar",
+    "import": "Importar",
+    "change": "Alterar",
+    "upgrade": "Atualizar plano",
+    "upgradeToLevel": "Atualizar para {{level}}",
+    "search": "Pesquisar",
+    "loadMore": "Carregar mais",
+    "collapseSidebar": "Recolher barra lateral",
+    "restore": "Restaurar",
+    "permanentDelete": "Excluir permanentemente",
+    "globalSearch": "Pesquisa global",
+    "fieldSearch": "Pesquisar campo",
+    "tableIndex": "Índice",
+    "showAllRow": "Exibir todas as linhas",
+    "hideNotMatchRow": "Ocultar linhas sem correspondência",
+    "more": "Mais",
+    "expand": "Expandir",
+    "view": "Visualização",
+    "preview": "Pré-visualizar",
+    "viewAndEdit": "Visualizar e editar",
+    "deleteTip": "Tem certeza de que deseja excluir \"{{name}}\"?",
+    "move": "Mover para",
+    "turnOn": "Ativar",
+    "exit": "Sair",
+    "next": "Próximo",
+    "previous": "Anterior",
+    "select": "Selecionar",
+    "refresh": "Atualizar",
+    "login": "Login",
+    "useTemplate": "Usar modelo",
+    "copyToMySpace": "Copiar para meu espaço",
+    "saveToMySpace": "Salvar no meu espaço",
+    "supportSaveCopy": "Permitir salvar uma cópia",
+    "copyLink": "Copiar link",
+    "backToSpace": "Voltar ao espaço",
+    "switchBase": "Trocar base",
+    "collapse": "Recolher",
+    "viewDetails": "Ver detalhes",
+    "getMore": "Obter mais",
+    "copySuccess": "Copiado com sucesso",
+    "share": "Compartilhar"
+  },
+  "quickAction": {
+    "title": "Ações rápidas",
+    "placeHolder": "Digite um comando ou pesquise..."
+  },
+  "password": {
+    "setInvalid": "A senha é inválida. Deve ter pelo menos 8 caracteres e conter pelo menos uma letra e um número."
+  },
+  "template": {
+    "non": {
+      "share": "Compartilhar",
+      "copy": "Copied"
+    },
+    "aiTitle": "Vamos construir juntos",
+    "aiGreeting": "Como posso ajudar você, {{name}}",
+    "aiSubTitle": "A primeira plataforma de IA onde equipes colaboram em dados e geram aplicativos de produção",
+    "guideTitle": "Comece pelo seu cenário",
+    "watchVideo": "Assistir vídeo",
+    "title": "Modelo",
+    "description": "Criar uma nova base a partir de um modelo",
+    "browseAll": "Ver todos",
+    "templateTitle": "Começar com modelo",
+    "loadMore": "Carregar mais",
+    "allTemplatesLoaded": "Todos os modelos carregados",
+    "createTemplate": "Criar modelo",
+    "promptBox": {
+      "placeholder": "Crie seu aplicativo de negócios com o Teable",
+      "start": "Começar",
+      "carouselGuides": {
+        "guide1": "Cole recibos → Peça ao Teable para extrair automaticamente os dados principais",
+        "guide2": "Crie um CRM com IA com tabelas de leads e acompanhamento",
+        "guide3": "Cole feedbacks de clientes → Peça ao Teable para encontrar insights e gerar relatórios",
+        "guide4": "Crie um controle de projetos com tarefas e prazos",
+        "guide5": "Cole uma planilha de leads → Peça ao Teable para criar um CRM inteligente",
+        "guide6": "Crie um planejador de conteúdo com posts e datas de publicação",
+        "guide7": "Cole currículos → Peça ao Teable para organizar e pré-selecionar candidatos"
+      }
+    },
+    "useTemplateDialog": {
+      "title": "Selecionar espaço",
+      "description": "Selecione um espaço para aplicar o modelo",
+      "noSpaceDescription": "Você ainda não tem espaços. Crie um para continuar.",
+      "newSpacePlaceholder": "Nome do espaço",
+      "createSpace": "Criar"
+    }
+  },
+  "baseShare": {
+    "shareTitle": "Compartilhar",
+    "shareToWeb": "Compartilhar na web",
+    "linkHolderLabel": "A pessoa que recebeu o link",
+    "linkHolderCanView": "Pode visualizar",
+    "linkHolderCanViewDesc": "Qualquer pessoa com o link pode visualizar os dados",
+    "linkHolderCanEdit": "Pode editar",
+    "linkHolderCanEditDesc": "Usuários conectados podem editar registros na tabela",
+    "linkHolderCanCopyAndSave": "Pode salvar como cópia",
+    "linkHolderCanCopyAndSaveDesc": "Qualquer pessoa com o link pode salvar uma cópia em seu espaço",
+    "refreshLink": "Gerar link novamente",
+    "advanced": "Avançado",
+    "allowCopyData": "Permitir que visualizadores copiem dados",
+    "restrictByPassword": "Restringir por senha",
+    "embedConfig": "Configuração de incorporação",
+    "embedPreview": "Pré-visualizar",
+    "copyCode": "Copiar código",
+    "enterPassword": "Digite a senha",
+    "passwordTitle": "Definir senha",
+    "deleteConfirmTitle": "Excluir link de compartilhamento",
+    "deleteConfirmDescription": "Esta ação não pode ser desfeita. Pessoas com este link não poderão mais acessar a base compartilhada.",
+    "createSuccess": "Link de compartilhamento criado",
+    "createFailed": "Falha ao criar link de compartilhamento",
+    "updateFailed": "Falha ao atualizar configurações de compartilhamento",
+    "deleteSuccess": "Link de compartilhamento excluído",
+    "deleteFailed": "Falha ao excluir link de compartilhamento",
+    "refreshSuccess": "Link de compartilhamento gerado novamente",
+    "refreshFailed": "Falha ao gerar novamente o link de compartilhamento"
+  },
+  "share": {
+    "copyToSpaceDialog": {
+      "title": "Copiar para espaço",
+      "description": "Selecione um espaço para copiar esta base",
+      "baseName": "Nome da base",
+      "baseNamePlaceholder": "Digite o nome da base",
+      "selectSpace": "Selecionar espaço",
+      "noSpaceDescription": "Não há espaços gerenciáveis. Crie um novo espaço para continuar.",
+      "newSpacePlaceholder": "Nome do espaço",
+      "createSpace": "Criar",
+      "copyTarget": "Copiar para",
+      "createNewBase": "Nova base",
+      "copyToExistingBase": "Base existente",
+      "selectBase": "Selecionar base",
+      "selectBasePlaceholder": "Selecione uma base",
+      "noBaseInSpace": "Não há bases gerenciáveis neste espaço. Selecione \"Nova base\"."
+    }
+  },
+  "settings": {
+    "title": "Configurações da instância",
+    "allSetting": "Configurações do espaço e pessoais",
+    "personal": {
+      "title": "Pessoal"
+    },
+    "templateAdmin": {
+      "title": "Administração de modelos",
+      "noData": "Sem dados",
+      "importing": "Importando...",
+      "usageCount": "Contagem de uso: {{count}}",
+      "useTemplate": "Usar este modelo",
+      "createdBy": "por {{user}}",
+      "backToTemplateList": "Voltar para lista de modelos",
+      "tips": {
+        "errorCategoryName": "A categoria não existe ou foi excluída",
+        "needSnapshot": "Crie um snapshot antes de publicar; o nome e a descrição do modelo não podem estar vazios",
+        "needPublish": "Publique o modelo antes de defini-lo como destaque",
+        "needBaseSource": "Selecione uma base de origem antes de criar um snapshot",
+        "forbiddenUpdateSystemTemplate": "Modelo do sistema não pode ser modificado",
+        "addCategoryTips": "Digite primeiro o nome da categoria no campo de pesquisa.",
+        "categoryNamePlaceholder": "Digite o nome da categoria",
+        "duplicateCategoryName": "O nome da categoria já existe"
+      },
+      "category": {
+        "menu": {
+          "getStarted": "Começar",
+          "recommended": "Recomendado",
+          "all": "Todos",
+          "browseByCategory": "Navegar por categoria"
+        }
+      },
+      "header": {
+        "cover": "Capa",
+        "name": "Nome",
+        "description": "Descrição",
+        "markdownDescription": "Descrição em Markdown",
+        "category": "Categoria",
+        "isSystem": "Sistema",
+        "source": "Origem",
+        "status": "Publicado",
+        "publishSnapshot": "Publicar snapshot",
+        "snapshotTime": "Data/hora do snapshot",
+        "actions": "Ações",
+        "featured": "Destaque",
+        "createdBy": "Criado por",
+        "userNonExistent": "Usuário inexistente",
+        "preview": "Pré-visualizar",
+        "usage": "Uso",
+        "visit": "Visitar"
+      },
+      "actions": {
+        "title": "Ações",
+        "publish": "Publicar",
+        "delete": "Excluir",
+        "duplicate": "Duplicar",
+        "preview": "Pré-visualizar",
+        "use": "Usar",
+        "pinTop": "Fixar no topo",
+        "addCategory": "Adicionar categoria",
+        "selectCategory": "Selecionar categoria",
+        "viewTemplate": "Ver modelo",
+        "manageCategory": "Gerenciar categorias"
+      },
+      "relatedTemplates": "Modelos relacionados",
+      "noImage": "Sem imagem",
+      "baseSelectPanel": {
+        "title": "Selecionar origem do modelo",
+        "description": "Selecione uma base para ser o modelo",
+        "confirm": "Confirmar",
+        "search": "Pesquisar...",
+        "cancel": "Cancelar",
+        "selectBase": "Selecionar base",
+        "createTemplate": "Criar modelo",
+        "abnormalBase": "A base não existe ou foi excluída"
+      }
+    },
+    "back": "Voltar para início",
+    "account": {
+      "title": "Perfil",
+      "tab": "Perfil",
+      "updatePhoto": "Atualizar foto",
+      "updateNameDesc": "Apelido ou primeiro nome, como você quer ser chamado no Teable",
+      "securityTitle": "Segurança da conta",
+      "email": "E-mail",
+      "password": "Senha",
+      "passwordDesc": "Defina uma senha permanente para acessar sua conta.",
+      "changePassword": {
+        "title": "Alterar senha",
+        "desc": "Digite sua senha atual e defina uma nova",
+        "current": "Senha atual",
+        "new": "Nova senha",
+        "confirm": "Confirmar nova senha"
+      },
+      "changePasswordError": {
+        "disMatch": "Sua nova senha não confere.",
+        "equal": "Sua nova senha deve ser diferente da senha atual.",
+        "invalid": "Sua senha atual é inválida."
+      },
+      "changePasswordSuccess": {
+        "title": "🎉 Senha alterada com sucesso.",
+        "desc": "Você será redirecionado para a página de login em 2 segundos."
+      },
+      "manageToken": "Token de acesso",
+      "addPassword": {
+        "title": "Adicionar senha",
+        "desc": "Defina uma senha permanente para acessar sua conta.",
+        "password": "Digite sua senha",
+        "confirm": "Confirme sua senha"
+      },
+      "addPasswordError": {
+        "disMatch": "Sua senha não confere."
+      },
+      "addPasswordSuccess": {
+        "title": "🎉 Senha adicionada com sucesso."
+      },
+      "changeEmail": {
+        "title": "Alterar endereço de e-mail",
+        "desc": "Verifique sua senha e confirme o novo endereço de e-mail",
+        "current": "Senha atual",
+        "new": "Novo e-mail",
+        "code": "Código de verificação",
+        "getCode": "Enviar código",
+        "error": {
+          "invalidCode": "O código de verificação é inválido.",
+          "invalidPassword": "A senha é inválida.",
+          "invalidConflict": "O novo e-mail já está registrado.",
+          "invalidSameEmail": "O novo e-mail é igual ao e-mail atual.",
+          "sendMailRateLimit": "Aguarde {{seconds}} segundos antes de enviar um novo e-mail"
+        },
+        "success": {
+          "title": "🎉 E-mail alterado com sucesso.",
+          "desc": "Você será redirecionado para a página de login em 2 segundos.",
+          "sendSuccess": "Código de verificação enviado com sucesso."
+        }
+      },
+      "deleteAccount": {
+        "title": "Excluir conta",
+        "desc": "Esta ação é irreversível. Ela excluirá permanentemente sua conta e todos os dados associados.",
+        "error": {
+          "title": "Não foi possível excluir a conta",
+          "desc": "Você precisa resolver primeiro as seguintes dependências:",
+          "spacesError": "Antes de excluir sua conta, você precisa sair dos seus espaços ou excluí-los e enviá-los para a lixeira."
+        },
+        "confirm": {
+          "title": "Digite <code>DELETE</code> para confirmar",
+          "placeholder": "DELETE"
+        },
+        "loading": "Excluindo..."
+      }
+    },
+    "notify": {
+      "title": "Notificações",
+      "label": "Atividade no seu espaço",
+      "desc": "Receba e-mails quando houver comentários, menções, convites de página, lembretes, solicitações de acesso e alterações de propriedades."
+    },
+    "setting": {
+      "title": "Preferências",
+      "theme": "Tema da interface",
+      "themeDesc": "Selecione o esquema de cores da interface",
+      "dark": "Escuro",
+      "light": "Claro",
+      "system": "Sistema",
+      "version": "Versão do aplicativo",
+      "language": "Idioma",
+      "interactionMode": "Modo de interação",
+      "mouseMode": "Modo cursor",
+      "touchMode": "Modo toque",
+      "systemMode": "Seguir sistema",
+      "buySelfHostedLicense": "Comprar licença self-hosted"
+    },
+    "nav": {
+      "settings": "Configurações",
+      "logout": "Sair",
+      "contactSupport": "Contatar suporte"
+    },
+    "integration": {
+      "title": "Integrações",
+      "thirdPartyIntegrations": {
+        "title": "Integrações de terceiros",
+        "description": "Você concedeu acesso à sua conta para {{count}} aplicações.",
+        "lastUsed": "Último uso em {{date}}",
+        "revoke": "Revogar",
+        "owner": "Proprietário: {{user}}",
+        "revokeTitle": "Tem certeza de que deseja revogar a autorização?",
+        "revokeDesc": "{{name}} não poderá mais acessar a API do Teable. Esta ação não pode ser desfeita.",
+        "scopeTitle": "Permissões",
+        "scopeDesc": "Esta aplicação poderá obter os seguintes escopos:"
+      },
+      "userIntegration": {
+        "title": "Contas conectadas",
+        "description": "Conecte contas externas para autorizar o Teable a acessar e sincronizar seus recursos.",
+        "emptyDescription": "Nenhuma conta conectada",
+        "actions": {
+          "reconnect": "Reconectar"
+        },
+        "slack": {
+          "user": "Usuário do Slack",
+          "workspace": "Workspace do Slack"
+        },
+        "email": {
+          "user": "Usuário",
+          "email": "E-mail"
+        },
+        "deleteTitle": "Remover conta conectada",
+        "deleteDesc": "Tem certeza de que deseja remover {{name}}?",
+        "create": "Conectar nova conta",
+        "manage": "Gerenciar contas conectadas",
+        "searchPlaceholder": "Pesquisar contas conectadas",
+        "defaultName": "Integração {{name}}",
+        "callback": {
+          "error": "Falha na autorização",
+          "title": "Autorização realizada com sucesso",
+          "desc": "Você já pode fechar esta janela."
+        }
+      }
+    }
+  },
+  "noun": {
+    "table": "Tabela",
+    "view": "Visualização",
+    "space": "Espaço",
+    "base": "Base",
+    "field": "Campo",
+    "record": "Registro",
+    "dashboard": "Painel",
+    "automation": "Automação",
+    "authorityMatrix": "Matriz de permissões",
+    "design": "Design",
+    "adminPanel": "Administração do sistema",
+    "license": "Licença self-hosted",
+    "instanceId": "ID da instância",
+    "beta": "Beta",
+    "trash": "Lixeira",
+    "global": "Global",
+    "organizationPanel": "Configurações da organização",
+    "unknownError": "Erro desconhecido",
+    "pluginPanel": "Painel",
+    "pluginContextMenu": "Menu de contexto",
+    "plugin": "Plugins",
+    "copy": "Copiar",
+    "credits": "Créditos",
+    "aiChat": "Chat com IA",
+    "app": "Aplicativo",
+    "webSearch": "Pesquisa na web",
+    "folder": "Pasta",
+    "newAutomation": "Nova automação",
+    "newApp": "Novo aplicativo",
+    "newFolder": "Nova pasta",
+    "template": "Modelo"
+  },
+  "level": {
+    "free": "Grátis",
+    "plus": "Plus",
+    "pro": "Pro",
+    "business": "Business",
+    "enterprise": "Enterprise"
+  },
+  "noResult": "Nenhum resultado.",
+  "allNodes": "Todos os nós",
+  "noDescription": "Sem descrição",
+  "untitled": "Sem título",
+  "name": "Nome",
+  "description": "Descrição",
+  "required": "Obrigatório",
+  "characters": "caracteres",
+  "atLeastOne": "Reserve pelo menos um(a) {{noun}}",
+  "guide": {
+    "prev": "Anterior",
+    "next": "Próximo",
+    "done": "Concluído",
+    "skip": "Pular",
+    "createSpaceTooltipTitle": "Criar um espaço",
+    "createSpaceTooltipContent": "Crie um espaço para colaborar com sua equipe.",
+    "createBaseTooltipTitle": "Criar uma base",
+    "createBaseTooltipContent": "Uma base armazena seus dados e fornece acesso a automações e ao painel de apps.",
+    "createTableTooltipTitle": "Criar uma tabela",
+    "createTableTooltipContent": "Crie uma nova tabela ou importe uma existente aqui.",
+    "createViewTooltipTitle": "Criar uma visualização",
+    "createViewTooltipContent": "Crie visualizações em Grade, Galeria, Kanban e Formulário. Visualizações de Calendário em breve. <br></br>Escolha a melhor visualização para suas necessidades de gestão de dados.",
+    "viewFilteringTooltipTitle": "Filtrando registros",
+    "viewFilteringTooltipContent": "Filtre registros definindo condições. Registros filtrados ficam ocultos, não são excluídos. <br></br>Isso afeta apenas a visualização atual, não seus dados reais.",
+    "viewSortingTooltipTitle": "Ordenando registros",
+    "viewSortingTooltipContent": "Ordene registros pelos valores dos campos para organizá-los na ordem desejada. <br></br>A ordenação afeta apenas a visualização atual, não outras visualizações da mesma tabela.",
+    "viewGroupingTooltipTitle": "Agrupando registros",
+    "viewGroupingTooltipContent": "Agrupe registros por condições para categorizar e organizar seu conjunto de dados em uma visualização.",
+    "apiButtonTooltipTitle": "API",
+    "apiButtonTooltipContent": "Acesse a poderosa API do Teable com quase todos os recursos do produto usando um <a>Token</a>."
+  },
+  "token": "Token",
+  "poweredBy": "Desenvolvido por <0></0>",
+  "invite": {
+    "dialog": {
+      "title": "{{spaceName}} espaço sharing",
+      "desc_one": "Este espaço has <b>{{count}} colaborador</b>. Adicionaring a espaço colaborador will give them acesso to todos bases within este espaço.",
+      "desc_other": "Este espaço has <b>{{count}} colaboradores</b>. Adicionaring a espaço colaborador will give them acesso to todos bases within este espaço.",
+      "desc_billable_one": "Este espaço has <b>{{count}} colaborador</b> and <b>{{billableCount}} billable usuário</b>. Adicionaring a espaço colaborador will give them acesso to todos bases within este espaço.",
+      "desc_billable_other": "Este espaço has <b>{{count}} colaboradores</b> and <b>{{billableCount}} billable usuários</b>. Adicionaring a espaço colaborador will give them acesso to todos bases within este espaço.",
+      "tabEmail": "Convidar by e-mail",
+      "emailPlaceholder": "Digite e-mail adicionarresses, separated by 'Enter' key",
+      "tabLink": "Convidar by link",
+      "linkPlaceholder": "Criar an convidar link that grants <0/> acesso to anyone who abrirs it.",
+      "emailSend": "Send convidar",
+      "linkSend": "Criar link",
+      "spaceTitle": "Espaço colaboradores",
+      "spaceTitleWithCount": "Espaço colaboradores ({{count}})",
+      "baseTitle": "Base colaboradores",
+      "allCollaboratorsTitle": "Todos colaboradores (Espaço & Base)",
+      "baseOnly": "Base only",
+      "collaboratorSearchPlaceholder": "Find a espaço colaborador by nome or e-mail",
+      "collaboratorJoin": "joined {{joinTime}}",
+      "collaboratorRemove": "Remover colaborador",
+      "linkTitle": "Convidar links",
+      "linkCreatedTime": "criado {{createdTime}}",
+      "linkCopySuccess": "Link copiado",
+      "linkRemove": "Remover link",
+      "noInviteLinks": "Nenhum convidar links",
+      "linkDescription": "Criar an convite link and assign permissões",
+      "haveAccess": "Have acesso"
+    },
+    "base": {
+      "title": "Share {{baseName}}",
+      "desc_one": "Este base is shared with {{count}} colaborador.",
+      "desc_other": "Este base is shared with {{count}} colaboradores.",
+      "baseTitle": "Base colaboradores",
+      "collaboratorSearchPlaceholder": "Find a base colaborador by nome or e-mail",
+      "baseTitleWithCount": "Base colaboradores ({{count}})"
+    },
+    "addOrgCollaborator": {
+      "title": "Adicionar organization colaborador",
+      "placeholder": "Selecionar organization member or department"
+    },
+    "sendInvitationSuccess": "Convite has been enviado",
+    "table": {
+      "collaborator": "Colaborador",
+      "accessPermission": "Acesso permissão",
+      "joinAt": "Joined at"
+    },
+    "authority": {
+      "title": "Authority matrix is habilitado",
+      "description": "Colaboradors’ s effective acesso permissão is affected by o roles assigned to them, Unassigned usuário using o padrão role",
+      "viewDetail": "Ver detail"
+    },
+    "app": {
+      "previewAppError": "App Erro"
+    }
+  },
+  "help": {
+    "title": "Ajuda",
+    "appLink": "https://app.teable.ai",
+    "mainLink": "https://help.teable.ai/en",
+    "apiLink": "https://help.teable.ai/en/api-doc/token"
+  },
+  "pagePermissionChangeTip": "As permissões da página foram atualizadas. É necessário atualizar.",
+  "listEmptyTips": "A lista está vazia",
+  "billing": {
+    "overLimits": "Limites excedidos",
+    "overLimitsDescription": "Sua assinatura atual excedeu o limite de uso. Atualize seu plano para continuar usando este recurso sem interrupções.",
+    "userLimitExceededDescription": "A instância atual atingiu o número máximo de usuários permitido pela sua licença. Desative alguns usuários ou atualize a licença.",
+    "unavailableInPlanTips": "O plano de assinatura atual não oferece suporte a este recurso",
+    "unavailableConnectionTips": "O recurso de conexão com banco de dados será removido e ficará disponível apenas no plano Enterprise e nas versões self-hosted.",
+    "levelTips": "Este espaço está atualmente no plano {{level}}",
+    "enterpriseFeature": "Recurso Enterprise",
+    "automationRequiresUpgrade": "Atualize para a Enterprise Edition (EE) para habilitar automações",
+    "authorityMatrixRequiresUpgrade": "Atualize para a Enterprise Edition (EE) para habilitar a matriz de permissões",
+    "viewPricing": "Ver preços",
+    "billable": "Faturável",
+    "billableByAuthorityMatrix": "Cobrança gerada pela matriz de permissões",
+    "licenseExpiredGracePeriod": "Seu self-hosted license has expired and will downgrade to o grátis plan on {{expiredTime}}. Por favor, atualizar seu license promptly to retain acesso to premium features.",
+    "spaceSubscriptionModal": {
+      "title": "Upgrade espaço's subscription plan",
+      "description": "You can only upgrade espaços where you are an proprietário"
+    },
+    "contactAdminToUpgrade": "Entre em contato com o proprietário do espaço para atualizar o plano de assinatura.",
+    "status": {
+      "active": "Ativo",
+      "canceled": "Cancelado",
+      "incomplete": "Incompleto",
+      "incompleteExpired": "Incompleto expirado",
+      "trialing": "Em teste",
+      "pastDue": "Vencido",
+      "unpaid": "Não pago",
+      "paused": "Pausado",
+      "seatLimitExceeded": "Limite de assentos excedido"
+    }
+  },
+  "admin": {
+    "setting": {
+      "instanceTitle": "Configurações da instância",
+      "description": "Change o configurações for seu atual instance",
+      "allowSignUp": "Permitir criar novas contas",
+      "allowSignUpDescription": "Disabling este option will prohibit novo usuário registrations, and o register button will nenhum longer appear on o login página.",
+      "allowSpaceInvitation": "Todosow sending espaço convites",
+      "allowSpaceInvitationDescription": "Disabling este option will prevent usuários other than administradoristrators from inviting others to join espaços. When habilitado, novo usuários convidard via e-mail can complete registration by clicking o convite link in o e-mail, but shared convite links will not work.",
+      "allowSpaceCreation": "Todosow everyone to criar novo espaços",
+      "allowSpaceCreationDescription": "Disabling este option will prevent usuários other than administradoristrators from creating novo espaços.",
+      "enableEmailVerification": "Habilitar e-mail verification",
+      "enableEmailVerificationDescription": "Enabling este option will require usuários to verify their e-mail adicionarress when creating a novo conta.",
+      "enableWaitlist": "Habilitar waitlista",
+      "enableWaitlistDescription": "Enabling este option will todosow usuários to register only with an convite code.",
+      "generalSettings": "Configurações gerais",
+      "aiSettings": "Configurações de IA",
+      "brandingSettings": {
+        "title": "Configurações de marca",
+        "description": "Disponível apenas na Enterprise Edition",
+        "brandName": "Nome da marca",
+        "logo": "Logo",
+        "logoUpload": "Enviar logo",
+        "logoUploadDescription": "Enviar Logo imagem, suportes PNG, JPEG format, recomendado size is 100x100px. Maximum enviar size is 500KB."
+      },
+      "ai": {
+        "name": "Nome",
+        "nameDescription": "Nome do provedor LLM",
+        "customModel": "Modelo personalizado",
+        "customModelDescription": "Personalizado modeloos can be used in AI campos, AI automação, and AI chat interface. Imagem generation modeloos need to be checked for testing",
+        "updateLLMProvider": "Atualizar provedor LLM",
+        "addProvider": "Adicionar provedor LLM",
+        "addProviderDescription": "Adicionar um novo provedor LLM à lista",
+        "providerType": "Tipo de provedor",
+        "baseUrl": "URL base",
+        "apiKey": "Chave de API",
+        "baseUrlDescription": "O base URL of o LLM provedor",
+        "apiKeyDescription": "O API key of o LLM provedor",
+        "models": "Modelos",
+        "modelsDescription": "Os modelos suportados pelo provedor LLM",
+        "baseUrlRequired": "A URL base é obrigatória",
+        "fetchModelListError": "Falha ao buscar lista de modelos",
+        "provider": "Provedor LLM",
+        "aiAbilitySettings": "Configurações de recursos de IA",
+        "aiAbilitySettingsDescription": "Configurar recursos de IA",
+        "modelPreferences": "Preferências de modelo",
+        "modelPreferencesDescription": "Preferências de modelo para o provedor LLM",
+        "embeddingModel": "Modelo de embeddings",
+        "embeddingModelDescription": "Opcional. For Document Q&A. Usutodosy, o modelo ID contains \"embedding\".",
+        "translationModel": "Modelo de tradução",
+        "translationModelDescription": "O modelo de tradução a ser usado",
+        "chatModel": "Modelo de chat",
+        "chatModelDescription": "O modelo de chat a ser usado. Dica: chamada de ferramentas é necessária para os recursos de IA do Teable",
+        "chatModels": {
+          "lg": "Modelo de chat avançado",
+          "lgDescription": "For planning, coding, and other complex task scenarios. Recomendado: claude-sonnet-4.5",
+          "md": "Padrão",
+          "mdDescription": "For daily conversations and geral tasks",
+          "sm": "Leve",
+          "smDescription": "For simple queries and quick responses",
+          "inheritHint": "Igual ao principal ({{model}})",
+          "modelTiers": "Níveis de modelo",
+          "modelTiersDescription": "Opciontodosy assign different modeloos for standard and lightweight tasks. Unset tiers use o primary modelo above.",
+          "allInheriting": "Todos os níveis usando o modelo principal",
+          "customized": "{{count}} personalizados"
+        },
+        "actions": {
+          "title": "Recursos de IA",
+          "aiField": {
+            "title": "Campo de IA",
+            "description": "AI campo capabilities including auto-fill and AI configuração in campo configurações"
+          },
+          "aiChat": {
+            "title": "Chat com IA",
+            "description": "Barra lateral de Chat com IA e todos os recursos de agente",
+            "sandboxWarning": "AI Chat runhora must be configurard below before use"
+          },
+          "modelSelection": {
+            "title": "Permitir seleção de modelo",
+            "description": "Todosow usuários to choose a modelo in AI Chat and App Builder"
+          }
+        },
+        "chatModelTest": {
+          "text": "Testar modelo",
+          "description": "Test o ability of o modelo to handle imagem, pdf.",
+          "notConfigLgModel": "Por favor, configurar o avançado chat modelo first",
+          "confirmTitle": "Test modelo ability",
+          "confirmDescription": "Do you want to test o avançado chat modelo's capabilities?",
+          "confirm": "Testar modelo",
+          "cancel": "Cancelar",
+          "missingCapabilitiesWarning": "Este modelo does not suporte imagem or PDF processing, which may cause some features to be indisponível.",
+          "modelNotSuitable": "Este modelo may not be suitabela for avançado AI features:",
+          "enableAITitle": "Habilitar Personalizado Modelo",
+          "enableAIDescription": "Modelo test concluído. Personalizado modelo is not atutodosy habilitado. Do you want to habilitar personalizado modelo to use these modelo capabilities?",
+          "enableAI": "Habilitar Personalizado Modelo",
+          "skipTest": "Pular"
+        },
+        "chatModelAbility": {
+          "image": "Imagem",
+          "pdf": "PDF",
+          "webSearch": "Pesquisa na web",
+          "toolCall": "Chamada de ferramenta",
+          "reasoning": "Raciocínio",
+          "imageGeneration": "Geração de imagem",
+          "disabledWebSearch": "Pesquisa na web desativada",
+          "lgModelAbility": "Recursos do modelo",
+          "missingVision": "Não oferece suporte ao processamento de imagem ou PDF",
+          "missingToolCall": "Não oferece suporte a chamada de ferramenta/função",
+          "notTested": "Modelo capabilities not tested yet. Por favor, test o modelo in provedor configurações first",
+          "supportedFormats": "Formatos suportados"
+        },
+        "imageModelAbility": {
+          "generation": "Texto para imagem",
+          "imageToImage": "Imagem para imagem"
+        },
+        "configUpdated": "Configuração de IA atualizada",
+        "noModelFound": "Nenhum modelo encontrado.",
+        "searchModel": "Pesquisar modelo...",
+        "selectModel": "Selecionar modelo...",
+        "defaultModel": "{{name}} (Padrão)",
+        "moreModels": "Mais modelos",
+        "agentModelWarningConfirm": "Entendi",
+        "recommendedModelNudge": {
+          "title": "Experimente {{model}}",
+          "description": "Obtenha melhores resultados de IA com uso muito menor de créditos.",
+          "use": "Usar {{model}}",
+          "later": "Mais tarde"
+        },
+        "noModelsAvailable": "Nenhum modelo disponível",
+        "input": "Entrada {{ratio}}",
+        "output": "Saída {{ratio}}",
+        "inputOrOutputTip": "O ratio repreenviados o exchange rate between créditos and tokens, e.g. \"1:1000\" means 1 crédito ≈ 1000 tokens.<br></br>Note: Each use will deduct at least 1 crédito. Even if o actual consumption is less than 1 crédito, it will still be charged as 1 crédito.",
+        "imageOutput": "Por imagem {{credits}}",
+        "imageOutputTip": "Imagem generation requires créditos, each imagem consumes {{credits}} créditos",
+        "supportImageOutputTip": "Este modelo suportes imagem generation",
+        "supportVisionTip": "Este modelo suportes imagem input",
+        "supportAudioTip": "Este modelo suportes audio input",
+        "supportVideoTip": "Este modelo suportes video input",
+        "supportDeepThinkTip": "Este modelo suportes deep thinking",
+        "testConnection": "Testar",
+        "testing": "Testando...",
+        "testSuccess": "Teste realizado com sucesso",
+        "testCompleteWithCount": "Test complete: {{success}}/{{total}} modeloos passed",
+        "allTestsFailed": "Todos modelo tests falhou",
+        "testFailed": "Teste falhou",
+        "batchTest": "Test Modelo Capabilities",
+        "test": "Testar",
+        "testProvider": "Testar",
+        "testProviderTooltip": "Test todos {{count}} modeloos under este provedor",
+        "batchTesting": "Testing todos modeloos...",
+        "batchTestComplete": "Batch test concluído",
+        "batchTestResults": "Batch Test Results",
+        "batchTestResultsSummary": "Tested {{tested}} of {{total}} modeloos: {{success}} passed, {{failed}} falhou",
+        "batchTestNoModels": "Nenhum modeloos configurard to test",
+        "modelStatus": "Modelo Status",
+        "imageSupport": "Imagem Suporte",
+        "basicGeneration": "Básico Generation",
+        "supported": "Suportado",
+        "notSupported": "Não suportado",
+        "partialSupport": "Suporte parcial",
+        "urlSupport": "URL",
+        "base64Support": "Base64",
+        "closeResults": "Fechar",
+        "retryFailed": "Retry Falha ao",
+        "stopTest": "Parar",
+        "pending": "Pendente",
+        "configuredModels": "Modelos configurados",
+        "fillRequiredFields": "Preencha todos os campos obrigatórios",
+        "modelsRequired": "Preencha pelo menos um modelo",
+        "noValidModel": "Nenhum modelo válido encontrado",
+        "addCustomModel": "Adicionar modelo personalizado",
+        "isOpenRouter": "AbrirRouter",
+        "modelRates": "Preços do modelo",
+        "model": "Modelo",
+        "inputRate": "Entrada USD/token",
+        "outputRate": "Saída USD/token",
+        "inputRateTip": "Generated personalizado provedor input price in USD per token",
+        "outputRateTip": "Generated personalizado provedor output price in USD per token",
+        "rateExplanationTitle": "Configurar preços do provedor personalizado",
+        "rateExplanationFormula": "Fill o multiplier relative to AI Gateway Reference. For example, 0.1 means personalizado provedor pricing is 10% of o AI Gateway reference price.",
+        "rateExplanationExample": "Entrada, output, cache, reasoning, imagem, and web pesquisar pricing are generated from AI Gateway Reference with o same multiplier. Billing converts USD to créditos with 1 USD = 100 créditos.",
+        "ratesDescription": "Generated values are salvo to modeloConfigs[modelo].pricing and used for instance-level personalizado provedor billing. O Ratio column still shows o existing Claude Opus 4.6 = 1x cost level.",
+        "advancedRates": "Generated avançado pricing",
+        "advancedRatesDescription": "These avançado prices are generated from AI Gateway Reference with o configurard multiplier. They are shown for revisualização and salvo with o modelo pricing.",
+        "cacheRead": "Cache↓",
+        "cacheWrite": "Cache↑",
+        "reasoning": "Reason",
+        "perImage": "Imagem",
+        "cacheReadRateTip": "USD per cached input token if este provedor charges cached input separately",
+        "cacheWriteRateTip": "USD per cache write token if este provedor charges cache writes separately",
+        "reasoningRateTip": "USD per reasoning token if este provedor charges reasoning tokens separately",
+        "imageRateTip": "USD per generated imagem if este provedor charges per imagem",
+        "imageModel": "Modelo de imagem",
+        "imageGeneration": "Geração de imagem",
+        "imageToImage": "Imagem-to-Imagem",
+        "clickToToggleImageModel": "💡 Click to mark as imagem generation modelo",
+        "markAsImageModel": "Marcar como modelo de geração de imagem",
+        "imageGenerationModel": "Modelo de geração de imagem",
+        "markedAsImageModel": "Marked as imagem generation modelo. Will test text-to-imagem and imagem-to-imagem capabilities.",
+        "markedAsTextModel": "Marked as text modelo. Will test vision (imagem input) capability.",
+        "fetchPricing": "Buscar preços",
+        "fetchPricingTip": "Fetch modelo pricing from o AI Gateway modelo catalog",
+        "fetchPricingError": "Falha ao to fetch pricing",
+        "pricingPreview": "Referência do AI Gateway",
+        "pricingPreviewDesc": "Found pricing for {{matched}} of {{total}} modeloos",
+        "openRouterId": "Gateway modelo ID",
+        "notFound": "Não encontrado",
+        "applyPricing": "Aplicar ({{count}})",
+        "pricingApplied": "Preços aplicados",
+        "pricingAppliedCount": "Atualizard pricing for {{count}} modeloos",
+        "relativeRatio": "Proporção",
+        "webSearch": "Web",
+        "referencePricingTip": "Reference price fetched from o AI Gateway modelo catalog",
+        "applyReferencePricingTip": "Generate personalizado provedor pricing from este AI Gateway reference price",
+        "optionalPricing": "opcional",
+        "gatewayRatio": "Multiplicador do Gateway",
+        "gatewayRatioTip": "Multiplier relative to AI Gateway Reference. 0.1 means 10% of o reference price.",
+        "generatedPricing": "Preços gerados",
+        "generatedPricingTip": "Generated personalizado provedor input/output price salvo to modeloConfigs[modelo].pricing",
+        "relativeRatioTip": "Cost level relative to Claude Opus 4.6 = 1x, using o existing weighted algorithm",
+        "hint": {
+          "title": "Sugestões",
+          "missingV1Suffix": "O Base URL might be missing o \"/v1\" suffix. Most AbrirAI-compatible APIs require URLs ending with \"/v1\" (e.g., https://api.openai.com/v1)",
+          "removeTrailingSlash": "Try removing o trailing slash from o Base URL",
+          "checkApiKey": "Por favor, verify seu API key is correct and has not expired",
+          "azureDeployment": "For Azure, ensure you've configurard o correct resource nome and deployment in o Base URL",
+          "checkQuotaOrPermission": "Seu API key may have insufficient permissões or o quota has been exhausted. Por favor, check seu conta status",
+          "checkModelName": "O modelo nome might be incorrect. Por favor, check o modelo nome matches what seu provedor suportes",
+          "checkConnection": "Unable to connect to o server. Por favor, check if o Base URL is correct and o server is acessoible",
+          "ollamaRunning": "Ensure Ollama is running loctodosy. You can start it with o 'ollama serve' command",
+          "sslCertificate": "There's an SSL certificate issue. If using a self-signed certificate, you may need adicionaritional configuração",
+          "checkConfiguration": "Por favor, check seu configuração. Ensure o Base URL, API key, and modelo nome are todos correct"
+        },
+        "recommended": "Recomendado",
+        "gatewayModels": "Modelos do AI Gateway",
+        "gatewayModelsDescription": "Configurar recomendado modeloos via Vercel AI Gateway for optimal AI SDK suporte",
+        "gatewayDescription": "Usar AI Gateway for best compatibility and reliability. Configurar API key in o App section below.",
+        "providerDescription": "Avançado: Configurar personalizado AI provedors for specific use cases or self-hosted modeloos.",
+        "noGatewayModels": "Nenhum gateway modeloos configurard. Adicionar modeloos to get started.",
+        "addModel": "Adicionar modelo",
+        "addGatewayModel": "Adicionar modelo do Gateway",
+        "popularModels": "Modelos populares",
+        "modelId": "ID do modelo",
+        "modelIdHint": "O modelo identifier used by AI Gateway (e.g., anthropic/claude-sonnet-4)",
+        "searchModelPlaceholder": "Digite para pesquisar modelos...",
+        "noMatchingModels": "Nenhum modelo correspondente encontrado",
+        "useCustomId": "Usar ID personalizado: {{id}}",
+        "typeToSearch": "Digite palavras-chave para pesquisar modelos disponíveis",
+        "modelNotFound": "Este modelo ID was não encontrado in disponível lista, por favor, verify spelling",
+        "testModel": "Testar modelo",
+        "testModelSuccess": "Modelo test realizado com sucesso! API responded correctly",
+        "testModelImageSuccess": "Imagem modelo confirmed to exist in API",
+        "testModelNotFound": "Modelo não encontrado in API lista",
+        "displayLabel": "Rótulo de exibição",
+        "isImageModel": "Este is an imagem generation modelo",
+        "capabilities": "Recursos",
+        "setAsDefault": "Definir como modelo de chat padrão",
+        "quickAdd": "Adicionar rapidamente modelos populares:",
+        "guide": {
+          "configStatus": "Status da configuração",
+          "ready": "Pronto",
+          "needsAttention": "Precisa de atenção",
+          "incomplete": "Incompleto",
+          "aiEnabled": "IA habilitada",
+          "aiEnabledDesc": "Modelos personalizados estão habilitados para esta instância",
+          "aiDisabledDesc": "Habilitar to use personalizado AI modeloos",
+          "gatewayKey": "Chave de API do Gateway",
+          "gatewayKeyConfigured": "AI Gateway key is configurard",
+          "gatewayKeyMissing": "Configurar AI Gateway API key for recomendado setup",
+          "gatewayKeyRequired": "Por favor, configurar AI Gateway API key first in o App section below",
+          "gatewayModels": "Modelos do Gateway",
+          "gatewayModelsConfigured": "{{count}} modeloos habilitado",
+          "gatewayModelsEmpty": "Adicionar gateway modeloos for usuário selecionarion",
+          "providers": "Provedores personalizados",
+          "providersConfigured": "{{count}} provedors configurard",
+          "providersEmpty": "Nenhum personalizado provedors configurard",
+          "chatModel": "Modelo de chat padrão",
+          "chatModelGateway": "Using gateway modelo",
+          "chatModelProvider": "Using personalizado provedor modelo",
+          "chatModelMissing": "Selecionar a padrão chat modelo"
+        },
+        "enableCard": {
+          "title": "Serviços de IA",
+          "ready": "Configurard and ready to use",
+          "needsConfig": "Habilitado, but needs configuração below",
+          "disabled": "AI features are atutodosy desabilitado",
+          "missingConfig": "Missing configuração:",
+          "allConfigured": "Todas as configurações concluídas"
+        },
+        "wizard": {
+          "setupProgress": "Progresso da configuração",
+          "checklist": "Lista de verificação",
+          "allComplete": "Todos obrigatório configurações complete! AI is ready to use.",
+          "nextStep": "Próximo: {{step}}",
+          "configureAI": "Complete o following steps to habilitar AI",
+          "optional": "Opcional",
+          "gatewayHelp": "AI Gateway: One API key for hundreds of modeloos; first-hora use requires adicionaring a crédito card in Vercel;",
+          "gatewayByok": "suporteed (bring seu own provedor keys)",
+          "getApiKey": "Obter chave de API",
+          "keyInvalid": "Chave de API inválida, verifique e tente novamente",
+          "gatewayErrorUnauthorized": "Inválido API key. Por favor, check if it was copiado correctly",
+          "gatewayErrorNeedCreditCard": "Crédito card obrigatório to use AI Gateway. Por favor, adicionar one in o Vercel dashboard",
+          "gatewayErrorInsufficientQuota": "Insufficient conta balance. Por favor, top up and tente novamente",
+          "gatewayErrorForbidden": "Acesso forbidden. Por favor, check seu conta status in o Vercel dashboard",
+          "gatewayErrorNetwork": "Network erro. Por favor, check seu connection or proxy configurações",
+          "pleaseTest": "Clique em Testar para verificar a chave de API",
+          "test": "Testar",
+          "testing": "Testando...",
+          "attachmentTest": {
+            "title": "Modo de transferência de anexos",
+            "urlMode": "Modo URL",
+            "base64Mode": "Modo Base64",
+            "accessible": "Disponível",
+            "inaccessible": "Indisponível",
+            "urlNotAccessibleWarning": "AI service cannot acesso attachment URLs. Este is common for intranet deployments. Base64 mode has been auto-habilitado.",
+            "useBase64Mode": "Usar modo Base64",
+            "base64ModeDescription": "Convert attachments to Base64 before sending (Teable cannot be acessoed from o público network)",
+            "originChanged": "PUBLIC_ORIGIN foi alterado",
+            "originChangedDesc": "O server adicionarress has changed since o last test. Por favor, re-test to verify attachment acessoibility."
+          },
+          "saveAndContinue": "Salvar e continuar",
+          "completeStep1First": "Por favor, complete Step 1: Configurar LLM API first",
+          "completeStep2First": "Por favor, complete Step 2: Adicionar at least one modelo first",
+          "addCustom": "Personalizado...",
+          "enabledModels": "Modelos habilitados",
+          "chatDefault": "Chat padrão",
+          "noModelsAvailable": "Nenhum modeloos disponível, por favor, adicionar modeloos in Step 2 first",
+          "quickSetup": "Configuração rápida",
+          "useRecommended": "Usar recomendado",
+          "useRecommendedDesc": "Set {{model}} as padrão for todos chat scenarios with one click",
+          "chatModels": "Chat Modelo",
+          "chatModelTip": "Este modelo is used for sidebar AI chat, specified by administrador and cannot be changed by usuários",
+          "selectChatModel": "Selecionar chat modelo...",
+          "lgDesc": "Complex tasks, deep analysis",
+          "mdDesc": "Conversas diárias, tarefas gerais",
+          "smDesc": "Consultas simples, respostas rápidas",
+          "readyToUse": "A IA está configurada e pronta para uso!",
+          "customProviderHelp": "Adicionar seu own AI provedors (AbrirAI, Anthropic, Azure, etc.), configurar API keys and modeloos.",
+          "testModelCapabilities": "Test Modelo Capabilities",
+          "customModelsAutoImported": "Seu provedor modeloos have been automatictodosy importared to o modelo pool.",
+          "modelsCount": "{{count}} modeloos disponível",
+          "customModelsHint": "To adjust modelo configuraçãos, go back to Step 1 to modify provedor configurações.",
+          "gatewayOption": {
+            "title": "AI Gateway (Recomendado)",
+            "desc": "Acesso hundreds of modeloos via Vercel AI Gateway with best compatibility and reliability"
+          },
+          "customOption": {
+            "title": "Provedor personalizado",
+            "desc": "Connect to self-hosted/privado modeloos, suportes multiple provedors"
+          },
+          "step": {
+            "llmApi": "Configurar API LLM",
+            "llmApiDesc": "Choose AI Gateway or configurar personalizado provedors",
+            "modelPool": "Configurar modelos recomendados",
+            "modelPoolDesc": "Recomendado modeloos for usuários to selecionar in AI campos & automação",
+            "chatModel": "Definir modelo de chat",
+            "chatModelDesc": "Modelo for sidebar AI chat (selecionar from recomendado modeloos)",
+            "providers": "Configurar provedores",
+            "providersDesc": "Adicionar and manage AI provedors"
+          }
+        }
+      },
+      "app": {
+        "domain": "Domínio",
+        "customDomain": "Domínio personalizado (opcional)",
+        "customDomainDescription": "Set seu personalizado domain for app deployment, acesso <a>Vercel domain</a> to get personalizado domain",
+        "vercelToken": "Token da API da Vercel",
+        "vercelTokenDescription": "Acesso <a>Vercel configurações</a> to get API token",
+        "apiProxy": "Proxy de API (opcional)",
+        "apiProxyDescription": "Configurar reverse proxy URLs Vercel APIs (e.g., Cloudflare Workers). Leave empty to use padrão endpoints.",
+        "vercelBaseUrl": "URL base da API da Vercel",
+        "aiGateway": "Vercel AI Gateway",
+        "aiGatewayDescription": "Configurar Vercel AI Gateway to acesso hundreds of modeloos through a single endpoint. Acesso <a>AI Gateway configurações</a> to get API key",
+        "aiGatewayApiKey": "Chave de API do AI Gateway",
+        "aiGatewayKeyConfigured": "Chave de API configurada",
+        "aiGatewayBaseUrl": "URL personalizada do Gateway"
+      }
+    },
+    "action": {
+      "enterApiKey": "Digite a chave de API",
+      "goToConfiguration": "Ir para configuração"
+    },
+    "tips": {
+      "thankYouForUsingTeable": "Obrigado por usar o Teable",
+      "pleaseGoToConfiguration": "Por favor, go to o configurações página to complete some initial configuraçãos to enjoy o full functionality and a better usuário experience of teable",
+      "pleaseContactAdmin": "Entre em contato com o administrador"
+    },
+    "configuration": {
+      "title": "Configuração pendente",
+      "description": "Conclua essas configurações para obter todos os recursos",
+      "progressTitle": "Progresso da configuração",
+      "allComplete": "Todas as configurações concluídas",
+      "incomplete": "Algumas configurações estão incompletas",
+      "optional": "Opcional",
+      "completed": "Completed",
+      "group": {
+        "system": "Básico",
+        "ai": "Serviços de IA",
+        "appBuilder": "Construtor de apps"
+      },
+      "copyInstance": "Copiar ID",
+      "list": {
+        "publicOrigin": {
+          "title": "Variável de ambiente PUBLIC_ORIGIN",
+          "description": "Seu <strong>{{envPublicOrigin}}</strong> environment variable configuração does not match o atual acesso adicionarress <underline>{{currentPublicOrigin}}</underline>, importar xlsx, csv, and attachment campo functions may not work normtodosy, it is recomendado to set it to <underline>{{envPublicOrigin}}</underline>"
+        },
+        "https": {
+          "title": "Habilitar HTTPS",
+          "description": "Você não habilitado HTTPS, o large-scale copy (300 lines or more) feature will not be disponível, and it is recomendado to habilitar it."
+        },
+        "databaseProxy": {
+          "title": "PUBLIC_DATABASE_PROXY environment variable",
+          "description": "O <strong>PUBLIC_DATABASE_PROXY</strong> is not configurard, o external dadosbase connection feature will not be disponível, por favor, refer to o <a>help document</a>",
+          "href": "https://help.teable.ai/en/deploy/database-connection#enable-external-database-connection"
+        },
+        "llmApi": {
+          "title": "API LLM",
+          "description": "Você não configurard o AI LLM API, AI Chat/ AI automação will not be usable, <anchor>go to setting</anchor>",
+          "errorTips": "Você não configurard o AI LLM API, AI Chat/ AI automação will not be usable"
+        },
+        "aiEnable": {
+          "title": "AI Services (Chat / AI Campo)",
+          "description": "Habilitar to use AI Chat, AI Campos, and automações, <anchor>go to setting</anchor>"
+        },
+        "aiLlmApi": {
+          "title": "AI: Configurar LLM API",
+          "description": "Choose AI Gateway or configurar personalizado provedors, <anchor>go to setting</anchor>"
+        },
+        "aiModelPool": {
+          "title": "AI: Configurar disponível modeloos",
+          "description": "Habilitar at least one modelo for AI Campos and automações, <anchor>go to setting</anchor>"
+        },
+        "aiChatModel": {
+          "title": "AI: Set chat modelo",
+          "description": "Selecionar a padrão modelo for o sidebar AI Chat, <anchor>go to setting</anchor>"
+        },
+        "appBuilderDomain": {
+          "title": "App Builder: Personalizado domain",
+          "description": "If you want to publish apps under seu personalizado domain, configurar domain + Vercel token, <anchor>go to setting</anchor>"
+        },
+        "appBuilderApiProxy": {
+          "title": "App Builder: API proxy"
+        },
+        "sandboxVercel": {
+          "title": "AI Chat Runhora",
+          "description": "Configurar sandbox runhora environment for AI Chat, <anchor>go to setting</anchor>"
+        },
+        "email": {
+          "title": "E-mail",
+          "description": "Nenhum e-mail configurard, self-service senha recovery, and e-mail notificação function will not be disponível, <anchor>go to setting</anchor>",
+          "errorTips": "Nenhum e-mail configurard, self-service senha recovery, and e-mail válidoation / notificação function will not be disponível"
+        }
+      }
+    },
+    "canary": {
+      "title": "Lançamento Canary",
+      "enable": "Habilitar canary",
+      "enableDescription": "When habilitado, selecionared espaços will have canary features activated",
+      "spaces": "Espaços Canary",
+      "spacesDescription": "{{count}} espaços configurados",
+      "configure": "Configurar",
+      "spaceIds": "IDs dos espaços",
+      "spaceIdsDescription": "Digite os IDs dos espaços, um por linha ou separados por vírgulas/espaços",
+      "spaceIdsPlaceholder": "spcXXXXXXXXXXX\nspcYYYYYYYYYYY",
+      "preview": "Pré-visualização ({{count}} IDs)",
+      "noSpaceIds": "Nenhum ID de espaço informado"
+    }
+  },
+  "notification": {
+    "title": "Notificações",
+    "unread": "Não lidas",
+    "read": "Lidas",
+    "markAs": "Marcar esta notificação como {{status}}",
+    "markAllAsRead": "Marcar todas como lidas",
+    "noUnread": "Nenhuma notificação {{status}}",
+    "noAttention": "Nenhuma notificação precisa de atenção",
+    "noSeverity": "Nenhuma notificação {{severity}}",
+    "changeSetting": "Alterar configurações de notificação da página",
+    "new": "{{count}} novas",
+    "showMore": "Mostrar mais",
+    "sections": {
+      "needsAction": "Importante",
+      "all": "Todos"
+    },
+    "severity": {
+      "critical": "Importante",
+      "warning": "Aviso",
+      "info": "Normal"
+    },
+    "exportBase": {
+      "successText": "Os dados de exportação estão prontos",
+      "failedText": "A exportação falhou, tente novamente"
+    }
+  },
+  "role": {
+    "title": {
+      "owner": "Proprietário",
+      "creator": "Criador",
+      "editor": "Editor",
+      "commenter": "Comentarista",
+      "viewer": "Visualizador"
+    },
+    "description": {
+      "owner": "Can fully configurar and edit bases, automação, authority matrices and manage espaço configurações and billing",
+      "creator": "Can fully configurar and edit bases, automação and habilitar o authority matrix",
+      "editor": "Can edit registros and visualizações, but cannot configurar tabelas or campos",
+      "commenter": "Pode comentar nos registros",
+      "viewer": "Não pode editar nem comentar"
+    }
+  },
+  "trash": {
+    "spaceTrash": "Lixeira do espaço",
+    "type": "Tipo",
+    "resetTrash": "Esvaziar lixeira",
+    "deletedBy": "Por",
+    "deletedTime": "Hora",
+    "fromSpace": "Do espaço \"{{name}}\"",
+    "permanentDeleteTips": "Tem certeza de que deseja permanently excluir \"{{name}}\" {{resource}}?",
+    "resetTrashConfirm": "Tem certeza de que deseja esvaziar a lixeira?",
+    "addToTrash": "Mover para a lixeira",
+    "description": "Dados in o trash still occupies registro usage and attachment usage.",
+    "spaceDescription": "Restore espaços excluído within o past {{retentionDays}} days",
+    "spaceInnerDescription": "Restore bases excluído from este espaço within o past {{retentionDays}} days",
+    "baseDescription": "Restore resources excluído from este base within o past {{retentionDays}} days"
+  },
+  "pluginCenter": {
+    "pluginUrlEmpty": "URL do plugin não configurada",
+    "install": "Instalar",
+    "publisher": "Publicador",
+    "lastUpdated": "Última atualização",
+    "pluginNotFound": "Plugin não encontrado",
+    "pluginEmpty": {
+      "title": "Ainda não há plugins"
+    }
+  },
+  "automation": {
+    "turnOnTip": "Deseja ativar a automação atual?"
+  },
+  "email": {
+    "title": "E-mail",
+    "send": "Enviar",
+    "config": "Configuração de e-mail",
+    "customConfig": "Servidor de e-mail personalizado",
+    "notify": "E-mail de notificação",
+    "automation": "E-mail de automação",
+    "customNotifyConfig": "Personalizado notify e-mail config",
+    "customAutomationConfig": "Personalizado automação e-mail config",
+    "addConfig": "Adicionar configuração",
+    "editConfig": "Editar configuração",
+    "resetConfig": "Redefinir",
+    "testEmail": "E-mail de teste",
+    "testEmailPlaceholder": "Digite o e-mail de teste",
+    "testEmailError": "Digite um endereço de e-mail de teste válido",
+    "testEmailSend": "E-mail de teste enviado com sucesso, verifique sua caixa de entrada",
+    "configError": "Digite uma configuração de e-mail válida",
+    "host": "Endereço do servidor",
+    "hostDescription": "Por favor, digite o SMTP mail server adicionarress, for example: smtp.example.com",
+    "port": "Porta",
+    "secure": "SSL/TLS",
+    "auth": "Autenticação",
+    "username": "Nome de usuário",
+    "password": "Senha",
+    "sender": "Remetente",
+    "senderName": "Nome do remetente",
+    "subscribe": "Inscrever-se",
+    "unsubscribe": "Cancelar inscrição",
+    "unsubscribeList": "Lista de cancelamento de inscrição",
+    "unsubscribeTime": "Hora do cancelamento",
+    "source": "Origem",
+    "sourceAutomationDeleted": "Automação or node excluído",
+    "processing": "Processando...",
+    "unsubscribeH1": "Confirmar cancelamento de inscrição?",
+    "unsubscribeH2": "You're about to unsubscribe from future Teable promotions and product atualizars. Tem certeza de que deseja unsubscribe?",
+    "subscribeH1": "Confirmar inscrição?",
+    "subscribeH2": "You're about to subscribe from future Teable promotions and product atualizars. Tem certeza de que deseja subscribe?",
+    "unsubscribeListTip": "O following usuários in o atual base have unsubscribed, you não poderá mais send them e-mails. When importaring e-mails, por favor, place o e-mail adicionarresses in o first column, and nome o header \"e-mail\".",
+    "templates": {
+      "resetPassword": {
+        "subject": "Redefinir senha - {{brandName}}",
+        "title": "Redefina sua senha",
+        "message": "If you did not request este change, por favor, ignore este e-mail. Otherwise, click o button below to reset seu senha.",
+        "buttonText": "Redefinir senha"
+      },
+      "emailVerifyCode": {
+        "signupVerification": {
+          "subject": "Verificação de cadastro - {{brandName}}",
+          "title": "Verificação de cadastro",
+          "message": "Seu verification code is {{code}}, por favor, use it within {{expiresIn}} minutes."
+        },
+        "domainVerification": {
+          "subject": "Verificação de domínio - {{brandName}}",
+          "title": "Verificação de domínio",
+          "message": "Seu verification code is {{code}}, por favor, use it within {{expiresIn}} minutes."
+        },
+        "changeEmailVerification": {
+          "subject": "Verificação de alteração de e-mail - {{brandName}}",
+          "title": "Verificação de alteração de e-mail",
+          "message": "Seu verification code is {{code}}, por favor, use it within {{expiresIn}} minutes."
+        }
+      },
+      "collaboratorCellTag": {
+        "subject": "{{fromUserName}} adicionared you to o {{fieldName}} campo of a registro in {{tableName}}",
+        "title": "<strong>{{fromUserName}}</strong> adicionared you to o <strong>{{fieldName}}</strong> campo of a registro in <strong>{{tableName}}</strong>",
+        "buttonText": "Ver registro"
+      },
+      "collaboratorMultiRowTag": {
+        "subject": "{{fromUserName}} adicionared you to {{refLength}} registros in {{tableName}}",
+        "title": "<strong>{{fromUserName}}</strong> adicionared you to <strong>{{refLength}}</strong> registros in <strong>{{tableName}}</strong>",
+        "buttonText": "Ver registros"
+      },
+      "invite": {
+        "subject": "{{name}} ({{email}}) convidard you to their {{resourceAlias}} {{resourceName}} - {{brandName}}",
+        "title": "Convite to collaborate",
+        "message": "<strong>{{name}}</strong> ({{email}}) convidard you to their {{resourceAlias}} <strong>{{resourceName}}</strong>.",
+        "buttonText": "Aceitar convite"
+      },
+      "waitlistInvite": {
+        "subject": "Bem-vindo - {{brandName}}",
+        "title": "Bem-vindo",
+        "message": "You've com sucesso joined o waitlista of {{brandName}}, por favor, use o following convidar code to register: {{code}}, it can be used {{times}} horas.",
+        "buttonText": "Registrar"
+      },
+      "test": {
+        "subject": "E-mail de teste - {{brandName}}",
+        "title": "E-mail de teste",
+        "message": "Este é um e-mail de teste, ignore."
+      },
+      "notify": {
+        "subject": "Notificação - {{brandName}}",
+        "title": "Notificação",
+        "buttonText": "Visualização",
+        "import": {
+          "title": "Notificação de resultado da importação",
+          "table": {
+            "aborted": {
+              "message": "❌ {{tableName}} importar aborted: {{errorMessage}} falhou row range: [{{range}}]. Por favor, check o dados for este range and retry."
+            },
+            "failed": {
+              "message": "❌ {{tableName}} importar falhou: {{errorMessage}}"
+            },
+            "planLimitExceeded": {
+              "message": "❌ {{tableName}} importar falhou: Row limit reached, por favor, upgrade seu plan to importar more registros"
+            },
+            "noRecordsProcessed": {
+              "message": "❌ {{tableName}} importar falhou: Nenhum registros were processed"
+            },
+            "success": {
+              "message": "🎉 {{tableName}} importared com sucesso.",
+              "inplace": "🎉 {{tableName}} inplace importared com sucesso."
+            },
+            "partialSuccess": {
+              "message": "⚠️ {{tableName}} partitodosy importared: {{successCount}} rows succeeded, {{failedCount}} rows falhou. <a href=\"{{errorReportUrl}}\" target=\"_blank\" rel=\"noopener\" download=\"error_report.csv\" style=\"color:#2563eb;text-decoration:underline;\">📥 Baixar Erro Report</a>",
+              "messageNoReport": "⚠️ {{tableName}} partitodosy importared: {{successCount}} rows succeeded, {{failedCount}} rows falhou."
+            },
+            "allFailed": {
+              "message": "❌ {{tableName}} importar falhou: todos {{failedCount}} rows falhou. <a href=\"{{errorReportUrl}}\" target=\"_blank\" rel=\"noopener\" download=\"error_report.csv\" style=\"color:#2563eb;text-decoration:underline;\">📥 Baixar Erro Report</a>",
+              "messageNoReport": "❌ {{tableName}} importar falhou: todos {{failedCount}} rows falhou."
+            }
+          }
+        },
+        "recordComment": {
+          "title": "Notificação de comentário em registro",
+          "message": "{{fromUserName}} made a comment on {{recordName}} in {{tableName}} in {{baseName}}"
+        },
+        "automation": {
+          "title": "Notificação de automação",
+          "failed": {
+            "title": "Automação {{name}} run falhou",
+            "message": "Seu automação {{name}} encountered an execution erro. Abrir run history to visualização details."
+          },
+          "insufficientCredit": {
+            "title": "Automação {{name}} run falhou due to insufficient AI créditos",
+            "message": "Seu automação {{name}} falhou because AI créditos are insufficient. Por favor, adicionar créditos or upgrade seu plan."
+          },
+          "runQuotaExceeded": {
+            "title": "Automação {{name}} run falhou due to run quota limit",
+            "message": "Seu automação {{name}} reached o monthly automação run quota. Por favor, upgrade seu plan or purchase adicionaritional automação runs."
+          },
+          "failedSummary": {
+            "title": "Automação {{name}} has falhou {{failCount}} horas",
+            "message": "Seu automação {{name}} has accumulated {{failCount}} consecutive failures. Abrir run history to visualização details."
+          }
+        },
+        "billing": {
+          "title": "Notificação de faturamento",
+          "credit": {
+            "warning80": {
+              "title": "Espaço {{spaceName}} AI créditos 80% used",
+              "message": "Seu espaço has used 80% of AI créditos. Consider upgrading or purchasing more créditos."
+            },
+            "warning90": {
+              "title": "Espaço {{spaceName}} AI créditos 90% used",
+              "message": "Seu espaço has used 90% of AI créditos. Upgrade soon to avoid interruption."
+            },
+            "anomaly": {
+              "dailySpike": {
+                "title": "Espaço {{spaceName}} unusual AI crédito spike detected",
+                "message": "Today's AI crédito usage ({{todayValue}}) is {{multiplier}}x o recent daily average ({{ewma}}). Este may indicate unexpected activity. Por favor, revisualização seu usage. Top contributors: {{topContributors}}"
+              },
+              "burst": {
+                "title": "Espaço {{spaceName}} AI crédito burst detected",
+                "message": "{{recentValue}} AI créditos consumed in o last {{windowMinutes}} minutes, which is {{multiplier}}x o historical hourly P95 ({{hourlyP95}}). Este may indicate unexpected activity. Top contributors: {{topContributors}}"
+              }
+            }
+          },
+          "automationRun": {
+            "warning80": {
+              "title": "Espaço {{spaceName}} automação runs 80% quota used",
+              "message": "Seu espaço has used {{usedRuns}} of {{totalLimit}} automação runs (80%). Consider upgrading seu plan."
+            },
+            "warning90": {
+              "title": "Espaço {{spaceName}} automação runs 90% quota used",
+              "message": "Seu espaço has used {{usedRuns}} of {{totalLimit}} automação runs (90%). Upgrade soon to avoid interruption."
+            },
+            "gracePeriod": {
+              "title": "Espaço {{spaceName}} automação runs exceeded - grace period active",
+              "message": "Seu automação run quota has been exceeded. Automações will stop running and shut down after {{remainingHours}} more hours. Por favor, upgrade seu plan."
+            },
+            "anomaly": {
+              "dailySpike": {
+                "title": "Espaço {{spaceName}} unusual automação run spike",
+                "message": "Today's automação runs ({{todayValue}}) are {{multiplier}}x o recent daily average ({{ewma}}). Este may indicate a runaway automação. Por favor, revisualização seu workflows. Top contributors: {{topContributors}}"
+              },
+              "burst": {
+                "title": "Espaço {{spaceName}} automação run burst detected",
+                "message": "{{recentValue}} automação runs detected in o last {{windowMinutes}} minutes, which is {{multiplier}}x o historical hourly P95 ({{hourlyP95}}). Este may indicate a loop or misconfiguração. Top contributors: {{topContributors}}"
+              }
+            }
+          }
+        },
+        "exportBase": {
+          "title": "Notificação de resultado da exportação da base",
+          "success": {
+            "message": "{{baseName}} Exportar com sucesso: <a href=\"{{previewUrl}}\" name=\"{{name}}\" class=\"hover:text-blue-500 underline\">🗂️ {{name}}</a>"
+          },
+          "failed": {
+            "message": "❌ {{baseName}} exportared falhou: {{errorMessage}}"
+          }
+        },
+        "task": {
+          "ai": {
+            "failed": {
+              "title": "AI task falhou in tabela {{tableName}}",
+              "message": "AI task falhou for campo \"{{fieldName}}\" in tabela \"{{tableName}}\": {{errorMsg}}"
+            },
+            "cancelled": {
+              "title": "Tarefa de IA cancelada",
+              "rateLimit": "AI task for tabela \"{{tableName}}\" was cancelled due to rate limiting (429). Tente novamente later.",
+              "creditExhausted": "AI task for tabela \"{{tableName}}\" was cancelled because créditos have been exhausted. Por favor, upgrade seu subscription or wait for créditos to refresh.",
+              "authFailed": "AI task for tabela \"{{tableName}}\" was cancelled due to authentication failure. Por favor, check seu API key configuração.",
+              "serviceUnavailable": "AI task for tabela \"{{tableName}}\" was cancelled because o AI service is temporarily indisponível. Tente novamente later.",
+              "unknown": "AI task for tabela \"{{tableName}}\" was cancelled. Erro: {{errorMessage}}"
+            }
+          }
+        },
+        "rewardRejected": {
+          "title": "Solicitação de recompensa rejeitada",
+          "message": "Seu <a href=\"{{spaceUrl}}\">{{spaceName}}</a> reward claim has been rejeitado for o following reason(s): {{errorMessages}}, Por favor, revisualização and submit again.",
+          "buttonText": "Ver espaço"
+        },
+        "rewardApproved": {
+          "title": "Solicitação de recompensa aprovada",
+          "message": "Congratulations! Seu <a href=\"{{spaceUrl}}\">{{spaceName}}</a> reward claim has been aprovado. {{amount}} créditos have been adicionared, válido for {{expiredDays}} days.",
+          "buttonText": "Ver espaço"
+        }
+      }
+    }
+  },
+  "waitlist": {
+    "title": "Lista de espera",
+    "email": "E-mail",
+    "joinTitle": "Estamos crescendo rápido para atender à demanda.",
+    "joinDesc": "Entre na lista de espera — avisaremos assim que estivermos prontos.",
+    "emailPlaceholder": "Digite seu e-mail...",
+    "youAreOnTheList": "Você está na lista!",
+    "thanksForJoining": "Obrigado por entrar na nossa lista de espera. Avisaremos assim que tivermos novidades.",
+    "back": "Voltar",
+    "inviteCodePlaceholder": "Digite seu código de convite",
+    "join": "Entrar na lista de espera",
+    "joining": "Entrando...",
+    "invite": "Convidar",
+    "inviteTime": "Hora do convite",
+    "createdTime": "Hora de entrada",
+    "yes": "Sim",
+    "no": "Não",
+    "generateCode": "Gerar código de convite",
+    "count": "Quantidade",
+    "times": "Vezes",
+    "generate": "Gerar",
+    "code": "Código de convite",
+    "inviteSuccess": "Convite realizado com sucesso"
+  },
+  "noPermissionToCreateBase": "Sem permissão para criar base em qualquer espaço",
+  "base": {
+    "deleteTip": "Tem certeza de que deseja excluir \"{{name}}\" base?",
+    "createResource": "Criar",
+    "noPermissionToCreateResource": "Você não tem permissão para criar, entre em contato com o proprietário"
+  },
+  "credit": {
+    "title": "Crédito",
+    "leftAmount": "Créditos restantes",
+    "winFreeCredits": "Compartilhar experiência",
+    "getCredits": "Obter 1000 créditos grátis",
+    "winCredit": {
+      "title": "Share a positive revisualização to earn",
+      "freeCredits": "1000 créditos grátis",
+      "guidelinesTitle": "Checklist de compartilhamento",
+      "tagTeableio": "Tag <bold>@teableio</bold>",
+      "minCharacters": "Write  <bold>80+</bold> characters revisualização",
+      "minFollowers": "Have <bold>10+</bold> followers",
+      "limitPerWeek": "500 créditos per post, up to 2 posts weekly (X + LinkedIn)",
+      "postOnX": "Publicar no X",
+      "postOnLinkedIn": "Publicar no LinkedIn",
+      "preFilledDraft": "🌟 Pre-filled draft ready for you!",
+      "claimTitle": "Paste post URL to claim seu créditos",
+      "userEmail": "Usuário e-mail",
+      "postUrlLabel": "URL da publicação (X ou LinkedIn)",
+      "postUrlPlaceholder": "Paste o link to seu post here",
+      "invalidUrl": "Por favor, digite a válido X or LinkedIn post URL",
+      "claiming": "Solicitando...",
+      "claimCredits": "Solicitar créditos",
+      "congratulations": "Parabéns!",
+      "claimSuccess": "Você resgatou 500 créditos!",
+      "verifying": "Verifying seu post...",
+      "verifyingDescription": "We're checking seu post content, este usutodosy takes a few seconds",
+      "verifyFailed": "Falha na verificação",
+      "tryAgain": "Tentar novamente"
+    },
+    "error": {
+      "verificationFailed": "Falha na verificação"
+    }
+  },
+  "reward": {
+    "title": "Recompensa",
+    "rewardCredits": "Créditos de recompensa",
+    "minCharCount": "Post must have at least {{count}} characters",
+    "minFollowerCount": "Conta must have at least {{count}} followers",
+    "mustMention": "Post must mention {{mention}}",
+    "fetchSnapshotFailed": "Falha ao to fetch post snapshot",
+    "alreadyClaimedThisWeek": "You have already claimed a reward for este conta este week",
+    "manage": {
+      "title": "Gerenciamento de recompensas",
+      "description": "Ver and manage reward registros across todos espaços",
+      "overview": "Visão geral",
+      "records": "Registros",
+      "searchSpace": "Pesquisar espaço...",
+      "searchRecords": "Pesquisar postUrl/usuárioId...",
+      "dateRange": "Selecionar intervalo de datas",
+      "from": "De",
+      "to": "Até",
+      "totalSpaces": "Total: {{count}} espaços",
+      "totalRecords": "Total: {{count}} registros",
+      "space": "Espaço",
+      "allSpaces": "Todos os espaços",
+      "user": "Usuário",
+      "creator": "Criador",
+      "sourceType": "Source Type",
+      "platform": "Plataforma",
+      "allStatuses": "Todos os status",
+      "allSourceTypes": "Todos Source Types",
+      "allPlatforms": "Todos Platforms",
+      "pendingCount": "Quantidade pendente",
+      "approvedCount": "Quantidade aprovada",
+      "rejectedCount": "Quantidade rejeitada",
+      "approvedAmount": "Approved Amount",
+      "consumedAmount": "Consumed Amount",
+      "availableAmount": "Disponível Amount",
+      "expiringSoonAmount": "Expiring Soon Amount (7d)",
+      "amount": "Valor",
+      "remainingAmount": "Valor restante",
+      "createdTime": "Data de criação",
+      "rewardTime": "Data da recompensa",
+      "expiredTime": "Data de expiração",
+      "lastModified": "Última modificação",
+      "viewDetails": "Ver Details",
+      "details": "Detalhes da recompensa",
+      "basicInfo": "Informações básicas",
+      "amountInfo": "Informações de valor",
+      "timeInfo": "Informações de tempo",
+      "socialInfo": "Informações sociais",
+      "verifyResult": "Resultado da verificação",
+      "uniqueKey": "Chave única",
+      "verify": "Verificar",
+      "valid": "Válido",
+      "invalid": "Inválido",
+      "errors": "Erros",
+      "copied": "{{label}} copiado",
+      "openPost": "Abrir publicação",
+      "noData": "Sem dados",
+      "page": "Página {{current}} de {{total}}",
+      "status": {
+        "label": "Status",
+        "pending": "Pendente",
+        "approved": "Aprovado",
+        "rejected": "Rejeitado"
+      }
+    }
+  },
+  "chat": {
+    "responseInterrupted": "Resposta interrompida",
+    "serverError": "Ocorreu um erro no servidor",
+    "serverErrorHint": "Inicie uma nova conversa e tente novamente.",
+    "modelNotSupported": "O selecionared modelo is not suporteed in agent mode. Por favor, switch to Claude Opus 4.6 for o best experience.",
+    "byokModelNotSupported": "Seu personalizado modelo is not compatible with agent mode. Por favor, switch to Claude Opus 4.6 for o best experience.",
+    "modelServiceUnavailable": "O serviço do modelo está temporariamente indisponível. Tente novamente mais tarde.",
+    "modelServiceError": "An erro occurred with o modelo service. Tente novamente or switch to a different modelo.",
+    "imageProcessingFailed": "Falha no processamento da imagem",
+    "imageProcessingFailedDescription": "A imagem não pôde ser processada pelo modelo de IA. Tente reenviar ou continue sem ela.",
+    "sandboxActiveRunBusy": "Cuppy is still working. Por favor, wait before sending again.",
+    "sandboxCapacityFull": "Conatual conversation limit ({{max}}) reached. Por favor, wait for one to finish.",
+    "sandboxTransient": "Cuppy is getting ready. Tente novamente in a moment.",
+    "sandboxSnapshotNotFound": "Cuppy's environment isn't set up yet. Por favor, ask seu administrador to criar a sandbox snapshot.",
+    "agentStartFailed": "O AI engine falhou to start. Tente novamente or start a novo session.",
+    "idleTimeout": "A execução do comando excedeu o limite de tempo ({{seconds}}s). Tente novamente.",
+    "danglingToolUse": "O previous session was interrupted and has been auto-repaired. Por favor, retry seu message."
+  },
+  "system": {
+    "notFound": {
+      "title": "Página não encontrada",
+      "description": "O link acessado pode estar quebrado ou a página foi movida."
+    },
+    "links": {
+      "backToHome": "Voltar para início"
+    },
+    "forbidden": {
+      "title": "Acesso restrito",
+      "description": "Você precisa de permissão para acessar este recurso.\nEntre em contato com o administrador."
+    },
+    "paymentRequired": {
+      "title": "Desbloquear recurso premium",
+      "description": "Este recurso está disponível em planos avançados.\nAtualize para expandir suas capacidades."
+    },
+    "error": {
+      "title": "Algo deu errado",
+      "description": "Ocorreu um problema inesperado. Tente novamente mais tarde."
+    }
+  },
+  "import": {
+    "error": {
+      "dateOutOfRange": "{{fieldHint}}Data parsing falhou, value \"{{value}}\" is out of válido range",
+      "planRowLimit": "Row limit reached, por favor, upgrade seu plan to importar more registros",
+      "notNullValidation": "{{fieldHint}}Obrigatório campo(s) cannot be empty",
+      "uniqueValidation": "{{fieldHint}}Duplicate value(s) in unique campo(s)",
+      "requestTimeout": "A solicitação expirou",
+      "chunkProcessingFailed": "Falha no processamento em lote: {{reason}}",
+      "unknown": "{{fieldHint}}{{message}}"
+    }
+  },
+  "changelog": {
+    "newUpdate": "ATUALIZAÇÃO DE 19 DE MAIO",
+    "title": "Créditos do Teable aumentaram 10x!",
+    "url": "https://help.teable.ai/en/changelog#may-19-2026",
+    "id": "changelog-2026-05-19-teable-créditos-up-10x"
+  }
+}

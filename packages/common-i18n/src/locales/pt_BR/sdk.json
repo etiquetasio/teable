@@ -1,0 +1,1523 @@
+{
+  "common": {
+    "comingSoon": "Em breve",
+    "empty": "Vazio",
+    "noRecords": "Nenhum registro disponível",
+    "unnamedRecord": "Registro sem nome",
+    "untitled": "Sem título",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "back": "Voltar",
+    "done": "Concluído",
+    "create": "Criar",
+    "search": {
+      "placeholder": "Pesquisar...",
+      "empty": "Nenhum resultado encontrado"
+    },
+    "readOnlyTip": "This visualização is locked. You can enable<button>personal mode</button>to edit visualização options, and the changes will only take effect for yourself.",
+    "selectPlaceHolder": "Select...",
+    "loading": "Carregando...",
+    "loadMore": "Carregar mais",
+    "uploadFailed": "Falha no envio",
+    "rowCount": "{{count}} registros",
+    "summary": "Resumo",
+    "summaryTip": "Hover to select summary",
+    "actions": "Ações",
+    "remove": "Remover",
+    "runStatus": {
+      "success": "{{nome}} sucesso",
+      "failed": "{{nome}} falhou",
+      "running": "{{nome}} running"
+    },
+    "resetSuccess": "Redefinir com sucesso",
+    "click": "Clique",
+    "clickedCount": "{{label}}: Clicked {{text}} times",
+    "atLeastOne": "At least reserve a {{noun}}"
+  },
+  "notification": {
+    "title": "Notificação"
+  },
+  "aiError": {
+    "title": "AI Generation Falha",
+    "retry": "Tentar novamente",
+    "dismiss": "Dispensar"
+  },
+  "preview": {
+    "previewFileLimit": "Previsualização arquivo size limit: {{size}}MB, please download to visualização instead.",
+    "loadFileError": "Falha to load arquivo"
+  },
+  "undoRedo": {
+    "undo": "Desfazer",
+    "redo": "Refazer",
+    "undoFailed": "Falha ao desfazer",
+    "redoFailed": "Falha ao refazer",
+    "nothingToUndo": "Nada para desfazer",
+    "nothingToRedo": "Nada para refazer",
+    "undoSucceed": "Desfeito com sucesso",
+    "redoSucceed": "Refeito com sucesso",
+    "undoing": "Desfazendo...",
+    "redoing": "Refazendo..."
+  },
+  "editor": {
+    "attachment": {
+      "uploadDragOver": "Drop arquivo here to upload",
+      "uploadBaseTextPrefix": "Click to upload ",
+      "uploadBaseText": " or paste or drag and drop here",
+      "uploadDragDefault": "Paste or drag and drop to upload here",
+      "upload": "Enviar arquivo",
+      "downloadAll": "Baixar tudo",
+      "downloading": "Baixando...",
+      "downloadSuccess": "Download concluído",
+      "downloadFailed": "Falha no download",
+      "downloadCancelled": "Download cancelado",
+      "requireHttps": "Bulk download requires HTTPS. Please access via HTTPS or localhost"
+    },
+    "date": {
+      "placeholder": "Escolha uma data",
+      "today": "Hoje",
+      "rangePlaceholder": "Pick a date range",
+      "rangeSelected": "Selecionado",
+      "invalidTimeRange": "End time must be after start time",
+      "from": "De",
+      "to": "Até"
+    },
+    "formula": {
+      "title": "Editor de fórmula",
+      "guideSyntax": "Sintaxe",
+      "guideExample": "Exemplo",
+      "helperExample": "Example: ",
+      "fieldValue": "Returns the valor to the cells of the {{campoNome}} campo.",
+      "placeholder": "Digite an expression",
+      "placeholderForAIPrompt": "Describe the formula you want to generate",
+      "editExpression": "Editar fórmula",
+      "generateExpressionByAI": "Gerar formula by AI",
+      "inputPrompt": "Input instruction",
+      "generateExpression": "Generated formula",
+      "generatingByAI": "Generating formula by AI...",
+      "generatedExpressionTips": "After generating, click aplicativoly to quickly insert the formula",
+      "action": {
+        "generating": "Generating...",
+        "generate": "Gerar",
+        "apply": "Aplicar"
+      },
+      "expressionRequired": "Expression is obrigatório"
+    },
+    "link": {
+      "placeholder": "Selecione registros to link",
+      "searchPlaceholder": "Pesquisar registros",
+      "allFields": "All Campos",
+      "globalSearch": "Global search",
+      "fieldSearch": "Pesquisar campo",
+      "maxFieldTips": "Exceeded the maximum {{count}} number of campos, extra campos will be ignored",
+      "create": "Adicionar registro",
+      "selectRecord": "Selecione registro",
+      "all": "Todos",
+      "selected": "Selecionado",
+      "expandRecordError": "Nenhum permissão to visualização this registro.",
+      "alreadyOpen": "This registro is already open.",
+      "linkedTo": "Linked to",
+      "goToForeignTable": "Go to foreign tabela",
+      "foreignTableIdRequired": "Foreign tabela is obrigatório",
+      "linkFieldIdRequired": "Link campo is obrigatório",
+      "selectTooManyRecords": "The selected registros should not exceed {{maxCount}}",
+      "relationshipRequired": "Relationship is obrigatório",
+      "rangeSelectFailed": "Falha to select registros in range"
+    },
+    "user": {
+      "searchPlaceholder": "Find usuários by nome",
+      "notify": "Notify usuários once they're selected"
+    },
+    "select": {
+      "addOption": "Adicionar an option '{{option}}'",
+      "choicesNameRequired": "Choice nome is not empty"
+    },
+    "lookup": {
+      "lookupFieldIdRequired": "Lookup campo is obrigatório",
+      "lookupOptionsNotAllowed": "Lookup options are not allowed when isLookup attribute is true or campo tipo is rollup.",
+      "lookupOptionsRequired": "Lookup options are obrigatório",
+      "refineOptionsError": "Parse lookup options erro {{message}}"
+    },
+    "rollup": {
+      "expressionRequired": "Expression is obrigatório",
+      "unsupportedTip": "Rollup only support link and rollup campo"
+    },
+    "conditionalRollup": {
+      "filterRequired": "Filter must contain at least one condition"
+    },
+    "conditionalLookup": {
+      "filterRequired": "Conditional lookup requires at least one filter condition"
+    },
+    "aiConfig": {
+      "modelKeyRequired": "Modelo is obrigatório",
+      "typeNotSupported": "Não suportado AI tipo",
+      "sourceFieldIdRequired": "Source campo is obrigatório",
+      "targetLanguageRequired": "Target language is obrigatório",
+      "promptRequired": "Prompt is obrigatório"
+    },
+    "error": {
+      "refineOptionsError": "Parse campo options erro {{message}}",
+      "optionsRequired": "Campo options is obrigatório"
+    }
+  },
+  "filter": {
+    "label": "Filtro",
+    "displayLabel": "Filter by ",
+    "displayLabel_other": "Filter by {{campoNome}} and {{count}} other campos",
+    "addCondition": "Adicionar condição",
+    "addConditionGroup": "Adicionar grupo de condições",
+    "nestedLimitTip": "Filter conditions can only be nested {{depth}} levels deep",
+    "linkInputPlaceholder": "Digite a valor",
+    "groupDescription": "Any of the following are true…",
+    "currentUser": "Eu (usuário atual)",
+    "tips": {
+      "scope": "In this visualização, show registros"
+    },
+    "invalidateSelected": "Valor inválido",
+    "invalidateSelectedTips": "The selected valor has been deleted, please select again",
+    "invalidConditionTip": "This filter condition is invalid and will be ignored. Please adjust the valor.",
+    "default": {
+      "empty": "Nenhum filter conditions are aplicativolied",
+      "placeholder": "Digite a valor"
+    },
+    "conjunction": {
+      "and": "e",
+      "or": "ou",
+      "where": "onde",
+      "meetingAll": "Meeting all conditions",
+      "meetingAny": "Meeting any conditions"
+    },
+    "operator": {
+      "is": "is",
+      "isNot": "is not",
+      "contains": "contains",
+      "doesNotContain": "does not contain",
+      "isEmpty": "is empty",
+      "isNotEmpty": "is not empty",
+      "isGreater": "is greater than",
+      "isGreaterEqual": "is greater equal",
+      "isLess": "is less than",
+      "isLessEqual": "is less equal",
+      "isAnyOf": "is any of",
+      "isNoneOf": "is not any of",
+      "hasAnyOf": "has any of",
+      "hasAllOf": "has all of",
+      "hasNoneOf": "has none of",
+      "isExactly": "is exactly",
+      "isWithIn": "is with in",
+      "isBefore": "is before",
+      "isAfter": "is after",
+      "isOnOrBefore": "is on or before",
+      "isOnOrAfter": "is on or after",
+      "number": {
+        "is": "=",
+        "isNot": "≠",
+        "isGreater": ">",
+        "isGreaterEqual": "≥",
+        "isLess": "<",
+        "isLessEqual": "≤"
+      }
+    },
+    "conditionalRollup": {
+      "switchToField": "Usar campo valor",
+      "switchToValue": "Usar manual valor"
+    },
+    "component": {
+      "date": {
+        "today": "hoje",
+        "tomorrow": "amanhã",
+        "yesterday": "ontem",
+        "oneWeekAgo": "uma semana atrás",
+        "oneWeekFromNow": "daqui a uma semana",
+        "oneMonthAgo": "um mês atrás",
+        "oneMonthFromNow": "daqui a um mês",
+        "daysAgo": "dias atrás",
+        "daysFromNow": "dias a partir de agora",
+        "exactDate": "data exata",
+        "exactFormatDate": "exact date (formatted)",
+        "dateRange": "intervalo personalizado",
+        "currentWeek": "semana atual",
+        "currentMonth": "mês atual",
+        "currentYear": "ano atual",
+        "lastWeek": "semana passada",
+        "lastMonth": "mês passado",
+        "lastYear": "ano passado",
+        "nextWeekPeriod": "próxima semana",
+        "nextMonthPeriod": "próximo mês",
+        "nextYearPeriod": "próximo ano",
+        "pastWeek": "semana anterior",
+        "pastMonth": "mês anterior",
+        "pastYear": "ano anterior",
+        "nextWeek": "próxima semana",
+        "nextMonth": "próximo mês",
+        "nextYear": "próximo ano",
+        "pastNumberOfDays": "past number of days",
+        "nextNumberOfDays": "next number of days"
+      }
+    }
+  },
+  "color": {
+    "label": "Cor"
+  },
+  "rowHeight": {
+    "short": "Baixa",
+    "medium": "Média",
+    "tall": "Alta",
+    "extraTall": "Extra alta",
+    "title": "Altura da linha"
+  },
+  "fieldNameConfig": {
+    "title": "Nome do campo",
+    "displayLines": "{{count}} lines"
+  },
+  "share": {
+    "title": "Compartilhar"
+  },
+  "extensions": {
+    "title": "Extensões"
+  },
+  "hidden": {
+    "label": "Campos ocultos",
+    "configLabel_one": "{{count}} hidden campo",
+    "configLabel_other": "{{count}} hidden campos",
+    "configLabel_other_visible": "{{count}} visible campos",
+    "showAll": "Mostrar tudo",
+    "hideAll": "Ocultar tudo",
+    "primaryKey": "Primary campo: Identifies registros\nCannot be hidden or deleted, visible in linked registros.",
+    "notInCurrentView": "Campo \"{{campoNome}}\" is not visible in the atual visualização and can't be jumped to"
+  },
+  "expandRecord": {
+    "copy": "Copiar para a área de transferência",
+    "duplicateRecord": "Duplicar registro",
+    "copyRecordUrl": "Copiar URL do registro",
+    "deleteRecord": "Excluir registro",
+    "addRecordComment": "Adicionar comentário",
+    "viewRecordHistory": "Ver histórico do registro",
+    "recordHistory": {
+      "hiddenRecordHistory": "Ocultar histórico do registro",
+      "showRecordHistory": "Mostrar histórico do registro",
+      "createdTime": "Criado em",
+      "createdBy": "Criado por",
+      "before": "Antes",
+      "after": "Depois",
+      "viewRecord": "Ver registro"
+    },
+    "showHiddenFields": "Mostrar {{count}} hidden campos",
+    "hideHiddenFields": "Ocultar {{count}} hidden campos",
+    "showMore": "Mostrar mais",
+    "showLess": "Mostrar menos",
+    "recordFrom": "Registro from"
+  },
+  "sort": {
+    "label": "Ordenar",
+    "displayLabel_one": "Sort by {{count}} campo",
+    "displayLabel_other": "Sort by {{count}} campos",
+    "setTips": "Ordenar por",
+    "addButton": "Adicionar outra ordenação",
+    "autoSort": "Automatically sort registros",
+    "selectASCLabel": "first → last",
+    "selectDESCLabel": "last → first"
+  },
+  "group": {
+    "label": "Agrupar",
+    "displayLabel_one": "Group by {{count}} campos",
+    "displayLabel_other": "Group by {{count}} campos",
+    "setTips": "Agrupar por",
+    "addButton": "Adicionar subgrupo"
+  },
+  "field": {
+    "title": {
+      "singleLineText": "Single line text",
+      "longText": "Long text",
+      "singleSelect": "Single select",
+      "number": "Number",
+      "multipleSelect": "Multiple select",
+      "link": "Link to registro",
+      "formula": "Formula",
+      "date": "Data",
+      "createdTime": "Criado em",
+      "lastModifiedTime": "Last modified time",
+      "attachment": "Anexo",
+      "checkbox": "Checkbox",
+      "rollup": "Rollup",
+      "conditionalRollup": "Conditional rollup",
+      "user": "Usuário",
+      "rating": "Rating",
+      "autoNumber": "Auto number",
+      "lookup": "Lookup",
+      "conditionalLookup": "Conditional lookup",
+      "button": "Button",
+      "createdBy": "Criado por",
+      "lastModifiedBy": "Last modified by"
+    },
+    "description": {
+      "singleLineText": "Store short text like nomes or títulos.",
+      "longText": "Capture longer notes and descriçãos.",
+      "singleSelect": "Escolha one option from a list.",
+      "number": "Track numeric valors with formatting.",
+      "multipleSelect": "Tag registros with multiple choices.",
+      "link": "Link this registro to another tabela.",
+      "formula": "Calculate valors from other campos.",
+      "date": "Registro dates or times.",
+      "createdTime": "Mostrar when a registro was created.",
+      "lastModifiedTime": "Mostrar the most recent update time.",
+      "attachment": "Enviar arquivos or AI generate images, supports modelos such as 🍌 Nano banana pro",
+      "checkbox": "Toggle a simple yes or no.",
+      "rollup": "Summarize linked registros with formulas.",
+      "conditionalRollup": "Summarize dados from conditions.",
+      "user": "Assign registros to workespaço membros.",
+      "rating": "Score items with configurable icons.",
+      "autoNumber": "Give each registro a unique sequence.",
+      "lookup": "Display valors from linked registros.",
+      "conditionalLookup": "Mostrar linked valors that match filters you define.",
+      "button": "Executar actions with a clickable button.",
+      "createdBy": "Mostrar who created the registro.",
+      "lastModifiedBy": "Mostrar who last modified the registro."
+    },
+    "link": {
+      "oneWay": "One way",
+      "twoWay": "Two way"
+    },
+    "button": {
+      "confirm": {
+        "title": "Operation confirmation",
+        "description": "Tem certeza de que deseja perform this button operation?"
+      }
+    }
+  },
+  "permission": {
+    "actionDescription": {
+      "spaceCreate": "Criar espaço",
+      "spaceDelete": "Excluir espaço",
+      "spaceRead": "Read espaço",
+      "spaceUpdate": "Atualizar espaço",
+      "spaceInviteEmail": "Convidar via e-mail in espaço",
+      "spaceInviteLink": "Convidar via link in espaço",
+      "spaceGrantRole": "Grant role in espaço",
+      "baseCreate": "Criar base",
+      "baseDelete": "Excluir base",
+      "baseRead": "Read base",
+      "baseReadAll": "Read all bases",
+      "baseUpdate": "Atualizar base",
+      "baseInviteEmail": "Convidar via e-mail in base",
+      "baseInviteLink": "Convidar via link in base",
+      "baseTableImport": "Importar dados into base",
+      "baseAuthorityMatrixConfig": "Configurar authority matrix",
+      "baseDbConnect": "Connect to banco de dados",
+      "tableCreate": "Criar tabela",
+      "tableRead": "Read tabela",
+      "tableDelete": "Excluir tabela",
+      "tableUpdate": "Atualizar tabela",
+      "tableImport": "Importar dados into tabela",
+      "tableExport": "Exportar tabela dados",
+      "tableTrashRead": "Read tabela trash",
+      "tableTrashUpdate": "Atualizar tabela trash",
+      "tableTrashReset": "Redefinir tabela trash",
+      "viewCreate": "Criar visualização",
+      "viewDelete": "Excluir visualização",
+      "viewRead": "Read visualização",
+      "viewUpdate": "Atualizar visualização",
+      "viewShare": "Share visualização",
+      "fieldCreate": "Criar campo",
+      "fieldDelete": "Excluir campo",
+      "fieldRead": "Read campo",
+      "fieldUpdate": "Atualizar campo",
+      "recordCreate": "Criar registro",
+      "recordComment": "Comment on registro",
+      "recordDelete": "Excluir registro",
+      "recordRead": "Read registro",
+      "recordUpdate": "Atualizar registro",
+      "recordCopy": "Copiar registro",
+      "automationCreate": "Criar automação",
+      "automationDelete": "Excluir automação",
+      "automationRead": "Read automação",
+      "automationUpdate": "Atualizar automação",
+      "appCreate": "Criar aplicativo",
+      "appDelete": "Excluir aplicativo",
+      "appRead": "Read aplicativo",
+      "appUpdate": "Atualizar aplicativo",
+      "userProfileRead": "Read atual usuário proarquivo",
+      "userEmailRead": "Read atual usuário e-mail",
+      "userIntegrations": "Gerenciar usuário integrations",
+      "recordHistoryRead": "Read registro history",
+      "baseQuery": "Query base",
+      "instanceRead": "Read instance",
+      "instanceUpdate": "Atualizar instance",
+      "enterpriseRead": "Read enterprise configuração",
+      "enterpriseUpdate": "Atualizar enterprise configuração"
+    }
+  },
+  "noun": {
+    "table": "Tabela",
+    "view": "Visualização",
+    "space": "Espaço",
+    "base": "Base",
+    "field": "Campo",
+    "record": "Registro",
+    "automation": "Automação",
+    "app": "Aplicativo",
+    "user": "Usuário",
+    "recordHistory": "Registro history",
+    "you": "Você",
+    "instance": "Instância",
+    "enterprise": "Enterprise",
+    "history": "Histórico",
+    "global": "Global"
+  },
+  "formula": {
+    "SUM": {
+      "summary": "Sum together the numbers. Equivalent to number1 + number2 + ...",
+      "example": "SUM(100, 200, 300) => 600"
+    },
+    "AVERAGE": {
+      "summary": "Returns the average of the numbers.",
+      "example": "AVERAGE(100, 200, 300) => 200"
+    },
+    "MAX": {
+      "summary": "Returns the largest of the given numbers.",
+      "example": "MAX(100, 200, 300) => 300"
+    },
+    "MIN": {
+      "summary": "Returns the smallest of the given numbers.",
+      "example": "MIN(100, 200, 300) => 100"
+    },
+    "ROUND": {
+      "summary": "Rounds the valor to the number of decimal places given by \"precision\" (Specifically, ROUND will round to the nearest integer at the specified precision, with ties broken by rounding half up toward positive infinity.)",
+      "example": "ROUND(1.99, 0) => 2\nROUND(16.8, -1) => 20"
+    },
+    "ROUNDUP": {
+      "summary": "Rounds the valor to the number of decimal places given by \"precision\" always rounding up, i.e., away from zero. (You must give a valor for the precision or the function will not work.)",
+      "example": "ROUNDUP(1.1, 0) => 2\nROUNDUP(-1.1, 0) => -2"
+    },
+    "ROUNDDOWN": {
+      "summary": "Rounds the valor to the number of decimal places given by \"precision\" always rounding down, i.e., toward zero. (You must give a valor for the precision or the function will not work.)",
+      "example": "ROUNDDOWN(1.9, 0) => 1\nROUNDDOWN(-1.9, 0) => -1"
+    },
+    "CEILING": {
+      "summary": "Returns the nearest integer multiple of significance that is greater than or equal to the valor. If no significance is provided, a significance of 1 is assumed.",
+      "example": "CEILING(2.49) => 3\nCEILING(2.49, 1) => 2.5\nCEILING(2.49, -1) => 10"
+    },
+    "FLOOR": {
+      "summary": "Returns the nearest integer multiple of significance that is less than or equal to the valor. If no significance is provided, a significance of 1 is assumed.",
+      "example": "FLOOR(2.49) => 2\nFLOOR(2.49, 1) => 2.4\nFLOOR(2.49, -1) => 0"
+    },
+    "EVEN": {
+      "summary": "Returns the smallest even integer that is greater than or equal to the specified valor.",
+      "example": "EVEN(0.1) => 2\nEVEN(-0.1) => -2"
+    },
+    "ODD": {
+      "summary": "Rounds positive valor up the nearest odd number and negative valor down to the nearest odd number.",
+      "example": "ODD(0.1) => 1\nODD(-0.1) => -1"
+    },
+    "INT": {
+      "summary": "Returns the integer part of a number, rounding down toward negative infinity.",
+      "example": "INT(1.9) => 1\nINT(-1.9) => -2"
+    },
+    "ABS": {
+      "summary": "Returns the absolute valor.",
+      "example": "ABS(-1) => 1"
+    },
+    "SQRT": {
+      "summary": "Returns the square root of a nonnegative number.",
+      "example": "SQRT(4) => 2"
+    },
+    "POWER": {
+      "summary": "Computes the specified base to the specified power.",
+      "example": "POWER(2) => 4"
+    },
+    "EXP": {
+      "summary": "Computes Euler number (e) to the specified power.",
+      "example": "EXP(0) => 1\nEXP(1) => 2.718"
+    },
+    "LOG": {
+      "summary": "Computes the logarithm of the valor in provided base. The base padrãos to 10 if not specified.",
+      "example": "LOG(100) => 2\nLOG(1024, 2) => 10"
+    },
+    "MOD": {
+      "summary": "Returns the remainder after dividing the first argument by the second.",
+      "example": "MOD(9, 2) => 1\nMOD(9, 3) => 0"
+    },
+    "VALUE": {
+      "summary": "Converts the text string to a number.",
+      "example": "VALUE(\"$1,000,000\") => 1000000"
+    },
+    "CONCATENATE": {
+      "summary": "Joins together various valor tipos arguments into a single text valor.",
+      "example": "CONCATENATE(\"Hello \", \"Teable\") => Hello Teable"
+    },
+    "FIND": {
+      "summary": "Finds an occurrence of stringToFind in whereToPesquisar string starting from an optional startFromPosition.(startFromPosition is 0 by padrão.) If no occurrence of stringToFind is found, the result will be 0.",
+      "example": "FIND(\"Teable\", \"Hello Teable\") => 7\nFIND(\"Teable\", \"Hello Teable\", 5) => 7\nFIND(\"Teable\", \"Hello Teable\", 10) => 0"
+    },
+    "SEARCH": {
+      "summary": "Searches for an occurrence of stringToFind in whereToPesquisar string starting from an optional startFromPosition. (startFromPosition is 0 by padrão.) If no occurrence of stringToFind is found, the result will be empty.\nSimilar to FIND(), though FIND() returns 0 rather than empty if no occurrence of stringToFind is found.",
+      "example": "SEARCH(\"Teable\", \"Hello Teable\") => 7\nSEARCH(\"Teable\", \"Hello Teable\", 5) => 7\nSEARCH(\"Teable\", \"Hello Teable\", 10) => \"\""
+    },
+    "MID": {
+      "summary": "Extract a substring of count characters starting at whereToStart.",
+      "example": "MID(\"Hello Teable\", 6, 6) => \"Teable\""
+    },
+    "LEFT": {
+      "summary": "Extract howMany characters from the beginning of the string.",
+      "example": "LEFT(\"2023-09-06\", 4) => \"2023\""
+    },
+    "RIGHT": {
+      "summary": "Extract howMany characters from the ending of the string.",
+      "example": "RIGHT(\"2023-09-06\", 5) => \"09-06\""
+    },
+    "REPLACE": {
+      "summary": "Replaces the number of characters beginning with the start character with the replacement text.\n(If you are looking for a way to find and replace all occurrences of old_text with novo_text, see SUBSTITUTE().)",
+      "example": "REPLACE(\"Hello Tabela\", 7, 5, \"Teable\") => \"Hello Teable\""
+    },
+    "REGEXP_REPLACE": {
+      "summary": "Replaces all substrings matching regular expression with replacement.",
+      "example": "REGEXP_REPLACE(\"Hello Tabela\", \"H.* \", \"\") => \"Teable\""
+    },
+    "SUBSTITUTE": {
+      "summary": "Replaces occurrences of old_text with novo_text.\nYou can optionally specify an index number (starting from 1) to replace just a specific occurrence of old_text. If no index number is specified, then all occurrences of old_text will be replaced.",
+      "example": "SUBSTITUTE(\"Hello Tabela\", \"Tabela\", \"Teable\") => \"Hello Teable\""
+    },
+    "TEXTBEFORE": {
+      "summary": "Returns the text before a delimiter.",
+      "example": "TEXTBEFORE(\"20, 04, 79\", \",\") => \"20\""
+    },
+    "TEXTSPLIT": {
+      "summary": "Splits text by a delimiter and returns multiple text valors.",
+      "example": "TEXTSPLIT(\"20, 04, 79\", \",\") => [\"20\", \" 04\", \" 79\"]"
+    },
+    "LOWER": {
+      "summary": "Makes a string lowercase.",
+      "example": "LOWER(\"Hello Teable\") => \"hello teable\""
+    },
+    "UPPER": {
+      "summary": "Makes a string uppercase.",
+      "example": "UPPER(\"Hello Teable\") => \"HELLO TEABLE\""
+    },
+    "REPT": {
+      "summary": "Repeats string by the specified number of times.",
+      "example": "REPT(\"Hello!\") => \"Hello!Hello!Hello!\""
+    },
+    "TRIM": {
+      "summary": "Removes whiteespaço at the beginning and end of string.",
+      "example": "TRIM(\" Hello \") => \"Hello\""
+    },
+    "LEN": {
+      "summary": "Extract howMany characters from the beginning of the string.",
+      "example": "LEN(\"Hello\") => 5"
+    },
+    "T": {
+      "summary": "Returns the argument if it is text and blank otherwise.",
+      "example": "T(\"Hello\") => \"Hello\"\nT(100) => null"
+    },
+    "ENCODE_URL_COMPONENT": {
+      "summary": "Replaces certain characters with encoded equivalents for use in constructing URLs or URIs. Does not encode the following characters: - _ . ~",
+      "example": "ENCODE_URL_COMPONENT(\"Hello Teable\") => \"Hello%20Teable\""
+    },
+    "IF": {
+      "summary": "Returns valor1 if the logical argument is true, otherwise it returns valor2. Can also be used to make nested IF statements.\nCan also be used to check if a cell is blank/is empty.",
+      "example": "IF(2 > 1, \"A\", \"B\") => \"A\"\nIF(2 > 1, TRUE, FALSE) => TRUE"
+    },
+    "SWITCH": {
+      "summary": "Takes an expression, a list of possible valors for that expression, and for each one, a valor that the expression should take in that case. It can also take a padrão valor if the expression input does not match any of the defined patterns. In many cases, SWITCH() can be used instead of a nested IF() formula.",
+      "example": "SWITCH(\"B\", \"A\", \"Valor A\", \"B\", \"Valor B\", \"Padrão Valor\") => \"Valor B\""
+    },
+    "AND": {
+      "summary": "Returns true if all the arguments are true, returns false otherwise.",
+      "example": "AND(1 < 2, 5 > 3) => true\nAND(1 < 2, 5 < 3) => false"
+    },
+    "OR": {
+      "summary": "Returns true if any one of the arguments is true.",
+      "example": "OR(1 < 2, 5 < 3) => true\nOR(1 > 2, 5 < 3) => false"
+    },
+    "XOR": {
+      "summary": "Returns true if an odd number of arguments are true.",
+      "example": "XOR(1 < 2, 5 < 3, 8 < 10) => false\nXOR(1 > 2, 5 < 3, 8 < 10) => true"
+    },
+    "NOT": {
+      "summary": "Reverses the logical valor of its argument.",
+      "example": "NOT(1 < 2) => false\nNOT(1 > 2) => true"
+    },
+    "BLANK": {
+      "summary": "Returns a blank valor.",
+      "example": "BLANK() => null\nIF(2 > 3, \"Yes\", BLANK()) => null"
+    },
+    "ERROR": {
+      "summary": "Returns the erro valor.",
+      "example": "IF(2 > 3, \"Yes\", ERROR(\"Calculation\")) => \"#ERROR: Calculation\""
+    },
+    "IS_ERROR": {
+      "summary": "Returns true if the expression causes an erro.",
+      "example": "IS_ERROR(ERROR()) => true"
+    },
+    "TODAY": {
+      "summary": "Returns the atual date.",
+      "example": "TODAY() => \"2023-09-08 00:00\""
+    },
+    "NOW": {
+      "summary": "Returns the atual date and time.",
+      "example": "NOW() => \"2023-09-08 16:50\""
+    },
+    "YEAR": {
+      "summary": "Returns the four-digit year of a datetime.",
+      "example": "YEAR(\"2023-09-08\") => 2023"
+    },
+    "MONTH": {
+      "summary": "Returns the month of a datetime as a number between 1 (January) and 12 (December).",
+      "example": "MONTH(\"2023-09-08\") => 9"
+    },
+    "WEEKNUM": {
+      "summary": "Returns the week number in a year.",
+      "example": "WEEKNUM(\"2023-09-08\") => 36"
+    },
+    "WEEKDAY": {
+      "summary": "Returns the day of the week as an integer between 0 and 6, inclusive. You may optionally provide a second argument (either \"Sunday\" or \"Monday\") to start weeks on that day. If omitted, weeks start on Sunday by padrão. Example:\nWEEKDAY(TODAY(), \"Monday\")",
+      "example": "WEEKDAY(\"2023-09-08\") => 5"
+    },
+    "DAY": {
+      "summary": "Returns the day of the month of a datetime in the form of a number between 1-31.",
+      "example": "DAY(\"2023-09-08\") => 8"
+    },
+    "HOUR": {
+      "summary": "Returns the hour of a datetime as a number between 0 (12:00am) and 23 (11:00pm).",
+      "example": "HOUR(\"2023-09-08 16:50\") => 16"
+    },
+    "MINUTE": {
+      "summary": "Returns the minute of a datetime as an integer between 0 and 59.",
+      "example": "MINUTE(\"2023-09-08 16:50\") => 50"
+    },
+    "SECOND": {
+      "summary": "Returns the second of a datetime as an integer between 0 and 59.",
+      "example": "SECOND(\"2023-09-08 16:50:30\") => 30"
+    },
+    "FROMNOW": {
+      "summary": "Calculates the number of days between the atual date and another date.",
+      "example": "FROMNOW({Date}, \"day\") => 25"
+    },
+    "TONOW": {
+      "summary": "Calculates the number of days between the atual date and another date.",
+      "example": "TONOW({Date}, \"day\") => 25"
+    },
+    "DATETIME_DIFF": {
+      "summary": "Returns the difference between datetimes in specified units. Padrão unit is \"second\".\nSuportado units: \"millisecond\" (ms), \"second\" (s), \"minute\" (m), \"hour\" (h), \"day\" (d), \"week\" (w), \"month\" (M), \"year\" (y).\nDATETIME_DIFF always subtracts the second argument from the first (`date1 - date2`). If you want elapsed time from a start date to a later end date, call `DATETIME_DIFF(endDate, startDate, unit)`.",
+      "example": "DATETIME_DIFF(\"2026-03-13\", \"2026-03-09\") => 345600\nDATETIME_DIFF(\"2026-03-13\", \"2026-03-09\", \"day\") => 4"
+    },
+    "WORKDAY": {
+      "summary": "Returns the workday to the start date, excluding the specified holidays",
+      "example": "WORKDAY(\"2023-09-08\", 200) => \"2024-06-14 00:00:00\"\nWORKDAY(\"2023-09-08\", 200, \"2024-01-22, 2024-01-23, 2024-01-24, 2024-01-25\") => \"2024-06-20 00:00:00\""
+    },
+    "WORKDAY_DIFF": {
+      "summary": "Returns the number of working days after [startDate] up to and including [endDate]. This is a business-day count, not a calendar-day diff, so weekends and an optional list of holidays are excluded. For calendar-day elapsed time, use `DATETIME_DIFF(endDate, startDate, \"day\")`. The result is negative when [endDate] is earlier than [startDate], and WORKDAY_DIFF(startDate, WORKDAY(startDate, n)) returns n.",
+      "example": "WORKDAY_DIFF(\"2026-03-09\", \"2026-03-13\") => 4\nWORKDAY_DIFF(\"2026-03-09\", WORKDAY(\"2026-03-09\", 5)) => 5"
+    },
+    "IS_SAME": {
+      "summary": "Compares two dates up to a unit and determines whether they are identical. Returns true if yes, false if no.",
+      "example": "IS_SAME(\"2023-09-08\", \"2023-09-10\") => false\nIS_SAME(\"2023-09-08\", \"2023-09-10\", \"month\") => true"
+    },
+    "IS_AFTER": {
+      "summary": "Determines if date1 is later than date2. Returns true if yes, false if no.",
+      "example": "IS_AFTER(\"2023-09-10\", \"2023-09-08\") => true\nIS_AFTER(\"2023-09-10\", \"2023-09-08\", \"month\") => false"
+    },
+    "IS_BEFORE": {
+      "summary": "Determines if date1 is earlier than date2. Returns true if yes, false if no.",
+      "example": "IS_BEFORE(\"2023-09-08\", \"2023-09-10\") => true\nIS_BEFORE(\"2023-09-08\", \"2023-09-10\", \"month\") => false"
+    },
+    "DATE_ADD": {
+      "summary": "Adds specified \"count\" units to a datetime.",
+      "example": "DATE_ADD(\"2023-09-08 18:00:00\", 10, \"day\") => \"2023-09-18 18:00:00\""
+    },
+    "DATESTR": {
+      "summary": "Formats a datetime into a string (YYYY-MM-DD).",
+      "example": "DATESTR(\"2023/09/08\") => \"2023-09-08\""
+    },
+    "TIMESTR": {
+      "summary": "Formats a datetime into a time-only string (HH:mm:ss).",
+      "example": "DATESTR(\"2023/09/08 16:50:30\") => \"16:50:30\""
+    },
+    "DATETIME_FORMAT": {
+      "summary": "Formats a datetime into a specified string. Suportado specifiers: YY, YYYY, M, MM, MMM, MMMM, D, DD, d, dd, ddd, dddd, H, HH, h, hh, m, mm, s, ss, SSS, Z, ZZ, A, a, LT, LTS, L, LL, LLL, LLLL, l, ll, lll, llll.",
+      "example": "DATETIME_FORMAT(\"2023-09-08\", \"DD-MM-YYYY\") => \"08-09-2023\""
+    },
+    "DATETIME_PARSE": {
+      "summary": "Interprets a text string as a structured date, with optional input format and locale parameters. The output format will always be formatted \"M/D/YYYY h:mm a\".",
+      "example": "DATETIME_PARSE(\"8 Sep 2023 18:00\", \"D MMM YYYY HH:mm\") => \"2023-09-08 18:00:00\""
+    },
+    "CREATED_TIME": {
+      "summary": "Returns the creation time of the atual registro.",
+      "example": "CREATED_TIME() => \"2023-09-08 18:00:00\""
+    },
+    "LAST_MODIFIED_TIME": {
+      "summary": "Returns the date and time of the most recent modification made by a usuário in a non-computed campo in the tabela. Optionally pass a campo to track updates for that coluna only.",
+      "example": "LAST_MODIFIED_TIME() => \"2023-09-08 18:00:00\"; LAST_MODIFIED_TIME({Due Date}) => \"2023-09-09 12:00:00\""
+    },
+    "COUNTALL": {
+      "summary": "Returns the number of all elements including text and blanks.",
+      "example": "COUNTALL(100, 200, \"\", \"Teable\", TRUE()) => 5"
+    },
+    "COUNTA": {
+      "summary": "Returns the number of non-empty valors. This function counts both numeric and text valors.",
+      "example": "COUNTA(100, 200, 300, \"\", \"Teable\", TRUE) => 4"
+    },
+    "COUNT": {
+      "summary": "Returns the number of numeric items.",
+      "example": "COUNT(100, 200, 300, \"\", \"Teable\", TRUE) => 3"
+    },
+    "ARRAY_JOIN": {
+      "summary": "Join the array of rollup items into a string with a separator.",
+      "example": "ARRAY_JOIN([\"Tom\", \"Jerry\", \"Mike\"], \"; \") => \"Tom; Jerry; Mike\""
+    },
+    "ARRAY_UNIQUE": {
+      "summary": "Returns only unique items in the array.",
+      "example": "ARRAY_UNIQUE([1, 2, 3, 2, 1]) => [1, 2, 3]"
+    },
+    "ARRAY_FLATTEN": {
+      "summary": "Flattens the array by removing any array nesting. All items become elements of a single array.",
+      "example": "ARRAY_FLATTEN([1, 2, \" \", 3, true], [\"ABC\"]) => [1, 2, 3, \" \", true, \"ABC\"]"
+    },
+    "ARRAY_COMPACT": {
+      "summary": "Removes empty strings and null valors from the array. Keeps \"false\" and strings that contain one or more blank characters.",
+      "example": "ARRAY_COMPACT([1, 2, 3, \"\", null, \"ABC\"]) => [1, 2, 3, \"ABC\"]"
+    },
+    "TEXT_ALL": {
+      "summary": "Returns all text valors",
+      "example": "TEXT_ALL(\"t\") => t"
+    },
+    "RECORD_ID": {
+      "summary": "Returns the ID of the atual registro.",
+      "example": "RECORD_ID() => \"recxxxxxx\""
+    },
+    "AUTO_NUMBER": {
+      "summary": "Returns the unique and incremented numbers for each registro.",
+      "example": "AUTO_NUMBER() => 1"
+    },
+    "FORMULA": {
+      "summary": "Fill in variables, operational characters, and functions to form formulas for calculations.",
+      "example": "Quoting the Coluna: {Campo nome}\n\nUsing operator: 100 * 2 + 300\n\nUsing function: SUM({Number Campo 1}, 100)\n\nUsing IF statement: \nIF(logical condition, \"valor 1\", \"valor 2\")"
+    }
+  },
+  "functionType": {
+    "fields": "Campos",
+    "numeric": "Numérico",
+    "text": "Texto",
+    "logical": "Lógico",
+    "date": "Data",
+    "array": "Array",
+    "system": "Sistema"
+  },
+  "statisticFunc": {
+    "none": "Nenhum",
+    "count": "Contagem",
+    "empty": "Vazio",
+    "filled": "Preenchido",
+    "unique": "Único",
+    "max": "Máx.",
+    "min": "Mín.",
+    "sum": "Soma",
+    "average": "Média",
+    "checked": "Marcado",
+    "unChecked": "Desmarcado",
+    "percentEmpty": "Percentual vazio",
+    "percentFilled": "Percentual preenchido",
+    "percentUnique": "Percentual único",
+    "percentChecked": "Percentual marcado",
+    "percentUnChecked": "Percentual desmarcado",
+    "earliestDate": "Data mais antiga",
+    "latestDate": "Data mais recente",
+    "dateRangeOfDays": "Date range (days)",
+    "dateRangeOfMonths": "Date range (months)",
+    "totalAttachmentSize": "Tamanho total dos anexos"
+  },
+  "selectionStatistic": {
+    "tip": "Only Number-tipod campos are aggregated.",
+    "copyTip": "Clique para copiar",
+    "copied": "Copiado"
+  },
+  "baseQuery": {
+    "add": "Adicionar",
+    "error": {
+      "invalidCol": "Inválido coluna, please reselect",
+      "invalidCols": "Inválido colunas: {{colNomes}}",
+      "invalidTable": "Inválido tabela, please reselect",
+      "requiredSelect": "You must select one"
+    },
+    "from": {
+      "title": "De",
+      "fromTable": "Selecionar tabela",
+      "fromQuery": "Da consulta"
+    },
+    "select": {
+      "title": "Selecionar"
+    },
+    "where": {
+      "title": "Onde"
+    },
+    "groupBy": {
+      "title": "Agrupar por"
+    },
+    "orderBy": {
+      "title": "Ordenar por",
+      "asc": "Crescente",
+      "desc": "Decrescente"
+    },
+    "limit": {
+      "title": "Limite"
+    },
+    "offset": {
+      "title": "Deslocamento"
+    },
+    "join": {
+      "title": "Junção",
+      "joinType": "Tipo de junção",
+      "leftJoin": "Junção à esquerda",
+      "rightJoin": "Junção à direita",
+      "innerJoin": "Junção interna",
+      "fullJoin": "Junção completa",
+      "data": "De"
+    },
+    "aggregation": {
+      "title": "Agregação"
+    }
+  },
+  "comment": {
+    "title": "Comentário",
+    "placeholder": "Deixe um comentário...",
+    "emptyComment": "Iniciar uma conversa",
+    "deletedComment": "Comentário excluído",
+    "imageSizeLimit": "Image size could not be greater than {{size}}",
+    "tip": {
+      "editing": "Editando...",
+      "edited": "(Editado)",
+      "notifyAll": "Notify all comments",
+      "notifyRelatedToMe": "Notify comments related to me",
+      "all": "Todos",
+      "relatedToMe": "Relacionado a mim",
+      "reactionUserSuffix": "reacted with {{emoji}} emoji",
+      "me": "Você",
+      "connection": "e"
+    },
+    "toolbar": {
+      "link": "Link",
+      "image": "Imagem",
+      "mention": "Menção"
+    },
+    "floatToolbar": {
+      "editLink": "Editar link",
+      "caption": "Legenda",
+      "delete": "Excluir",
+      "linkText": "Texto do link",
+      "enterUrl": "Digite a URL"
+    }
+  },
+  "memberSelector": {
+    "title": "Selecionar membros",
+    "memberSelectorSearchPlaceholder": "Pesquisar membros...",
+    "departmentSelectorSearchPlaceholder": "Pesquisar departamentos...",
+    "selected": "Selecionado",
+    "noSelected": "Nenhum selecionado",
+    "empty": "Nenhum membro",
+    "emptyDepartment": "Nenhum departamento"
+  },
+  "httpErrors": {
+    "validationError": "Erro de validação",
+    "invalidCaptcha": "Captcha inválido",
+    "invalidCredentials": "Credenciais inválidas",
+    "unauthorized": "Não autorizado",
+    "unauthorizedShare": "Unauthorized share",
+    "paymentRequired": "Pagamento necessário",
+    "creditLimitExceeded": "Credits have exceeded the limit",
+    "restrictedResource": "Recurso restrito",
+    "notFound": "Não encontrado",
+    "conflict": "Conflito",
+    "unprocessableEntity": "Entidade não processável",
+    "userLimitExceeded": "Limite de usuários excedido",
+    "tooManyRequests": "Muitas requisições",
+    "internalServerError": "Erro interno do servidor",
+    "databaseConnectionUnavailable": "Banco de dados conexão undisponível",
+    "gatewayTimeout": "Tempo limite do gateway",
+    "unknownErrorCode": "Código de erro desconhecido",
+    "networkError": "Problema de conexão de rede",
+    "requestTimeout": "Tempo limite da requisição",
+    "failedDependency": "Falha dependency",
+    "automationNodeParseError": "Automação nó parse erro",
+    "automationNodeNeedTest": "Automação nó need test",
+    "automationNodeTestOutdated": "Automação nó test outdated",
+    "invalidToken": "Token inválido",
+    "limit": {
+      "fieldOptionsMaxBytes": "Campo options are too large. Maximum is {{max}} bytes.",
+      "selectChoicesMax": "This select campo has too many choices. Maximum is {{max}} choices.",
+      "selectChoiceNameMaxLength": "Selecione choice nomes are too long. Maximum is {{max}} characters.",
+      "selectDefaultValuesMax": "This select campo has too many padrão valors. Maximum is {{max}} valors.",
+      "cellValueMaxBytes": "Cell valor is too large. Maximum is {{max}} bytes.",
+      "recordFieldsMaxBytes": "Registro payload is too large. Maximum is {{max}} bytes.",
+      "recordsPerMutationMax": "This operation changes too many registros. Maximum is {{max}} registros at a time.",
+      "computedCellValueMaxBytes": "Computed cell valor is too large. Maximum is {{max}} bytes.",
+      "formulaMaxLength": "Formula is too long. Maximum is {{max}} characters.",
+      "tablesPerBaseMax": "This base has reached the tabela limit. Maximum is {{max}} tabelas.",
+      "fieldsPerTableMax": "This tabela has too many campos. Maximum is {{max}} campos.",
+      "rowsPerTableMax": "This tabela has too many registros. Maximum is {{max}} registros.",
+      "viewsPerTableMax": "This tabela has reached the visualização limit. Maximum is {{max}} visualizaçãos.",
+      "createTableFieldsMax": "The novo tabela has too many campos. Maximum is {{max}} campos.",
+      "createTableViewsMax": "The novo tabela has too many visualizaçãos. Maximum is {{max}} visualizaçãos.",
+      "createTableRecordsMax": "The novo tabela has too many registros. Maximum is {{max}} registros.",
+      "viewFilterItemsMax": "This visualização has too many filter conditions. Maximum is {{max}} conditions.",
+      "viewFilterDepthMax": "This visualização filter is too deeply nested. Maximum depth is {{max}}.",
+      "viewSortItemsMax": "This visualização has too many sort rules. Maximum is {{max}} rules.",
+      "viewGroupItemsMax": "This visualização has too many group rules. Maximum is {{max}} rules.",
+      "viewOptionsMaxBytes": "Ver options are too large. Maximum is {{max}} bytes.",
+      "nameMaxLength": "Nome is too long. Maximum is {{max}} characters.",
+      "descriptionMaxLength": "Descrição is too long. Maximum is {{max}} characters."
+    },
+    "custom": {
+      "fieldValueNotNull": "\"{{tabelaNome}}\" campo \"{{campoNome}}\" does not allow empty valors, please fill in completely before submitting.",
+      "fieldValueDuplicate": "\"{{tabelaNome}}\" campo \"{{campoNome}}\" does not allow duplicate valors, please fill in a unique valor before submitting.",
+      "linkFieldValueDuplicate": "\"{{campoNome}}\" campo does not allow duplicate associations with the same registro",
+      "requestTimeout": "This action is too large, please try with a smaller scope.",
+      "searchTimeOut": "Pesquisar timeout, please decrease the search scope and try again",
+      "dependencyNodeRequire": "Dependency nó not tested, please check if all previous nós have been tested",
+      "invalidOperation": "Inválido operation detected, please check operation parameters"
+    },
+    "comment": {
+      "listCountExceeded": "The number of comments requested exceeds the maximum limit of 1000",
+      "invalidContentType": "Inválido comment content tipo"
+    },
+    "attachment": {
+      "tokenExpireInTooLong": "Token expiration must be less than 7 days",
+      "s3RegionRequired": "S3 region is obrigatório",
+      "s3EndpointRequired": "S3 endpoint is obrigatório",
+      "s3AccessKeyRequired": "S3 access key is obrigatório",
+      "s3SecretKeyRequired": "S3 secret key is obrigatório",
+      "s3UploadMethodMustBePut": "S3 upload method must be PUT",
+      "presignedError": "Falha to generate presigned URL",
+      "invalidObjectMeta": "Inválido object metadados",
+      "invalidImageStream": "Inválido image stream",
+      "calculateImageSizeFailed": "Falha to calculate image size",
+      "uploadFailed": "Falha no envio",
+      "invalidImage": "Inválido image",
+      "cantGetImageStream": "Cannot get image stream",
+      "invalidProvider": "Inválido storage provedor",
+      "failedToDeleteDirectory": "Falha to delete directory",
+      "invalidToken": "Token inválido",
+      "tokenExpired": "Token has expired",
+      "sizeMismatch": "Arquivo size mismatch",
+      "notAllowUploadFileType": "Arquivo tipo {{mimetipo}} not allowed for upload",
+      "notFound": "Anexo não encontrado",
+      "invalidPath": "Inválido anexo path",
+      "fileSizeExceedsMaximumLimit": "Arquivo size exceeds the maximum limit of {{maxSize}}",
+      "invalidUploadType": "Inválido upload tipo",
+      "urlReject": "URL rejected or inaccessible"
+    },
+    "email": {
+      "testEmailError": "Mail config erro {{message}}"
+    },
+    "auth": {
+      "invalidConfirm": "Inválido confirmation input",
+      "emailNotRegistered": "This e-mail is not registered",
+      "passwordNotSet": "Senha has not been set for this conta",
+      "systemUser": "This is a system usuário conta",
+      "alreadyRegistered": "This e-mail is already registered",
+      "passwordIncorrect": "The senha is incorrect",
+      "tokenInvalid": "The token is invalid or has expired",
+      "passwordAlreadyExists": "Senha has already been set for this conta",
+      "verificationCodeInvalid": "The verification code is invalid or has expired",
+      "newEmailSameAsCurrentEmail": "The novo e-mail address is the same as the atual one",
+      "emailAlreadyRegistered": "This e-mail address is already registered",
+      "waitlistNotEnabled": "The waitlist feature is not ativado",
+      "emailOrPasswordIncorrect": "E-mail or senha is incorrect",
+      "accountDeactivated": "This conta has been deactivated by the administradoristrator",
+      "accountLockedOut": "Your conta has been locked due to too many falhou login attempts. Tente novamente mais tarde."
+    },
+    "automation": {
+      "buttonClickTriggerDuplicated": "This button campo is already bound to {{nome}}[{{id}}] this automação process, please select another button campo",
+      "triggerNotFound": "Automação must have a trigger nó",
+      "nodeNotFound": "{{nóId}} nó não encontrado",
+      "triggerTestFailed": "Trigger test falhou, please check the trigger configuração",
+      "testFailed": "Automação test falhou, please check the automação configuração",
+      "runFailed": "Automação run falhou",
+      "nodeParseError": "{{nome}} nó configuração is incomplete or has erros, please check the nó configuração",
+      "nodeNeedTest": "{{nome}} nó needs to be tested",
+      "nodeTestOutdated": "{{nome}} nó test outdated",
+      "notFound": "Automação não encontrado",
+      "currentSnapshotEmpty": "Automação atual snapshot is empty",
+      "runNotFound": "Automação run não encontrado",
+      "anchorNotFound": "Anchor automação não encontrado",
+      "validationError": "Automação configuração validation erro",
+      "tableNotInBase": "You can only subscribe to a tabela within your base",
+      "alreadyActiveAndNotDraft": "Automação already active and not rascunho",
+      "noActiveSnapshot": "Automação has no active snapshot",
+      "onlyFailedRunsCanRerun": "Only falhou runs can be rerun",
+      "workflowMustBeActiveToRerun": "Fluxo de trabalho must be active to rerun",
+      "snapshotChangedOnlyFullRerun": "Fluxo de trabalho has been modified since this run. Only full rerun is allowed.",
+      "controlStepsMissingOnlyFullRerun": "Control nó dados is missing for this run. Only full rerun is supported.",
+      "triggerNodeAlreadyExists": "This automação already has a trigger nó",
+      "unSupportLogicType": "Não suportado logic tipo",
+      "generateLogicError": "Gerar logic nó erro",
+      "logicNotFound": "Automação logic nó não encontrado",
+      "groupEndNotFound": "GroupEnd não encontrado for logic",
+      "insertNodeError": "Insert nó erro",
+      "actionNotFound": "Automação action nó não encontrado",
+      "unSupportDuplicateWorkflowNodeType": "UnSupport duplicate automação nó tipo",
+      "controlNodeNotBeTested": "Control nó should not be tested",
+      "invalidNodeType": "Inválido nó tipo",
+      "unsupportedCategory": "Não suportado category",
+      "unknownConnectionType": "Unknown e-mail conexão tipo",
+      "imapPasswordNotConfigured": "IMAP senha not configured",
+      "integrationNotFound": "Integration não encontrado or has no credentials",
+      "webhookTriggerNotFound": "Webhook trigger não encontrado",
+      "emailReceivedTriggerNotFound": "E-mailReceived trigger não encontrado",
+      "emailConnectorNotAvailable": "E-mail connector service not disponível",
+      "listMailboxesFailed": "Falha to list mailboxes: {{detail}}"
+    },
+    "scrape": {
+      "unknownDataset": "Unknown dadosset: {{dadossetId}}",
+      "apiKeyNotConfigured": "Scrape service is not configured",
+      "triggerFailed": "Scrape trigger falhou: {{detail}}",
+      "snapshotError": "Scrape snapshot erro: {{detail}}",
+      "timeout": "Scrape timed out after {{seconds}}s"
+    },
+    "integration": {
+      "oauthCodeExchangeFailed": "Falha to exchange OAuth code: {{detail}}",
+      "oauthTokenRefreshFailed": "Falha to refresh OAuth token: {{detail}}",
+      "userInfoFetchFailed": "Falha to get usuário info: {{detail}}"
+    },
+    "space": {
+      "notFound": "Espaço não encontrado",
+      "noPermission": "You have no permissão to access this espaço",
+      "disallowSpaceCreation": "Espaço creation has been desativado by the administradoristrator",
+      "cannotChangeOnlyOwnerRole": "Cannot change the role of the only proprietário of the espaço",
+      "cannotDeleteOnlyOwner": "Cannot delete the only proprietário of the espaço",
+      "deleted": "Espaço has been deleted",
+      "cannotOperate": "Can't operate on a espaço, please verify that there are organization membros in the espaço and they are proprietários",
+      "notBelongToOrg": "This espaço not belong to the organization",
+      "invalidSpaceIds": "Espaço ids is invalid: {{espaçoIds}}",
+      "freeOwnedSpaceLimitExceeded": "You have reached the maximum number of free espaços you can own ({{max}}). Please upgrade an existing espaço or delete one to create a novo free espaço.",
+      "freeOwnedSpaceLimitExceededOther": "{{nome}} has reached the maximum number of free espaços they can own ({{max}})."
+    },
+    "base": {
+      "notFound": "Base não encontrada",
+      "cannotAccess": "You don't have permissão to access base {{baseId}}",
+      "anchorNotFound": "Anchor base {{anchorId}} não encontrado",
+      "baseAndSpaceMismatch": "Base {{baseId}} and espaço {{espaçoId}} mismatch",
+      "templateNotFound": "Modelo {{modeloId}} não encontrado"
+    },
+    "baseNode": {
+      "baseIdIsRequired": "Base ID is obrigatório",
+      "nodeIdIsRequired": "Nó ID is obrigatório",
+      "invalidResourceType": "Tipo de recurso inválido",
+      "notFound": "Base nó não encontrado",
+      "parentMustBeFolder": "Parent must be a pasta",
+      "cannotDuplicateFolder": "Cannot duplicate pasta",
+      "cannotDeleteEmptyFolder": "Cannot delete pasta because it is not empty",
+      "onlyOneOfParentIdOrAnchorIdRequired": "Only one of parentId or anchorId must be provided",
+      "cannotMoveToItself": "Cannot move nó to itself",
+      "cannotMoveToCircularReference": "Cannot move nó to its own child (circular reference)",
+      "anchorIdOrParentIdRequired": "At least one of parentId or anchorId must be provided",
+      "parentNotFound": "Parent nó não encontrado",
+      "parentIsNotFolder": "Parent is not a pasta",
+      "circularReference": "Circular reference detected",
+      "folderDepthLimitExceeded": "Pasta depth limit exceeded",
+      "folderNotFound": "Pasta não encontrado",
+      "anchorNotFound": "Anchor nó não encontrado",
+      "nameAlreadyExists": "Nome already exists"
+    },
+    "dashboard": {
+      "notFound": "Painel não encontrado"
+    },
+    "plugin": {
+      "notFound": "Plugin não encontrado",
+      "notSupportInstallInView": "Plugin does not support installation in visualização",
+      "userNotFound": "Plugin usuário não encontrado",
+      "invalidSecret": "Inválido secret",
+      "invalidRefreshToken": "Inválido refresh token",
+      "anomalousToken": "Anomalous token"
+    },
+    "pluginPanel": {
+      "notFound": "Plugin panel não encontrado"
+    },
+    "pluginInstall": {
+      "notFound": "Plugin not installed"
+    },
+    "share": {
+      "incorrectPassword": "Senha incorreta",
+      "notAllowedToSubmit": "Form submission is not allowed",
+      "notAllowedToEdit": "Editing is not allowed for this share",
+      "viewRequired": "Ver is obrigatório for this operation",
+      "hiddenFieldsSubmissionNotAllowed": "Form submission is not allowed when hidden campos are included",
+      "submitRecordsError": "Registro submission falhou",
+      "notAllowedToCopy": "Copiar operation is not allowed",
+      "fieldHiddenNotAllowed": "Campo is hidden and cannot be accessed",
+      "fieldTypeNotLinkField": "Campo is not a link campo",
+      "fieldIdRequired": "Campo ID is obrigatório",
+      "fieldNotUserRelatedField": "Campo is not a usuário-related campo",
+      "viewTypeNotAllowed": "This visualização tipo is not allowed for this operation"
+    },
+    "shareAuth": {
+      "passwordRestrictionNotEnabled": "Senha restriction is not ativado for this share",
+      "shareViewNotFound": "Shared visualização não encontrado or sharing is desativado",
+      "linkFieldNotFound": "Link campo não encontrado",
+      "loginRequired": "Entre para editar esta visualização compartilhada"
+    },
+    "baseShare": {
+      "notFound": "Base share não encontrado or sharing is desativado",
+      "alreadyExists": "A share already exists for this nó",
+      "copyNotAllowed": "This share does not allow copying"
+    },
+    "shareSocket": {
+      "viewPermissionNotAllowed": "You do not have permissão to access this visualização",
+      "fieldPermissionNotAllowed": "You do not have permissão to access these campos",
+      "recordPermissionNotAllowed": "You do not have permissão to access these registros"
+    },
+    "pluginContextMenu": {
+      "notFound": "Plugin context menu não encontrado",
+      "anchorNotFound": "Plugin context menu anchor não encontrado"
+    },
+    "pluginChart": {
+      "queryNotFound": "Plugin chart query não encontrado"
+    },
+    "dbConnection": {
+      "unsupportedDriver": "Não suportado banco de dados driver: {{driver}}",
+      "onlyOwnerCanRemove": "Only the base proprietário can remove banco de dados conexão for base {{baseId}}",
+      "onlyOwnerCanCreate": "Only the base proprietário can create banco de dados conexão for base {{baseId}}",
+      "roleNotExist": "Banco de dados role {{role}} does not exist"
+    },
+    "baseQuery": {
+      "queryFailed": "Query falhou: {{message}}",
+      "invalidJoinType": "Inválido join tipo: {{joinTipo}}",
+      "tableNotFound": "Tabela {{tabelaId}} não encontrado in base {{baseId}}"
+    },
+    "baseSqlExecutor": {
+      "notAllowedToExecuteSqlWithKeyword": "Not allowed to execute sql with keyword {{keyword}}",
+      "whiteListCheckError": "An erro occurred while checking tabela access: {{message}}",
+      "databaseConnectionFailed": "Banco de dados conexão falhou: {{message}}",
+      "executeQuerySqlFailed": "Execute query sql falhou: {{message}}",
+      "readOnlyCheckFailed": "Read only check falhou: {{message}}",
+      "sqlSyntaxError": "SQL syntax erro, please check your query"
+    },
+    "permission": {
+      "createRecordWithDeniedFields": "You don't have permissão to create registro with campos({{campos}})",
+      "deleteRecords": "You don't have permissão to delete registros({{registroIds}})",
+      "readRecordWithDeniedFields": "You don't have permissão to read campos({{campos}}) in registro({{registroId}})",
+      "updateRecordWithDeniedFields": "You don't have permissão to update campos({{campos}}) in registro({{registroId}})",
+      "checkIdNotExist": "Permissão check ID does not exist",
+      "userNotAdmin": "Usuário is not an administrador",
+      "accessTokenNoPermission": "Access token does not have the obrigatório permissão",
+      "invalidResource": "Resource is not valid",
+      "notAllowedSpace": "You don't have permissão to access this espaço",
+      "notAllowedBase": "You don't have permissão to access this base",
+      "notAllowedTables": "You don't have permissão to access tabelas({{tabelaIds}})",
+      "notAllowedOperationTable": "You don't have permissão to operate on this tabela",
+      "notAllowedOperationRecord": "You don't have permissão to operate on this registro",
+      "notAllowedRecordUpdate": "You don't have permissão to update this registro",
+      "notAllowedOperationView": "You don't have permissão to operate on this visualização",
+      "deniedByEnabledAuthorityMatrix": "Permissão denied by ativado authority matrix",
+      "invalidRequestPath": "Request path is not valid",
+      "notAllowedOperation": "You don't have permissão to perform this operation",
+      "notAllowedDepartment": "You are not allowed to access this department",
+      "templateHeaderInvalid": "Modelo header is invalid"
+    },
+    "authorityMatrix": {
+      "defaultRoleNotFound": "Padrão role não encontrado",
+      "alreadyDisabled": "Authority matrix is already desativado",
+      "alreadyEnabled": "Authority matrix is already ativado",
+      "notFound": "Authority matrix não encontrado",
+      "primaryFieldCannotBeDisabledForRead": "Primary campo cannot be desativado for read access",
+      "fieldDuplicated": "Campo is duplicated in permissão configuração",
+      "cannotSetRecordPermissionGroup": "Cannot set this combination of registro permissãos({{actions}})",
+      "notFoundBaseAndTable": "Base ID and Tabela ID não encontrado",
+      "roleTablesShouldNotBeEmpty": "Authority matrix role tabelas should not be empty"
+    },
+    "selection": {
+      "invalidReturnType": "Inválido return tipo",
+      "exceedMaxReadRows": "Exceed max read linhas limit",
+      "invalidCellValueType": "Inválido cell valor tipo",
+      "exceedMaxCopyCells": "Exceed max copy cells limit",
+      "exceedMaxPasteCells": "Exceed max paste cells limit"
+    },
+    "field": {
+      "unsupportedFieldType": "Não suportado campo tipo {{tipo}}",
+      "unsupportedPrimaryFieldType": "Não suportado campo tipo {{tipo}} as primary campo",
+      "primaryFieldNotSupported": "Campo tipo is not supported as primary campo",
+      "calculateRecordNotFound": "Registro não encontrado for: {{valor}}, campoId: {{campoId}}, when calculate {{registroId}}",
+      "toRecordIdsOrFromRecordIdsRequired": "toRegistroIds or fromRegistroIds is obrigatório for normal computed campo",
+      "recordFieldsRequired": "Registro campos is undefined",
+      "uniqueUnsupportedType": "Campo {{nome}}[{{campoId}}] does not support campo valor unique validation",
+      "notNullValidationWhenCreateField": "Campo {{nome}}[{{campoId}}] does not support not null validation when creating a novo campo",
+      "dbFieldNameAlreadyExists": "Banco de dados campo nome {{dbCampoNome}} already exists",
+      "fieldValidationError": "Campo {{nome}}[{{campoId}}] campo validation erro",
+      "fieldNameAlreadyExists": "Campo nome {{nome}} already exists",
+      "notFound": "campo não encontrado",
+      "fieldKeyTypeNotFound": "Campo \"{{campoKeyTipo}}: {{missedCampos}}\" não encontrado",
+      "notFoundInTable": "campo {{campoId}} não encontrado in tabela {{tabelaId}}",
+      "deleteFieldsNotFound": "Excluir campos {{campoIds}} não encontrado in tabela {{tabelaId}}",
+      "lookupValuesShouldBeArray": "lookupValors should be array when link campo is multiple cell valor",
+      "linkCellValuesShouldBeArray": "linkCellValors should be array when link campo is multiple cell valor",
+      "lookupAndLinkLengthMatch": "lookupValors length should be same as linkCellValors length",
+      "cycleDetected": "Cycle detected",
+      "cycleDetectedCreateField": "Cycle detected, cannot create campo {{nome}}[{{id}}]",
+      "recordMapNotFound": "Registro não encontrado in tabela {{tabelaNome}} for campo {{campoNome}}",
+      "forbidDeletePrimaryField": "Forbid delete primary campo",
+      "foreignTableIdInvalid": "Foreign tabela {{foreignTabelaId}} invalid",
+      "crossSpaceLinkForbidden": "Cross-espaço references are not supported. Please pick a tabela in the same espaço (target {{foreignTabelaId}} is in a different espaço).",
+      "relationshipInvalid": "Relationship {{relationship}} invalid",
+      "linkFieldIdInvalid": "Link campo {{linkCampoId}} invalid",
+      "lookupFieldIdInvalid": "Lookup campo {{lookupCampoId}} invalid",
+      "formulaExpressionParseError": "Formula expression parse erro",
+      "formulaReferenceNotFound": "Formula reference campo {{campoIds}} não encontrado",
+      "formulaReferenceNotFieldId": "Formula references {{campoIds}} não encontrado. Formulas must use campo IDs (fldXXXXXXXXXXXXXXXX format), not campo nomes.",
+      "rollupExpressionParseError": "Rollup expression parse erro",
+      "choiceNameAlreadyExists": "Choice nome {{nome}} already exists",
+      "symmetricFieldIdRequired": "Symmetric campo ID is obrigatório",
+      "foreignKeyNameCannotUseId": "Foreign key nome cannot use __id",
+      "createForeignKeyError": "Criar foreignKey erro",
+      "lookupFieldTypeNotEqual": "Atual campo tipo {{campoTipo}} is not equal to lookup campo {{lookupCampoTipo}}",
+      "recordNotFound": "Registro {{registroId}} não encontrado in {{tabelaId}}",
+      "linkCellRecordIdAlreadyExists": "Cannot set duplicate registroId: {{registroId}} in the same cell",
+      "linkConsistencyError": "Consistency erro, registro ID {{registroId}} does not exist",
+      "oneOneLinkCellValueCannotBeArray": "One-to-one link campo valors cannot be an array",
+      "manyOneLinkCellValueCannotBeArray": "Many-to-one link campo valors cannot be an array",
+      "oneManyLinkCellValueShouldBeArray": "One-to-many link campo valors should be an array",
+      "manyManyLinkCellValueShouldBeArray": "Many-to-many link campo valors should be an array",
+      "foreignKeyDuplicate": "Foreign key duplicate",
+      "onlyLinkFieldCanBeFiltered": "Only link campos can be used for filtering",
+      "notLinkedToCurrentTable": "Campo is not linked to atual tabela",
+      "notAttachment": "Campo is not an anexo campo",
+      "isComputed": "Campo is computed and cannot be modified",
+      "notFoundAICofig": "Campo does not have AI configuração",
+      "foreignTableIdRequired": "Foreign tabela is obrigatório",
+      "lookupFieldIdRequired": "Lookup campo is obrigatório",
+      "lookupFieldNotExist": "Lookup campo {{lookupCampoId}} does not exist",
+      "lookupFieldNotBelongToTable": "Lookup campo {{lookupCampoId}} does not belong to tabela {{foreignTabelaId}}",
+      "lookupFieldTypeNotMatch": "Atual campo tipo {{campoTipo}} does not match lookup campo tipo {{lookupCampoTipo}}",
+      "conditionalRollupOptionsRequired": "Conditional rollup campo options are obrigatório",
+      "conditionalRollupParseError": "Conditional rollup parse erro: {{message}}",
+      "conditionalLookupOptionsRequired": "Conditional lookup campo options are obrigatório",
+      "button": {
+        "clickCountReachedMaxCount": "Button click count has reached the maximum limit",
+        "notSupportReset": "Button campo does not support reset"
+      },
+      "primaryCannotBeLookup": "Primary campo cannot be configured as a lookup campo",
+      "primaryFieldAlreadyExists": "Tabela already has a primary campo"
+    },
+    "view": {
+      "notFound": "Visualização não encontrada",
+      "cannotDeleteLastView": "Cannot delete the last visualização in a tabela. A tabela must have at least one visualização.",
+      "defaultViewNotFound": "Padrão visualização não encontrado",
+      "propertyParseError": "Falha to parse visualização property",
+      "primaryFieldCannotBeHidden": "Primary campo cannot be hidden",
+      "filterUnsupportedFieldType": "Filter unsupported campo tipo",
+      "filterInvalidOperator": "Filter has invalid operator for this campo tipo",
+      "filterInvalidOperatorMode": "Filter has invalid operator and mode combination",
+      "sortUnsupportedFieldType": "Sort unsupported campo tipo",
+      "groupUnsupportedFieldType": "Group unsupported campo tipo",
+      "anchorNotFound": "Anchor visualização não encontrado",
+      "notEnoughGapToShuffleRow": "Not enough gap to shuffle the linha",
+      "shareNotEnabled": "Ver sharing is not ativado",
+      "shareAlreadyEnabled": "Ver sharing is already ativado",
+      "shareAlreadyDisabled": "Ver sharing is already desativado"
+    },
+    "billing": {
+      "insufficientCredit": "Crédito insuficiente",
+      "exceedMaxRowLimit": "Maximum linha limit {{maxLinhaCount}} exceeded",
+      "exceedMaxAutomationRunLimit": "Maximum automação run limit exceeded",
+      "manualSubscriptionNotSupported": "Self-service subscription is not disponível for this espaço. For upgrades, downgrades, or other subscription changes, please contact Teable support.",
+      "appSumoSubscriptionNotSupported": "AplicativoSumo subscriptions cannot be modified through this interface. Please manage your subscription on AplicativoSumo.",
+      "customerNotFound": "Nenhum billing personalizadoer registro found for this espaço."
+    },
+    "aggregation": {
+      "searchQueryRequired": "Pesquisar query is obrigatório",
+      "maxSearchIndexResult": "The maximum search index result is 1000",
+      "queryCollectionMustBeTableId": "Query collection must be tabela id",
+      "searchTimeOut": "Pesquisar timeout, please decrease the search scope and try again",
+      "indexNotFound": "Index não encontrado",
+      "invalidStartDateFieldId": "Inválido start date campo id",
+      "invalidEndDateFieldId": "Inválido end date campo id",
+      "fieldMapRequired": "Campo map is obrigatório when search is set",
+      "filterLinkCellQueryConflict": "filterLinkCellSelected and filterLinkCellCandidate cannot be set at the same time"
+    },
+    "ai": {
+      "chatModelLgNotSet": "AI chat modelo lg is not set",
+      "chatModelLgProviderNotSet": "AI chat modelo lg provedor is not set",
+      "chatModelSmNotSet": "AI chat modelo sm is not set",
+      "chatModelMdNotSet": "AI chat modelo md is not set",
+      "configurationNotSet": "AI configuração is not set",
+      "unsupportedProvider": "Não suportado AI provedor {{tipo}}",
+      "providerConfigurationNotSet": "AI provedor configuração is not set",
+      "gatewayApiKeyNotSet": "AI Gateway chave da API is not configured",
+      "testLLMFailed": "LLM conexão test falhou",
+      "audioNotSupported": "Audio input not supported by this modelo {{modelo}}",
+      "imageNotSupported": "Image input not supported by this modelo {{modelo}}",
+      "modelNotSet": "AI modelo is not set",
+      "unsupportedFileType": "Não suportado arquivo tipo {{mimetipo}}",
+      "unsupportedModelType": "Não suportado modelo tipo",
+      "embeddingModelNotSet": "Embedding modelo is not set",
+      "validateActionFailed": "Validate campo AI action falhou",
+      "generateFailed": "AI generation falhou",
+      "unsupportedActionType": "Não suportado AI action tipo",
+      "geminiImageNotSupportedViaGateway": "Gemini image generation is not supported through AI Gateway. Please configure a direct Google provedor instead."
+    },
+    "role": {
+      "notFound": "Role não encontrado"
+    },
+    "collaborator": {
+      "alreadyExisted": "Colaborador has already existed",
+      "notFound": "Colaborador não encontrado",
+      "userNotFoundInCollaborator": "Usuário não encontrado in colaborador",
+      "noPermissionToDelete": "You do not have permissão to delete this colaborador",
+      "noPermissionToUpdate": "You do not have permissão to update this colaborador",
+      "noPermissionToOperateRole": "You do not have permissão to operate this role",
+      "alreadyExistedInBase": "Colaborador has already existed in base",
+      "userNotFound": "Usuário não encontrado: {{usuárioIds}}",
+      "baseNotFound": "Base não encontrada",
+      "noPermissionToAddRole": "You do not have permissão to add this role colaborador",
+      "departmentNotFound": "Department não encontrado"
+    },
+    "table": {
+      "notFound": "Tabela não encontrada",
+      "dbTableNameAlreadyExists": "Banco de dados tabela nome already exists",
+      "anchorNotFound": "Anchor tabela não encontrado",
+      "notInTrash": "Tabela is not in trash",
+      "notSupportTableIndex": "Tabela index tipo is not supported",
+      "createTableIndexError": "Falha to create tabela index",
+      "dropTableIndexError": "Falha to drop tabela index",
+      "notFoundPrimaryField": "Primary campo não encontrado in tabela"
+    },
+    "export": {
+      "notSupportViewType": "{{visualizaçãoTipo}} visualização tipo is not supported for export"
+    },
+    "import": {
+      "notSupportedFileFormat": "Arquivo format is not supported, only {{supportTipo}} are supported, your arquivo's content tipo is {{arquivoFormat}}",
+      "notSupportedFileType": "Importar arquivo tipo not supported",
+      "exceedMaxFieldsLength": "The number of campos in the tabela cannot exceed {{maxCamposLength}}, atual is {{length}}",
+      "tooManyConcurrentImports": "Too many import tasks in progress ({{atual}}/{{max}}). Tente novamente mais tarde."
+    },
+    "invitation": {
+      "disallowSpaceInvitation": "The atual instance disallow espaço invitation by the administradoristrator",
+      "invalidCode": "Inválido invitation code",
+      "linkNotFound": "Invitation link não encontrado",
+      "linkExpired": "Invitation link has expired",
+      "limitExceeded": "You have reached the maximum number of invitations per hour"
+    },
+    "pin": {
+      "alreadyExists": "Pin already exists",
+      "notFound": "Pin não encontrado",
+      "anchorNotFound": "Pin anchor não encontrado"
+    },
+    "trash": {
+      "invalidResourceType": "Tipo de recurso inválido",
+      "notFound": "Trash item não encontrado",
+      "parentSpaceTrashed": "Unable to restore this base because its parent espaço is also in trash",
+      "parentBaseOrSpaceTrashed": "Unable to restore this tabela because its parent base or espaço is also in trash",
+      "parentBaseTrashed": "Unable to restore this item because its parent base is also in trash",
+      "parentNotFound": "Parent resource não encontrado",
+      "tableNotFound": "Tabela trash item não encontrado"
+    },
+    "license": {
+      "invalid": "The license is invalid",
+      "instanceIdMismatch": "The incoming instanceId does not match the atual instance's instanceId",
+      "expired": "The license is expired",
+      "userLimitExceeded": "The number of usuários in the atual instance exceeds the seat limit of the license. Please deactivate some usuários or upgrade the license"
+    },
+    "domainVerification": {
+      "notFound": "Nenhum domain verification code found",
+      "invalidCode": "Inválido verification code",
+      "resendCooldown": "Please wait for 1 minute before requesting a novo code",
+      "alreadyVerified": "Domain already verified"
+    },
+    "organization": {
+      "notFound": "Organization não encontrado",
+      "authenticationNotFound": "Authentication não encontrado",
+      "spaceShouldExist": "Organization espaço should exist",
+      "emailsNotInOrgDomain": "These e-mails {{e-mails}} are not in the organization domain",
+      "emailNotSpaceUser": "E-mail is not a espaço usuário"
+    },
+    "mail": {
+      "failedToSendEmail": "Falha to send e-mail"
+    },
+    "user": {
+      "disallowSignUp": "The atual instance disallows sign up by the administradoristrator",
+      "waitlistInviteCodeRequired": "Waitlist is ativado, invite code is obrigatório",
+      "waitlistInviteCodeInvalid": "Waitlist is ativado, invite code is invalid",
+      "systemUser": "Usuário is a system usuário",
+      "collaboratorsInSpaces": "Usuário has colaboradors in espaços (or deleted espaços in trash)",
+      "notFound": "Usuário não encontrado",
+      "cannotDeleteAdmin": "Cannot delete administrador usuário",
+      "cannotDeactivateAdmin": "Cannot deactivate administrador usuário",
+      "cannotRemoveLastAdmin": "Cannot remove administrador privilege from the last active administrador usuário",
+      "permanentDeleted": "Usuário is permanently deleted",
+      "cannotDeleteSelf": "Cannot delete yourself",
+      "alreadyInDepartment": "Usuário {{usuárioId}} already in target department",
+      "emailsNotFound": "E-mails {{e-mails}} are não encontrado",
+      "deleted": "Usuário{{usuárioId}} is deleted",
+      "alreadyInOrg": "Usuário {{usuárioId}} is already in the organization",
+      "notInOrg": "Usuário {{usuárioId}} is not in the organization"
+    },
+    "record": {
+      "notFound": "Registro não encontrado",
+      "deletedIdsNotFound": "Some registros to be deleted cannot be found",
+      "updateFailed": "Falha to update registro",
+      "noFileOrUrlProvided": "Nenhum arquivo or URL provided",
+      "createRecordsEmpty": "Criar registros cannot be empty",
+      "duplicateFailed": "Falha to duplicate registro"
+    },
+    "typecast": {
+      "cellValueValidationFailed": "Cell valor validation falhou"
+    },
+    "workflow": {
+      "notActive": "Fluxo de trabalho is not active"
+    },
+    "lastVisit": {
+      "invalidResourceType": "Tipo de recurso inválido"
+    },
+    "template": {
+      "categoryNotFound": "Modelo category não encontrado",
+      "snapshotRequired": "This modelo could not be publicado due to missing snapshot",
+      "sourceTemplateNotFound": "Source modelo não encontrado",
+      "noMinOrderFound": "Nenhum minimum order found",
+      "takeCountTooLarge": "The number of modelos requested exceeds the maximum limit",
+      "categoryLimitReached": "Modelo category limit reached (max {{maxCount}})"
+    },
+    "department": {
+      "parentNotFound": "Parent department não encontrado",
+      "notFound": "Department não encontrado",
+      "cannotMoveToItself": "Cannot move department to itself",
+      "cannotMoveToSub": "Cannot move department to its sub-department"
+    },
+    "app": {
+      "notFound": "Aplicativo não encontrado",
+      "noFilesToUpdate": "Nenhum arquivos to update",
+      "noChatIdFound": "Nenhum chat ID found for this aplicativo",
+      "noChatFound": "Nenhum chat found for this aplicativo",
+      "versionNotFound": "Version não encontrado",
+      "cannotRollbackToLatestVersion": "Cannot rollback to the latest version",
+      "noChatOrProjectTokenFound": "Nenhum chat or project token found",
+      "apiKeyNotSet": "Aplicativo builder chave da API is not set",
+      "cannotDeployAppBeforeInitialization": "Cannot deploy aplicativo before initialization",
+      "noProjectOrVersionFound": "Nenhum project or version found",
+      "noDeploymentUrlAvailable": "Nenhum deployment URL disponível",
+      "noFilesInZip": "Nenhum arquivos found in ZIP",
+      "zipFileTooLarge": "ZIP arquivo size exceeds 5MB limit",
+      "invalidZip": "Inválido ZIP arquivo",
+      "domainAlreadyInUse": "This domain is already bound to another aplicativo",
+      "domainReserved": "Subdomain is reserved"
+    },
+    "reward": {
+      "notFound": "Reward não encontrado",
+      "unsupportedSourceType": "Não suportado reward source tipo",
+      "maxClaimsReached": "You have reached the maximum reward claims (2) for this week",
+      "verificationFailed": "Verification falhou: {{erros}}",
+      "alreadyClaimedThisWeek": "You have already claimed a reward for this conta this week",
+      "invalidPostUrl": "Inválido post URL format",
+      "postAlreadyUsed": "This post has already been used to claim a reward",
+      "unsupportedPlatformUrl": "Não suportado social platform URL",
+      "unsupportedPlatform": "Não suportado platform: {{platform}}",
+      "minCharCount": "Post must have at least {{count}} characters",
+      "minFollowerCount": "Conta must have at least {{count}} followers",
+      "mustMention": "Post must mention {{mention}}",
+      "fetchTweetFailed": "Falha to fetch X tweet: {{erro}}",
+      "tweetNotFound": "X tweet não encontrado: {{postId}}",
+      "fetchUserFailed": "Falha to fetch X usuário: {{erro}}",
+      "xUserNotFound": "X usuário não encontrado: {{usuárionome}}",
+      "fetchLinkedInPostFailed": "Falha to fetch LinkedIn post: {{erro}}",
+      "linkedInPostNotFound": "LinkedIn post não encontrado: {{postId}}",
+      "linkedInAuthorNotFound": "LinkedIn author não encontrado: {{postId}}",
+      "fetchLinkedInUserFailed": "Falha to fetch LinkedIn usuário: {{erro}}"
+    }
+  }
+}

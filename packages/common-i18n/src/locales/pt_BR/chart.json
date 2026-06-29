@@ -1,0 +1,95 @@
+{
+  "notBaseId": "baseId ausente",
+  "notPositionId": "positionId ausente",
+  "notPluginInstallId": "pluginInstallId ausente",
+  "initBridge": "Inicializando ponte...",
+  "actions": {
+    "cancel": "Cancelar",
+    "save": "Salvar"
+  },
+  "queryTitle": "Configuração da consulta de dados",
+  "notSupport": "Não suportado",
+  "chart": {
+    "bar": "Barras",
+    "line": "Linha",
+    "pie": "Pizza",
+    "area": "Área",
+    "table": "Tabela"
+  },
+  "form": {
+    "chartType": {
+      "placeholder": "Selecione o tipo de gráfico",
+      "label": "Tipo de gráfico"
+    },
+    "pie": {
+      "dimension": "Dimensão",
+      "measure": "Medida",
+      "showTotal": "Mostrar total"
+    },
+    "combo": {
+      "xAxis": {
+        "label": "Eixo X",
+        "placeholder": "Selecione o eixo X"
+      },
+      "yAxis": {
+        "label": "Eixo Y",
+        "placeholder": "Selecione o eixo Y",
+        "position": "Posição do eixo Y"
+      },
+      "xDisplay": {
+        "label": "Exibição do X"
+      },
+      "yDisplay": {
+        "label": "Exibição do Y"
+      },
+      "addXAxis": "Adicionar divisão de série",
+      "addYAxis": "Adicionar outra série",
+      "stack": "Empilhar",
+      "position": {
+        "label": "Posição",
+        "auto": "Automático",
+        "left": "Esquerda",
+        "right": "Direita"
+      },
+      "goalLine": {
+        "label": "Linha de meta"
+      },
+      "range": {
+        "label": "Intervalo",
+        "min": "Mín.",
+        "max": "Máx."
+      },
+      "lineStyle": {
+        "label": "Estilo da linha",
+        "normal": "Normal",
+        "linear": "Linear",
+        "step": "Em degraus"
+      },
+      "displayType": "Tipo de exibição"
+    },
+    "typeError": "Formulário: tipo de gráfico não suportado",
+    "updateQuery": "Atualizar",
+    "queryError": "Erro na consulta",
+    "querySuccess": "Consulta configurada",
+    "decimal": "Decimal",
+    "prefix": "Prefixo",
+    "suffix": "Sufixo",
+    "showLabel": "Mostrar rótulos de valores no gráfico",
+    "showLegend": "Mostrar legenda",
+    "value": "Valor",
+    "label": "Rótulo",
+    "padding": {
+      "label": "Preenchimento",
+      "top": "Superior",
+      "right": "Direita",
+      "bottom": "Inferior",
+      "left": "Esquerda"
+    },
+    "tableConfig": "Configuração da tabela",
+    "width": "Largura"
+  },
+  "reloadQuery": "Recarregar consulta",
+  "noStorage": "Configure primeiro o plugin de gráfico",
+  "noPermission": "Sem permissão de acesso",
+  "goConfig": "Ir para configuração"
+}

@@ -1,0 +1,34 @@
+{
+  "apiQueryBuilder": "Construtor de consultas da API",
+  "subTitle": "Você pode criar rapidamente suas requisições de consulta por meio de uma interface interativa e copiar o código que pode ser executado diretamente",
+  "apiList": "Lista completa da API",
+  "cellFormat": "Formato do resultado da célula",
+  "fieldKeyType": "Tipo de chave do campo",
+  "chooseSource": "Escolha uma fonte de dados",
+  "action": {
+    "selectBase": "Selecione uma base de dados...",
+    "selectTable": "Selecione uma tabela..."
+  },
+  "pickParams": "Selecione e configure os parâmetros",
+  "buildResult": "Resultado gerado",
+  "buildResultEmpty": "Selecione uma tabela primeiro",
+  "previewReturnValue": "Pré-visualização do valor de retorno",
+  "replaceToken": "Substituir token",
+  "createNewToken": "Criar novo token",
+  "showPagination": "Os parâmetros de paginação são exibidos no modo JSON",
+  "addSort": "Adicionar uma ordenação",
+  "tabs": {
+    "apiBuilder": "Construtor de API",
+    "aiContext": "Contexto de IA"
+  },
+  "aiContext": {
+    "title": "Contexto da tabela amigável para IA",
+    "description": "Copie este contexto para seu assistente de IA (ChatGPT, Claude etc.) para ajudá-lo a entender como interagir com os dados da sua tabela.",
+    "selectTableFirst": "Selecione uma tabela para gerar o contexto de IA",
+    "fullContext": "Contexto completo",
+    "compactContext": "Compacto",
+    "copyToClipboard": "Copiar para a área de transferência",
+    "copied": "Copiado!",
+    "compactDescription": "Uma versão mais curta, adequada para compartilhamento rápido de contexto considerando limites de tokens."
+  }
+}
